@@ -3,8 +3,8 @@ function login() {
   const pass = document.getElementById("senha").value;
 
   if (user === "admin" && pass === "123") {
-    alert("Login bem-sucedido!");
+    alert("Login bem-sucedido");
   } else {
-    alert("Usuário ou senha inválidos!");
+    alert("Usuário ou senha inválidos");
   }
 }

@@ -1,0 +1,10 @@
+function login() {
+  const user = document.getElementById("usuario").value;
+  const pass = document.getElementById("senha").value;
+
+  if (user === "admin" && pass === "123") {
+    alert("Login bem-sucedido");
+  } else {
+    alert("Usuário ou senha inválidos");
+  }
+}

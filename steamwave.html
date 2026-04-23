@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SteamWave</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0010; }
+
+:root {
+  --neon-pink: #ff00ff;
+  --neon-purple: #9b30ff;
+  --neon-cyan: #00eaff;
+  --neon-blue: #7b7bff;
+  --dark-bg: #08000f;
+  --mid-purple: #1a0030;
+  --win-bg: #c0c0c0;
+  --win-title: #000080;
+  --pixel-font: 'Press Start 2P', monospace;
+  --vt-font: 'VT323', monospace;
+  --orb-font: 'Orbitron', sans-serif;
+}
+
+/* ===== PAGES ===== */
+.page { position: fixed; inset: 0; display: none; overflow: hidden; }
+.page.active { display: flex; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes glowPulse { 0%,100% { text-shadow: 0 0 10px var(--neon-pink), 0 0 30px var(--neon-purple); } 50% { text-shadow: 0 0 20px var(--neon-pink), 0 0 60px var(--neon-purple), 0 0 80px var(--neon-cyan); } }
+@keyframes scanLine { 0% { transform: translateY(-100%); } 100% { transform: translateY(100vh); } }
+@keyframes starTwinkle { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+@keyframes gridFlow { 0% { transform: perspective(400px) rotateX(45deg) translateY(0); } 100% { transform: perspective(400px) rotateX(45deg) translateY(80px); } }
+@keyframes float { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+@keyframes winSlide { from { opacity: 0; transform: scale(0.8) translateY(30px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+@keyframes neonBorder { 0%,100% { box-shadow: 0 0 5px var(--neon-purple), 0 0 15px var(--neon-purple); } 50% { box-shadow: 0 0 10px var(--neon-pink), 0 0 30px var(--neon-pink); } }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* ===== SYNTHWAVE BACKGROUND ===== */
+.synth-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, #1a0040 0%, #08000f 60%);
+  overflow: hidden;
+}
+.synth-bg .stars { position: absolute; inset: 0; }
+.star {
+  position: absolute; background: white; border-radius: 50%;
+  animation: starTwinkle var(--dur, 3s) var(--delay, 0s) infinite;
+}
+.synth-bg .horizon {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 55%;
+  overflow: hidden;
+}
+.grid-floor {
+  position: absolute; bottom: 0; left: -50%; width: 200%; height: 100%;
+  background-image:
+    linear-gradient(to bottom, transparent 0%, rgba(180, 0, 255, 0.15) 100%),
+    repeating-linear-gradient(90deg, rgba(200,0,255,0.4) 0px, transparent 1px, transparent 80px, rgba(200,0,255,0.4) 81px),
+    repeating-linear-gradient(0deg, rgba(200,0,255,0.4) 0px, transparent 1px, transparent 80px, rgba(200,0,255,0.4) 81px);
+  transform: perspective(400px) rotateX(50deg);
+  transform-origin: top center;
+  animation: gridFlow 4s linear infinite;
+}
+.neon-line {
+  position: absolute; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--neon-pink), var(--neon-purple), var(--neon-pink), transparent);
+  box-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-purple);
+}
+
+/* ===== RETRO SUN LOGO ===== */
+.retro-sun {
+  width: 120px; height: 120px; border-radius: 50%; position: relative; overflow: hidden;
+  background: linear-gradient(to bottom, #00e5ff 0%, #7b2fff 50%, #ff00aa 100%);
+  animation: float 3s ease-in-out infinite;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.retro-sun::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 50%;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 4px,
+    rgba(0,0,0,0.6) 4px, rgba(0,0,0,0.6) 6px
+  );
+}
+.retro-sun.small { width: 50px; height: 50px; }
+.retro-sun.small::after { display: none; }
+
+/* ===== WIN95 WINDOW ===== */
+.win-window {
+  background: var(--win-bg);
+  border: 2px solid #fff;
+  border-right-color: #444;
+  border-bottom-color: #444;
+  box-shadow: inset 1px 1px 0 #dfdfdf, 2px 2px 0 #000;
+  font-family: var(--pixel-font);
+}
+.win-titlebar {
+  background: var(--win-title);
+  color: white;
+  padding: 4px 6px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 10px; letter-spacing: 1px;
+  user-select: none;
+}
+.win-controls { display: flex; gap: 3px; }
+.win-btn {
+  width: 18px; height: 16px; background: var(--win-bg);
+  border: 1px solid #fff; border-right-color: #444; border-bottom-color: #444;
+  box-shadow: inset 1px 1px 0 #dfdfdf;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; cursor: pointer; color: #000;
+  font-family: var(--pixel-font);
+}
+.win-btn:hover { background: #e0e0ff; }
+.win-content { padding: 8px; background: white; }
+
+/* ===== USER ICON ===== */
+.user-icon-btn {
+  position: absolute; top: 16px; left: 16px; z-index: 100;
+  width: 50px; height: 50px; border-radius: 50%;
+  border: 2px solid rgba(155, 48, 255, 0.7);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; background: rgba(0,0,0,0.3);
+  transition: all 0.3s;
+}
+.user-icon-btn:hover { border-color: var(--neon-pink); box-shadow: 0 0 15px var(--neon-purple); }
+.user-icon-btn svg { width: 26px; height: 26px; }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #1a0030; }
+::-webkit-scrollbar-thumb { background: var(--neon-purple); border-radius: 4px; }
+
+/* ========================
+   PAGE 1: LOGIN
+======================== */
+#page-login {
+  background: var(--dark-bg);
+  flex-direction: row;
+  animation: fadeIn 0.5s ease;
+}
+.login-bg { position: absolute; inset: 0; }
+.login-left {
+  width: 35%; height: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 24px;
+  z-index: 10; padding: 40px;
+}
+.login-divider {
+  position: absolute; left: 35%; top: 5%; bottom: 5%;
+  width: 2px; background: linear-gradient(to bottom, transparent, var(--neon-pink), var(--neon-purple), transparent);
+  box-shadow: 0 0 10px var(--neon-pink);
+  z-index: 10;
+}
+.login-right {
+  width: 65%; height: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 20px;
+  z-index: 10; padding: 60px;
+}
+.avatar-circle {
+  width: 150px; height: 150px; border-radius: 50%;
+  border: 3px solid transparent;
+  background: linear-gradient(#08000f, #08000f) padding-box,
+              linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)) border-box;
+  display: flex; align-items: center; justify-content: center;
+  animation: neonBorder 2s ease-in-out infinite;
+}
+.avatar-circle svg { width: 80px; height: 80px; stroke: white; }
+.login-input {
+  width: 240px; padding: 12px 20px;
+  background: rgba(80, 0, 160, 0.7);
+  border: none; border-radius: 25px;
+  color: white; font-family: var(--pixel-font); font-size: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.login-input:hover, .login-input:focus {
+  outline: none;
+  box-shadow: 0 0 15px var(--neon-purple);
+  background: rgba(100, 0, 200, 0.8);
+}
+.login-btn {
+  padding: 10px 30px; border-radius: 25px; border: 1px solid var(--neon-cyan);
+  background: linear-gradient(135deg, rgba(0,100,200,0.5), rgba(0,200,255,0.3));
+  color: white; font-family: var(--pixel-font); font-size: 9px;
+  cursor: pointer; transition: all 0.3s;
+}
+.login-btn:hover {
+  box-shadow: 0 0 20px var(--neon-cyan);
+  transform: scale(1.05);
+}
+.social-login-title {
+  color: white; font-family: var(--pixel-font); font-size: 11px;
+  text-align: center; letter-spacing: 1px;
+  align-self: flex-start; padding-left: 40px;
+}
+.social-btn {
+  width: 360px; padding: 14px 24px; border-radius: 25px; border: none;
+  background: rgba(100, 130, 255, 0.7);
+  color: white; font-family: var(--orb-font); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.3s; letter-spacing: 1px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.social-btn:hover { background: rgba(120, 150, 255, 0.9); transform: translateX(5px); box-shadow: 0 0 20px rgba(100,130,255,0.5); }
+
+/* ========================
+   PAGE 2: HOMEPAGE
+======================== */
+#page-home {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.5s ease;
+}
+.home-logo-area {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 20px; z-index: 10;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.home-logo-area:hover .retro-sun { transform: scale(1.1); }
+.home-title {
+  font-family: var(--pixel-font); font-size: 42px; color: white;
+  animation: glowPulse 3s ease-in-out infinite;
+  letter-spacing: 2px;
+}
+.home-subtitle {
+  font-family: var(--vt-font); font-size: 18px; color: rgba(155,48,255,0.8);
+  letter-spacing: 3px; text-transform: uppercase;
+}
+
+/* ========================
+   PAGE 3: HOMEPAGE NAV (after click)
+======================== */
+#page-homenav {
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.4s ease;
+}
+.homenav-title {
+  font-family: var(--pixel-font); font-size: 32px; color: white;
+  text-align: center; padding: 20px 0;
+  z-index: 10;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+.nav-cards-container {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; flex: 1; z-index: 10; padding: 20px;
+  perspective: 800px;
+}
+.nav-card {
+  background: var(--win-bg);
+  border: 2px solid #fff; border-right-color: #444; border-bottom-color: #444;
+  box-shadow: inset 1px 1px 0 #dfdfdf, 3px 3px 0 #000;
+  width: 200px; min-height: 260px;
+  display: flex; flex-direction: column;
+  cursor: pointer; transition: all 0.3s;
+  position: relative;
+  margin: 0 -20px;
+  transform: scale(0.85) translateY(20px);
+  animation: winSlide 0.5s ease forwards;
+}
+.nav-card:nth-child(1) { animation-delay: 0.1s; z-index: 1; }
+.nav-card:nth-child(2) { animation-delay: 0.15s; z-index: 2; }
+.nav-card:nth-child(3) { animation-delay: 0s; z-index: 5; transform: scale(1) translateY(0); }
+.nav-card:nth-child(4) { animation-delay: 0.15s; z-index: 2; }
+.nav-card:nth-child(5) { animation-delay: 0.2s; z-index: 1; }
+.nav-card.center-card {
+  width: 230px; min-height: 290px; z-index: 5;
+  transform: scale(1) translateY(0px);
+  box-shadow: inset 1px 1px 0 #dfdfdf, 4px 4px 0 #000, 0 0 30px rgba(0,50,200,0.4);
+}
+.nav-card:hover:not(.center-card) { transform: scale(0.9) translateY(10px); z-index: 3; }
+.nav-card.center-card:hover { transform: scale(1.05) translateY(-5px); }
+.nav-card .win-titlebar { font-size: 9px; padding: 5px 6px; }
+.nav-card-body {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  color: rgba(80,0,160,0.7); font-family: var(--pixel-font); font-size: 11px;
+  text-align: center; padding: 20px; background: white;
+  letter-spacing: 2px; text-transform: uppercase;
+}
+
+/* ========================
+   PAGE 4: LOJA
+======================== */
+#page-loja {
+  flex-direction: column;
+  animation: fadeIn 0.4s ease;
+}
+.loja-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #2a4070 0%, #6040a0 50%, #c060c0 100%);
+}
+.loja-grid-overlay {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(200,100,255,0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,100,255,0.15) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+.loja-grid-overlay::after {
+  content: '';
+  position: absolute; left: 22%; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(255,100,200,0.8), transparent);
+}
+.loja-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px; z-index: 10;
+}
+.loja-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.loja-logo-text { font-family: var(--pixel-font); font-size: 12px; color: white; }
+.loja-search {
+  display: flex; align-items: center; gap: 8px;
+}
+.search-toggle {
+  width: 80px; height: 28px; border-radius: 14px;
+  background: linear-gradient(135deg, #7b2fff, #00eaff);
+  position: relative; cursor: pointer;
+  transition: all 0.3s;
+}
+.search-toggle::after {
+  content: ''; position: absolute; top: 3px; left: 3px;
+  width: 22px; height: 22px; border-radius: 50%; background: white;
+  transition: left 0.3s;
+}
+.search-bar {
+  display: none; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.2); border-radius: 20px;
+  padding: 4px 12px; border: 1px solid rgba(255,255,255,0.4);
+}
+.search-bar.open { display: flex; }
+.search-bar input {
+  background: none; border: none; outline: none;
+  color: white; font-family: var(--pixel-font); font-size: 9px;
+  width: 150px;
+}
+.search-bar input::placeholder { color: rgba(255,255,255,0.5); }
+.loja-now-playing {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(200,200,200,0.9); border-radius: 25px;
+  padding: 8px 16px; cursor: pointer;
+  font-family: var(--pixel-font); font-size: 9px; color: #333;
+  transition: all 0.3s;
+}
+.loja-now-playing:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0,0,0,0.3); }
+.headphone-icon { font-size: 20px; }
+.loja-body { display: flex; flex: 1; z-index: 10; padding: 10px 20px; overflow: hidden; gap: 16px; }
+.loja-sidebar {
+  width: 200px; display: flex; flex-direction: column; gap: 10px;
+}
+.sidebar-nav-btn {
+  padding: 12px; background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
+  color: white; font-family: var(--pixel-font); font-size: 8px;
+  cursor: pointer; text-align: center; transition: all 0.3s;
+  letter-spacing: 1px;
+}
+.sidebar-nav-btn:hover { background: rgba(155,48,255,0.5); border-color: var(--neon-purple); box-shadow: 0 0 10px var(--neon-purple); }
+.sidebar-categories { color: rgba(255,255,255,0.6); font-family: var(--pixel-font); font-size: 7px; padding: 10px 0 5px; letter-spacing: 1px; }
+.loja-main { flex: 1; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+.loja-window {
+  background: var(--win-bg);
+  border: 2px solid #fff; border-right-color: #444; border-bottom-color: #444;
+  box-shadow: inset 1px 1px 0 #dfdfdf, 3px 3px 0 #000;
+  animation: winSlide 0.4s ease;
+}
+.game-card {
+  display: flex; gap: 12px; padding: 10px; background: white;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer; transition: background 0.2s;
+}
+.game-card:hover { background: #f0f0ff; }
+.game-thumb {
+  width: 120px; height: 70px; background: linear-gradient(135deg, #667eea, #764ba2);
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  font-size: 30px; border: 1px solid #999;
+}
+.game-info { flex: 1; }
+.game-title { font-family: var(--pixel-font); font-size: 9px; color: #000080; margin-bottom: 6px; }
+.game-desc { font-family: var(--vt-font); font-size: 14px; color: #333; margin-bottom: 8px; }
+.game-price {
+  font-family: var(--pixel-font); font-size: 8px; color: #006600;
+  background: #ccffcc; padding: 3px 8px; border-radius: 3px;
+  display: inline-block;
+}
+.game-tags { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+.game-tag {
+  font-family: var(--vt-font); font-size: 12px; padding: 2px 6px;
+  background: rgba(100,0,200,0.1); border: 1px solid rgba(100,0,200,0.3);
+  border-radius: 3px; color: #500080;
+}
+
+/* ========================
+   PAGE 5: PERFIL
+======================== */
+#page-perfil {
+  flex-direction: column;
+  animation: fadeIn 0.4s ease;
+}
+.perfil-bg {
+  position: absolute; inset: 0;
+  background: #2a1a50;
+}
+.desktop-area { position: absolute; inset: 0; z-index: 5; }
+.desktop-icon {
+  position: absolute; display: flex; flex-direction: column;
+  align-items: center; gap: 6px; cursor: pointer;
+  padding: 8px; border-radius: 4px; transition: background 0.2s;
+  width: 80px; text-align: center;
+}
+.desktop-icon:hover { background: rgba(155,48,255,0.3); }
+.desktop-icon .icon-img { font-size: 40px; filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.5)); }
+.desktop-icon .icon-label {
+  font-family: var(--pixel-font); font-size: 7px; color: white;
+  text-shadow: 1px 1px 2px black; word-break: break-word; line-height: 1.4;
+}
+.pixel-folder { font-size: 40px; }
+
+/* Windows on desktop */
+.desktop-window {
+  position: absolute; z-index: 10;
+  min-width: 300px;
+  animation: winSlide 0.3s ease;
+}
+.paint-window { left: 38%; top: 5%; width: 520px; }
+.amigos-window { right: 3%; top: 28%; width: 250px; }
+.profile-info-window { left: 3%; top: 5%; width: 280px; }
+.activity-window { left: 3%; bottom: 10%; width: 280px; }
+
+.paint-canvas {
+  width: 100%; height: 250px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; position: relative;
+}
+.paint-canvas-img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 80px;
+}
+.paint-toolbar {
+  background: #c0c0c0; padding: 4px; display: flex; gap: 2px;
+  border-bottom: 1px solid #888; flex-wrap: wrap;
+}
+.paint-tool {
+  width: 24px; height: 24px; background: #c0c0c0;
+  border: 1px solid #fff; border-right-color: #444; border-bottom-color: #444;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; cursor: pointer;
+}
+.paint-tool:hover, .paint-tool.active { background: #a0a0a0; border-color: #444; border-right-color: #fff; border-bottom-color: #fff; }
+.paint-statusbar {
+  background: #c0c0c0; padding: 3px 6px;
+  font-family: var(--pixel-font); font-size: 7px; color: #333;
+  border-top: 1px solid #888; display: flex; gap: 10px;
+}
+.paint-palette { background: #c0c0c0; padding: 3px 6px; display: flex; align-items: center; gap: 3px; border-top: 1px solid #888; }
+.palette-color { width: 16px; height: 16px; border: 1px solid #666; cursor: pointer; }
+
+.amigos-list { padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+.amigo-item {
+  display: flex; align-items: center; gap: 8px; padding: 6px;
+  font-family: var(--pixel-font); font-size: 8px; color: #333;
+  cursor: pointer; border-radius: 3px; transition: background 0.2s;
+}
+.amigo-item:hover { background: #e0e0ff; }
+.amigo-avatar { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.amigo-status { width: 8px; height: 8px; border-radius: 50%; margin-left: auto; flex-shrink: 0; }
+.status-online { background: #00cc00; }
+.status-away { background: #ffaa00; }
+.status-offline { background: #888; }
+
+.profile-stats { padding: 10px; }
+.stat-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 5px 0; border-bottom: 1px solid #eee;
+  font-family: var(--pixel-font); font-size: 7px;
+}
+.stat-label { color: #666; }
+.stat-val { color: #000080; font-weight: bold; }
+.profile-avatar-big { width: 60px; height: 60px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 10px auto; }
+.profile-name { text-align: center; font-family: var(--pixel-font); font-size: 9px; color: #000080; padding-bottom: 8px; }
+.nav-btn-perfil {
+  width: 100%; padding: 6px; background: #000080; color: white;
+  font-family: var(--pixel-font); font-size: 7px; border: none; cursor: pointer;
+  margin-top: 2px; text-align: center; display: block; transition: background 0.2s;
+  letter-spacing: 1px;
+}
+.nav-btn-perfil:hover { background: #0000cc; }
+
+/* ========================
+   PAGE 6: CONFIGURAÇÕES
+======================== */
+#page-config {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.4s ease;
+}
+.config-bg { position: absolute; inset: 0; background: #2d1f5e; }
+.config-title {
+  font-family: var(--pixel-font); font-size: 28px; color: white;
+  z-index: 10; margin-bottom: 40px; text-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+  letter-spacing: 4px;
+}
+.config-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px 120px; z-index: 10;
+  position: relative;
+}
+.config-grid-center {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
+.config-folder {
+  display: flex; flex-direction: column; align-items: flex-start;
+  cursor: pointer; transition: all 0.3s; gap: 8px;
+}
+.config-folder:hover { transform: scale(1.1) translateY(-5px); }
+.folder-icon {
+  width: 140px; height: 100px; position: relative;
+  display: flex; align-items: flex-end;
+}
+.folder-body {
+  width: 130px; height: 85px; background: linear-gradient(135deg, #ffb3e6, #cc99ff);
+  border-radius: 4px 8px 8px 8px; position: absolute; bottom: 0; left: 0;
+  overflow: hidden; display: flex; align-items: center; justify-content: center;
+}
+.folder-tab {
+  width: 40px; height: 14px; background: rgba(180,140,240,0.9);
+  border-radius: 4px 4px 0 0;
+  position: absolute; top: 0; left: 4px;
+}
+.folder-sparkle { font-size: 50px; position: relative; z-index: 2; }
+.folder-label { font-family: var(--pixel-font); font-size: 8px; color: rgba(255,255,255,0.9); padding-left: 4px; letter-spacing: 1px; }
+.config-back-btn {
+  position: absolute; top: 20px; left: 20px; z-index: 30;
+  padding: 8px 16px; background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.3); border-radius: 6px;
+  color: white; font-family: var(--pixel-font); font-size: 8px;
+  cursor: pointer; transition: all 0.3s;
+}
+.config-back-btn:hover { background: rgba(155,48,255,0.5); }
+.config-sub-panel {
+  display: none; position: absolute; inset: 0; z-index: 50;
+  background: rgba(30,10,70,0.95); flex-direction: column;
+  align-items: center; justify-content: center; gap: 20px;
+  animation: fadeIn 0.3s ease;
+}
+.config-sub-panel.open { display: flex; }
+.config-sub-title { font-family: var(--pixel-font); font-size: 20px; color: white; margin-bottom: 20px; }
+.config-option {
+  width: 400px; display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px; background: rgba(80,0,160,0.4);
+  border: 1px solid rgba(155,48,255,0.4); border-radius: 8px;
+  color: white; font-family: var(--pixel-font); font-size: 9px;
+  cursor: pointer; transition: all 0.3s;
+}
+.config-option:hover { background: rgba(100,0,200,0.6); border-color: var(--neon-purple); }
+.toggle-switch {
+  width: 40px; height: 20px; background: #666; border-radius: 10px;
+  position: relative; transition: background 0.3s; cursor: pointer;
+}
+.toggle-switch.on { background: var(--neon-purple); }
+.toggle-switch::after {
+  content: ''; position: absolute; top: 3px; left: 3px;
+  width: 14px; height: 14px; background: white; border-radius: 50%;
+  transition: left 0.3s;
+}
+.toggle-switch.on::after { left: 23px; }
+.close-sub-btn {
+  margin-top: 20px; padding: 10px 30px;
+  background: rgba(155,48,255,0.5); border: 1px solid var(--neon-purple);
+  color: white; font-family: var(--pixel-font); font-size: 9px;
+  border-radius: 6px; cursor: pointer; transition: all 0.3s;
+}
+.close-sub-btn:hover { background: var(--neon-purple); }
+
+/* ========================
+   PAGE 7: BIBLIOTECA
+======================== */
+#page-biblioteca {
+  flex-direction: column;
+  animation: fadeIn 0.4s ease;
+}
+.bib-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, #0d0020 0%, #1a0040 50%, #0d0020 100%);
+}
+.bib-header {
+  display: flex; align-items: center; gap: 16px; padding: 14px 20px; z-index: 10;
+  border-bottom: 1px solid rgba(155,48,255,0.3);
+}
+.bib-title-text { font-family: var(--pixel-font); font-size: 14px; color: white; }
+.bib-body { display: flex; flex: 1; z-index: 10; overflow: hidden; }
+.bib-sidebar {
+  width: 220px; padding: 16px; display: flex; flex-direction: column; gap: 6px;
+  border-right: 1px solid rgba(155,48,255,0.3); overflow-y: auto;
+}
+.bib-sidebar-title { font-family: var(--pixel-font); font-size: 8px; color: rgba(255,255,255,0.5); padding: 8px 0 4px; letter-spacing: 2px; }
+.bib-game-item {
+  display: flex; align-items: center; gap: 10px; padding: 8px;
+  border-radius: 6px; cursor: pointer; transition: background 0.2s;
+  font-family: var(--pixel-font); font-size: 8px; color: rgba(255,255,255,0.8);
+}
+.bib-game-item:hover, .bib-game-item.active { background: rgba(155,48,255,0.3); color: white; }
+.bib-game-icon { width: 32px; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.bib-main { flex: 1; padding: 20px; overflow-y: auto; }
+.bib-game-banner {
+  width: 100%; height: 200px; border-radius: 8px; overflow: hidden;
+  background: linear-gradient(135deg, #1a0040, #4a0080);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 80px; margin-bottom: 16px;
+  border: 1px solid rgba(155,48,255,0.4);
+  position: relative;
+}
+.bib-game-banner-title {
+  position: absolute; bottom: 16px; left: 20px;
+  font-family: var(--pixel-font); font-size: 14px; color: white;
+  text-shadow: 0 0 10px var(--neon-purple);
+}
+.bib-game-details { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.bib-detail-card {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(155,48,255,0.3);
+  border-radius: 6px; padding: 12px 16px; flex: 1; min-width: 120px;
+}
+.bib-detail-label { font-family: var(--pixel-font); font-size: 7px; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
+.bib-detail-val { font-family: var(--vt-font); font-size: 22px; color: var(--neon-cyan); }
+.play-btn {
+  padding: 12px 40px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+  border: none; border-radius: 6px; color: white;
+  font-family: var(--pixel-font); font-size: 12px; cursor: pointer;
+  transition: all 0.3s; letter-spacing: 2px; text-transform: uppercase;
+}
+.play-btn:hover { transform: scale(1.05); box-shadow: 0 0 25px var(--neon-purple); }
+.bib-nav-btn {
+  padding: 8px 16px; background: rgba(155,48,255,0.2);
+  border: 1px solid rgba(155,48,255,0.4); border-radius: 6px;
+  color: white; font-family: var(--pixel-font); font-size: 8px;
+  cursor: pointer; transition: all 0.3s;
+}
+.bib-nav-btn:hover { background: rgba(155,48,255,0.5); }
+
+/* ========================
+   PAGE 8: SUPORTE
+======================== */
+#page-suporte {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.4s ease;
+}
+.suporte-bg { position: absolute; inset: 0; background: #0d1a30; }
+.suporte-window { width: 600px; z-index: 10; animation: winSlide 0.4s ease; }
+.suporte-form { padding: 20px; background: white; display: flex; flex-direction: column; gap: 12px; }
+.suporte-input {
+  padding: 8px 12px; border: 1px solid #999; font-family: var(--pixel-font); font-size: 8px;
+  background: #f8f8f8; width: 100%;
+}
+.suporte-input:focus { outline: 2px solid #000080; }
+.suporte-textarea { height: 100px; resize: vertical; }
+.suporte-submit {
+  align-self: flex-end; padding: 8px 20px; background: #000080; color: white;
+  font-family: var(--pixel-font); font-size: 8px; border: none; cursor: pointer;
+  border: 2px solid #fff; border-right-color: #444; border-bottom-color: #444;
+  transition: all 0.2s;
+}
+.suporte-submit:hover { background: #0000cc; }
+.suporte-label { font-family: var(--pixel-font); font-size: 8px; color: #333; margin-bottom: -6px; }
+.suporte-faq { padding: 0 20px 16px; background: white; }
+.faq-item { border-bottom: 1px solid #ddd; }
+.faq-q {
+  padding: 10px 0; font-family: var(--pixel-font); font-size: 8px;
+  cursor: pointer; color: #000080; display: flex; justify-content: space-between;
+  transition: color 0.2s;
+}
+.faq-q:hover { color: #7b2fff; }
+.faq-a { display: none; padding: 0 0 10px; font-family: var(--vt-font); font-size: 16px; color: #333; }
+.faq-a.open { display: block; }
+
+/* ========================
+   GLOBAL NAV BAR
+======================== */
+.global-nav {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(10,0,20,0.8); backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(155,48,255,0.4);
+  display: flex; align-items: center; justify-content: center;
+  gap: 4px; padding: 6px 0; height: 44px;
+}
+.gnav-btn {
+  padding: 6px 16px; color: rgba(255,255,255,0.6);
+  font-family: var(--pixel-font); font-size: 7px; letter-spacing: 1px;
+  cursor: pointer; border-radius: 4px; border: none; background: none;
+  transition: all 0.3s; text-transform: uppercase;
+}
+.gnav-btn:hover { color: white; background: rgba(155,48,255,0.3); }
+.gnav-btn.active { color: var(--neon-cyan); background: rgba(0,234,255,0.1); border-bottom: 2px solid var(--neon-cyan); }
+.gnav-separator { width: 1px; height: 20px; background: rgba(155,48,255,0.3); }
+
+/* toast notification */
+.toast {
+  position: fixed; bottom: 60px; right: 20px; z-index: 999;
+  background: rgba(30,0,60,0.95); border: 1px solid var(--neon-purple);
+  color: white; font-family: var(--pixel-font); font-size: 8px; letter-spacing: 1px;
+  padding: 12px 20px; border-radius: 8px;
+  box-shadow: 0 0 20px rgba(155,48,255,0.5);
+  transform: translateX(120%); transition: transform 0.4s ease;
+  max-width: 280px; line-height: 1.6;
+}
+.toast.show { transform: translateX(0); }
+</style>
+</head>
+<body>
+
+<!-- ======================== LOGIN ======================== -->
+<div id="page-login" class="page active">
+  <div class="login-bg synth-bg" id="login-synth">
+    <div class="stars" id="loginStars"></div>
+    <div class="horizon">
+      <div class="grid-floor"></div>
+      <div class="neon-line" style="top:0"></div>
+    </div>
+  </div>
+  <div class="login-divider"></div>
+  <div class="login-left">
+    <div class="avatar-circle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+      </svg>
+    </div>
+    <input class="login-input" type="text" placeholder="Email" id="loginEmail">
+    <input class="login-input" type="password" placeholder="Senha" id="loginPass">
+    <button class="login-btn" onclick="doLogin()">▶ ENTRAR</button>
+    <p style="font-family:var(--pixel-font);font-size:7px;color:rgba(255,255,255,0.4);cursor:pointer" onclick="doLogin()">Não tem conta? Cadastrar</p>
+  </div>
+  <div class="login-right">
+    <p class="social-login-title">Se preferir, entre com:</p>
+    <button class="social-btn" onclick="doLogin()">
+      <span>🎮</span> Continuar com Steam
+    </button>
+    <button class="social-btn" onclick="doLogin()" style="background:rgba(255,80,80,0.6)">
+      <span>🎯</span> Continuar com Google
+    </button>
+    <button class="social-btn" onclick="doLogin()" style="background:rgba(40,80,200,0.6)">
+      <span>💬</span> Continuar com Discord
+    </button>
+    <button class="social-btn" onclick="doLogin()" style="background:rgba(0,150,150,0.5)">
+      <span>🐦</span> Continuar com Twitter/X
+    </button>
+  </div>
+</div>
+
+<!-- ======================== HOMEPAGE ======================== -->
+<div id="page-home" class="page">
+  <div class="synth-bg">
+    <div class="stars" id="homeStars"></div>
+    <div class="horizon">
+      <div class="grid-floor"></div>
+      <div class="neon-line" style="top:0"></div>
+      <div class="neon-line" style="top:60%"></div>
+    </div>
+  </div>
+  <button class="user-icon-btn" onclick="goTo('page-perfil')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+      <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+    </svg>
+  </button>
+  <div class="home-logo-area" onclick="goTo('page-homenav')" style="z-index:10">
+    <div class="retro-sun" style="width:140px;height:140px"></div>
+    <h1 class="home-title">SteamWave</h1>
+    <p class="home-subtitle">[ Clique para entrar ]</p>
+  </div>
+</div>
+
+<!-- ======================== HOME NAV ======================== -->
+<div id="page-homenav" class="page">
+  <div class="synth-bg">
+    <div class="stars" id="homenavStars"></div>
+    <div class="horizon">
+      <div class="grid-floor"></div>
+      <div class="neon-line" style="top:0"></div>
+      <div class="neon-line" style="top:60%"></div>
+    </div>
+  </div>
+  <button class="user-icon-btn" onclick="goTo('page-perfil')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+      <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+    </svg>
+  </button>
+  <h1 class="homenav-title" style="padding-top:16px">SteamWave</h1>
+  <div class="nav-cards-container">
+    <div class="nav-card" onclick="goTo('page-perfil')">
+      <div class="win-titlebar">
+        <span>perfil.exe</span>
+        <div class="win-controls"><div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn">✕</div></div>
+      </div>
+      <div class="nav-card-body">👤<br><br>PERFIL</div>
+    </div>
+    <div class="nav-card" onclick="goTo('page-loja')">
+      <div class="win-titlebar">
+        <span>loja.exe</span>
+        <div class="win-controls"><div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn">✕</div></div>
+      </div>
+      <div class="nav-card-body">🛒<br><br>LOJA</div>
+    </div>
+    <div class="nav-card center-card" onclick="goTo('page-biblioteca')">
+      <div class="win-titlebar">
+        <span>BIBLIOTECA</span>
+        <div class="win-controls"><div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn">✕</div></div>
+      </div>
+      <div class="nav-card-body" style="font-size:13px">📚<br><br>BIBLIOTECA</div>
+    </div>
+    <div class="nav-card" onclick="goTo('page-config')">
+      <div class="win-titlebar">
+        <span>config.exe</span>
+        <div class="win-controls"><div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn">✕</div></div>
+      </div>
+      <div class="nav-card-body">⚙️<br><br>CONFIGURAÇÕES</div>
+    </div>
+    <div class="nav-card" onclick="goTo('page-suporte')">
+      <div class="win-titlebar">
+        <span>suporte.exe</span>
+        <div class="win-controls"><div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn">✕</div></div>
+      </div>
+      <div class="nav-card-body">❓<br><br>SUPORTE</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== LOJA ======================== -->
+<div id="page-loja" class="page">
+  <div class="loja-bg"></div>
+  <div class="loja-grid-overlay"></div>
+  <div class="loja-header">
+    <div class="loja-logo" onclick="goTo('page-homenav')">
+      <div class="retro-sun small"></div>
+      <span class="loja-logo-text">SteamWave</span>
+    </div>
+    <div class="loja-search">
+      <div class="search-toggle" id="searchToggle" onclick="toggleSearch()" title="Pesquisar"></div>
+      <div class="search-bar" id="searchBar">
+        <span style="color:white;font-size:14px">🔍</span>
+        <input type="text" placeholder="Buscar jogos...">
+      </div>
+    </div>
+    <div class="loja-now-playing" onclick="showToast('🎵 Reproduzindo: Neon Dreams - SynthWave Radio')">
+      <span class="headphone-icon">🎧</span>
+      <span>Você está escutando:</span>
+    </div>
+  </div>
+  <div class="loja-body">
+    <div class="loja-sidebar">
+      <button class="sidebar-nav-btn" onclick="goTo('page-perfil')">👤 Perfil</button>
+      <button class="sidebar-nav-btn" onclick="goTo('page-biblioteca')">📚 Biblioteca</button>
+      <button class="sidebar-nav-btn" onclick="goTo('page-homenav')">🏠 Home</button>
+      <button class="sidebar-nav-btn" onclick="goTo('page-config')">⚙️ Configs</button>
+      <div class="sidebar-categories">CATEGORIAS</div>
+      <button class="sidebar-nav-btn" style="font-size:7px">🎮 Ação</button>
+      <button class="sidebar-nav-btn" style="font-size:7px">🧩 Puzzle</button>
+      <button class="sidebar-nav-btn" style="font-size:7px">⚔️ RPG</button>
+      <button class="sidebar-nav-btn" style="font-size:7px">🚀 Sci-Fi</button>
+      <button class="sidebar-nav-btn" style="font-size:7px">👾 Retro</button>
+    </div>
+    <div class="loja-main">
+      <!-- Destaques -->
+      <div class="loja-window">
+        <div class="win-titlebar">
+          <span>🌟 DESTAQUES DA SEMANA</span>
+          <div class="win-controls"><div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn" onclick="this.closest('.loja-window').style.display='none'">✕</div></div>
+        </div>
+        <div class="win-content" style="padding:0">
+          <div class="game-card" onclick="goTo('page-biblioteca')">
+            <div class="game-thumb">🐱</div>
+            <div class="game-info">
+              <div class="game-title">NeonCat Chronicles</div>
+              <div class="game-desc">Aventura cyberpunk com gatos no espaço profundo</div>
+              <span class="game-price">R$ 29,99</span>
+              <div class="game-tags"><span class="game-tag">Ação</span><span class="game-tag">Retro</span><span class="game-tag">Gatos</span></div>
+            </div>
+          </div>
+          <div class="game-card" onclick="goTo('page-biblioteca')">
+            <div class="game-thumb" style="background:linear-gradient(135deg,#ff6b6b,#feca57)">🌌</div>
+            <div class="game-info">
+              <div class="game-title">Vaporworld Online</div>
+              <div class="game-desc">MMO no mundo vaporwave — explore dimensões de synth</div>
+              <span class="game-price">R$ 49,99</span>
+              <div class="game-tags"><span class="game-tag">MMO</span><span class="game-tag">Synthwave</span></div>
+            </div>
+          </div>
+          <div class="game-card" onclick="goTo('page-biblioteca')">
+            <div class="game-thumb" style="background:linear-gradient(135deg,#48dbfb,#ff9ff3)">🤖</div>
+            <div class="game-info">
+              <div class="game-title">RetroBot Uprising</div>
+              <div class="game-desc">Plataforma pixel art com robôs dos anos 80</div>
+              <span class="game-price">R$ 19,90</span>
+              <div class="game-tags"><span class="game-tag">Plataforma</span><span class="game-tag">Pixel</span><span class="game-tag">Robôs</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Mais vendidos -->
+      <div class="loja-window">
+        <div class="win-titlebar">
+          <span>🔥 MAIS VENDIDOS</span>
+          <div class="win-controls"><div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn" onclick="this.closest('.loja-window').style.display='none'">✕</div></div>
+        </div>
+        <div class="win-content" style="padding:0">
+          <div class="game-card" onclick="goTo('page-biblioteca')">
+            <div class="game-thumb" style="background:linear-gradient(135deg,#2d3561,#c05c7e)">🎸</div>
+            <div class="game-info">
+              <div class="game-title">SynthRacer 84</div>
+              <div class="game-desc">Corridas neon em pistas holográficas</div>
+              <span class="game-price">R$ 39,99</span>
+              <div class="game-tags"><span class="game-tag">Corrida</span><span class="game-tag">Neon</span></div>
+            </div>
+          </div>
+          <div class="game-card" onclick="goTo('page-biblioteca')">
+            <div class="game-thumb" style="background:linear-gradient(135deg,#0f3460,#e94560)">🗡️</div>
+            <div class="game-info">
+              <div class="game-title">Pixel Dungeon X</div>
+              <div class="game-desc">Roguelike com estética de Windows 95</div>
+              <span class="game-price">R$ 14,99</span>
+              <div class="game-tags"><span class="game-tag">RPG</span><span class="game-tag">Roguelike</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="global-nav">
+    <button class="gnav-btn" onclick="goTo('page-homenav')">🏠 Home</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn active">🛒 Loja</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-biblioteca')">📚 Biblioteca</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-perfil')">👤 Perfil</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-config')">⚙️ Config</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-suporte')">❓ Suporte</button>
+  </div>
+</div>
+
+<!-- ======================== PERFIL ======================== -->
+<div id="page-perfil" class="page">
+  <div class="perfil-bg"></div>
+  <div class="desktop-area">
+    <!-- Desktop Icons -->
+    <div class="desktop-icon" style="left:30px;top:30px" onclick="showToast('📁 Abrindo pasta de jogos...')">
+      <div class="icon-img">📁</div>
+      <div class="icon-label">Meus Jogos</div>
+    </div>
+    <div class="desktop-icon" style="left:120px;top:30px" onclick="showToast('💾 Saves sincronizados!')">
+      <div class="icon-img">💾</div>
+      <div class="icon-label">Saves</div>
+    </div>
+    <div class="desktop-icon" style="left:30px;top:150px" onclick="goTo('page-biblioteca')">
+      <div class="icon-img">📹</div>
+      <div class="icon-label">Vídeos</div>
+    </div>
+    <div class="desktop-icon" style="left:120px;top:150px" onclick="showToast('🎵 Abrindo reprodutor de música retro...')">
+      <div class="icon-img">💿</div>
+      <div class="icon-label">Música</div>
+    </div>
+
+    <!-- Profile Info Window -->
+    <div class="desktop-window profile-info-window" style="left:30px;top:280px">
+      <div class="win-window">
+        <div class="win-titlebar">
+          <span>⭐ MEU PERFIL</span>
+          <div class="win-controls"><div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn" onclick="this.closest('.desktop-window').style.display='none'">✕</div></div>
+        </div>
+        <div class="profile-stats">
+          <div class="profile-avatar-big">👾</div>
+          <div class="profile-name">GamerWave_88</div>
+          <div class="stat-row"><span class="stat-label">Jogos na Biblioteca</span><span class="stat-val">42</span></div>
+          <div class="stat-row"><span class="stat-label">Horas Jogadas</span><span class="stat-val">1.337h</span></div>
+          <div class="stat-row"><span class="stat-label">Conquistas</span><span class="stat-val">89 🏆</span></div>
+          <div class="stat-row"><span class="stat-label">Nível</span><span class="stat-val">⬆ 42</span></div>
+          <div class="stat-row"><span class="stat-label">Último Online</span><span class="stat-val">Agora</span></div>
+        </div>
+        <div style="padding:0 10px 10px;display:flex;flex-direction:column;gap:4px">
+          <button class="nav-btn-perfil" onclick="goTo('page-loja')">🛒 IR À LOJA</button>
+          <button class="nav-btn-perfil" onclick="goTo('page-biblioteca')" style="background:#500080">📚 BIBLIOTECA</button>
+          <button class="nav-btn-perfil" onclick="goTo('page-config')" style="background:#333">⚙️ CONFIGURAÇÕES</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paint Window -->
+    <div class="desktop-window paint-window">
+      <div class="win-window">
+        <div class="win-titlebar" style="font-size:9px">
+          <span>🎨 untitled - Paint</span>
+          <div class="win-controls"><div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn" onclick="this.closest('.desktop-window').style.display='none'">✕</div></div>
+        </div>
+        <div style="background:#c0c0c0;padding:3px 6px;display:flex;gap:16px;border-bottom:1px solid #888">
+          <span style="font-family:var(--pixel-font);font-size:7px;cursor:pointer;color:#000" onclick="showToast('📄 Arquivo...')">Arquivo</span>
+          <span style="font-family:var(--pixel-font);font-size:7px;cursor:pointer;color:#000">Editar</span>
+          <span style="font-family:var(--pixel-font);font-size:7px;cursor:pointer;color:#000">Exibir</span>
+          <span style="font-family:var(--pixel-font);font-size:7px;cursor:pointer;color:#000">Imagem</span>
+          <span style="font-family:var(--pixel-font);font-size:7px;cursor:pointer;color:#000">Opções</span>
+          <span style="font-family:var(--pixel-font);font-size:7px;cursor:pointer;color:#000">Ajuda</span>
+        </div>
+        <div style="display:flex">
+          <div style="background:#c0c0c0;padding:4px;display:flex;flex-direction:column;gap:2px;border-right:1px solid #888">
+            <div class="paint-tool">✏️</div><div class="paint-tool active">🖌️</div>
+            <div class="paint-tool">🧹</div><div class="paint-tool">🔍</div>
+            <div class="paint-tool">📝</div><div class="paint-tool">💧</div>
+            <div class="paint-tool">⬜</div><div class="paint-tool">⬡</div>
+            <div class="paint-tool">📐</div><div class="paint-tool">〰️</div>
+          </div>
+          <div class="paint-canvas">
+            <div style="font-size:110px;position:relative;z-index:2">🐱</div>
+            <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(100,60,180,0.4),rgba(200,100,255,0.3))"></div>
+          </div>
+        </div>
+        <div class="paint-palette">
+          <div class="palette-color" style="background:#000"></div>
+          <div class="palette-color" style="background:#fff"></div>
+          <div class="palette-color" style="background:#ff0000"></div>
+          <div class="palette-color" style="background:#00ff00"></div>
+          <div class="palette-color" style="background:#0000ff"></div>
+          <div class="palette-color" style="background:#ffff00"></div>
+          <div class="palette-color" style="background:#ff00ff"></div>
+          <div class="palette-color" style="background:#00ffff"></div>
+          <div class="palette-color" style="background:#7b2fff"></div>
+          <div class="palette-color" style="background:#ff6b6b"></div>
+        </div>
+        <div class="paint-statusbar">
+          <span>Para Ajuda, clique em Tópicos da Ajuda no menu Ajuda.</span>
+          <span>420x240</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Amigos Window -->
+    <div class="desktop-window amigos-window">
+      <div class="win-window">
+        <div class="win-titlebar" style="background:#6a0dad">
+          <span>Amigos</span>
+          <div class="win-controls"><div class="win-btn">_</div><div class="win-btn">□</div><div class="win-btn" onclick="this.closest('.desktop-window').style.display='none'">✕</div></div>
+        </div>
+        <div class="amigos-list">
+          <div style="font-family:var(--pixel-font);font-size:7px;color:#666;padding:4px 0 2px">ONLINE (3)</div>
+          <div class="amigo-item"><div class="amigo-avatar" style="background:#ffccff">🐱</div>NeonKitty<div class="amigo-status status-online"></div></div>
+          <div class="amigo-item"><div class="amigo-avatar" style="background:#ccccff">🤖</div>CyberBot99<div class="amigo-status status-online"></div></div>
+          <div class="amigo-item"><div class="amigo-avatar" style="background:#ccffff">🦊</div>VaporFox<div class="amigo-status status-away"></div></div>
+          <div style="font-family:var(--pixel-font);font-size:7px;color:#666;padding:8px 0 2px">OFFLINE (2)</div>
+          <div class="amigo-item" style="opacity:0.5"><div class="amigo-avatar" style="background:#ddd">👾</div>PixelGhost<div class="amigo-status status-offline"></div></div>
+          <div class="amigo-item" style="opacity:0.5"><div class="amigo-avatar" style="background:#ddd">🌙</div>MidnightSynth<div class="amigo-status status-offline"></div></div>
+          <button onclick="showToast('➕ Adicionar amigo em breve!')" style="width:100%;margin-top:8px;padding:6px;background:#6a0dad;color:white;font-family:var(--pixel-font);font-size:7px;border:none;cursor:pointer;border-radius:4px">+ ADICIONAR AMIGO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="global-nav">
+    <button class="gnav-btn" onclick="goTo('page-homenav')">🏠 Home</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-loja')">🛒 Loja</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-biblioteca')">📚 Biblioteca</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn active">👤 Perfil</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-config')">⚙️ Config</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-suporte')">❓ Suporte</button>
+  </div>
+</div>
+
+<!-- ======================== CONFIGURAÇÕES ======================== -->
+<div id="page-config" class="page">
+  <div class="config-bg"></div>
+  <button class="config-back-btn" onclick="goTo('page-homenav')">◀ VOLTAR</button>
+  <h1 class="config-title">CONFIGURAÇÕES</h1>
+
+  <!-- Sub panels -->
+  <div class="config-sub-panel" id="subPanel">
+    <h2 class="config-sub-title" id="subTitle">PAINEL</h2>
+    <div id="subOptions"></div>
+    <button class="close-sub-btn" onclick="closeSubPanel()">✕ FECHAR</button>
+  </div>
+
+  <div class="config-grid" style="position:relative">
+    <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">
+      <div class="retro-sun" style="width:80px;height:80px;cursor:default"></div>
+    </div>
+    <div class="config-folder" onclick="openSubPanel('🔊 ÁUDIO', ['Volume Master', 'Efeitos Sonoros', 'Música de Fundo', 'Notificações'])">
+      <div class="folder-icon">
+        <div class="folder-tab"></div>
+        <div class="folder-body"><span class="folder-sparkle">✨</span></div>
+      </div>
+      <span class="folder-label">ÁUDIO</span>
+    </div>
+    <div class="config-folder" onclick="openSubPanel('🎨 APARÊNCIA', ['Tema Escuro', 'Efeitos Neon', 'Animações', 'Resolução'])">
+      <div class="folder-icon">
+        <div class="folder-tab"></div>
+        <div class="folder-body"><span class="folder-sparkle">💫</span></div>
+      </div>
+      <span class="folder-label">APARÊNCIA</span>
+    </div>
+    <div class="config-folder" onclick="openSubPanel('🔒 PRIVACIDADE', ['Perfil Público', 'Status Online', 'Lista de Amigos', 'Histórico'])">
+      <div class="folder-icon">
+        <div class="folder-tab"></div>
+        <div class="folder-body"><span class="folder-sparkle">🌟</span></div>
+      </div>
+      <span class="folder-label">PRIVACIDADE</span>
+    </div>
+    <div class="config-folder" onclick="openSubPanel('🎮 CONTROLES', ['Teclado', 'Mouse', 'Controle', 'Atalhos'])">
+      <div class="folder-icon">
+        <div class="folder-tab"></div>
+        <div class="folder-body"><span class="folder-sparkle">⭐</span></div>
+      </div>
+      <span class="folder-label">CONTROLES</span>
+    </div>
+  </div>
+  <div class="global-nav">
+    <button class="gnav-btn" onclick="goTo('page-homenav')">🏠 Home</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-loja')">🛒 Loja</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-biblioteca')">📚 Biblioteca</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-perfil')">👤 Perfil</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn active">⚙️ Config</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-suporte')">❓ Suporte</button>
+  </div>
+</div>
+
+<!-- ======================== BIBLIOTECA ======================== -->
+<div id="page-biblioteca" class="page">
+  <div class="bib-bg"></div>
+  <div class="bib-header">
+    <div class="retro-sun small" style="cursor:pointer" onclick="goTo('page-homenav')"></div>
+    <span class="bib-title-text">BIBLIOTECA</span>
+    <div style="flex:1"></div>
+    <button class="bib-nav-btn" onclick="goTo('page-loja')">🛒 IR À LOJA</button>
+    <button class="bib-nav-btn" onclick="goTo('page-perfil')" style="margin-left:8px">👤 PERFIL</button>
+  </div>
+  <div class="bib-body">
+    <div class="bib-sidebar">
+      <div class="bib-sidebar-title">MEUS JOGOS (42)</div>
+      <div class="bib-game-item active" onclick="selectBibGame(this,'NeonCat Chronicles','🐱','42h','89')">
+        <div class="bib-game-icon" style="background:linear-gradient(135deg,#667eea,#764ba2)">🐱</div>
+        NeonCat Chronicles
+      </div>
+      <div class="bib-game-item" onclick="selectBibGame(this,'Vaporworld Online','🌌','128h','210')">
+        <div class="bib-game-icon" style="background:linear-gradient(135deg,#ff6b6b,#feca57)">🌌</div>
+        Vaporworld Online
+      </div>
+      <div class="bib-game-item" onclick="selectBibGame(this,'RetroBot Uprising','🤖','15h','33')">
+        <div class="bib-game-icon" style="background:linear-gradient(135deg,#48dbfb,#ff9ff3)">🤖</div>
+        RetroBot Uprising
+      </div>
+      <div class="bib-game-item" onclick="selectBibGame(this,'SynthRacer 84','🎸','67h','102')">
+        <div class="bib-game-icon" style="background:linear-gradient(135deg,#2d3561,#c05c7e)">🎸</div>
+        SynthRacer 84
+      </div>
+      <div class="bib-game-item" onclick="selectBibGame(this,'Pixel Dungeon X','🗡️','200h','400')">
+        <div class="bib-game-icon" style="background:linear-gradient(135deg,#0f3460,#e94560)">🗡️</div>
+        Pixel Dungeon X
+      </div>
+    </div>
+    <div class="bib-main" id="bibMain">
+      <div class="bib-game-banner">
+        <span>🐱</span>
+        <div class="bib-game-banner-title">NeonCat Chronicles</div>
+      </div>
+      <div class="bib-game-details">
+        <div class="bib-detail-card">
+          <div class="bib-detail-label">HORAS JOGADAS</div>
+          <div class="bib-detail-val" id="bibHours">42h</div>
+        </div>
+        <div class="bib-detail-card">
+          <div class="bib-detail-label">CONQUISTAS</div>
+          <div class="bib-detail-val" id="bibAchievements">89 🏆</div>
+        </div>
+        <div class="bib-detail-card">
+          <div class="bib-detail-label">ÚLTIMA SESSÃO</div>
+          <div class="bib-detail-val" style="font-size:16px">Ontem</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="play-btn" onclick="showToast('🎮 Iniciando jogo...')">▶ JOGAR</button>
+        <button class="bib-nav-btn" onclick="goTo('page-loja')" style="padding:12px 20px">🛒 DLCs na Loja</button>
+        <button class="bib-nav-btn" onclick="showToast('📊 Carregando estatísticas...')" style="padding:12px 20px">📊 Stats</button>
+      </div>
+    </div>
+  </div>
+  <div class="global-nav">
+    <button class="gnav-btn" onclick="goTo('page-homenav')">🏠 Home</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-loja')">🛒 Loja</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn active">📚 Biblioteca</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-perfil')">👤 Perfil</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-config')">⚙️ Config</button>
+    <div class="gnav-separator"></div>
+    <button class="gnav-btn" onclick="goTo('page-suporte')">❓ Suporte</button>
+  </div>
+</div>
+
+<!-- ======================== SUPORTE ======================== -->
+<div id="page-suporte" class="page" style="justify-content:center">
+  <div class="suporte-bg">
+    <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,rgba(0,100,200,0.05) 0px,transparent 1px,transparent 40px),repeating-linear-gradient(90deg,rgba(0,100,200,0.05) 0px,transparent 1px,transparent 40px)"></div>
+  </div>
+  <div class="suporte-window win-window" style="z-index:10">
+    <div class="win-titlebar">
+      <span>❓ SUPORTE STEAMWAVE</span>
+      <div class="win-controls">
+        <div class="win-btn">_</div>
+        <div class="win-btn">□</div>
+        <div class="win-btn" onclick="goTo('page-homenav')">✕</div>
+      </div>
+    </div>
+    <div class="suporte-form">
+      <p class="suporte-label">Assunto</p>
+      <input class="suporte-input" type="text" placeholder="Descreva o problema em poucas palavras">
+      <p class="suporte-label">Mensagem</p>
+      <textarea class="suporte-input suporte-textarea" placeholder="Detalhe seu problema aqui..."></textarea>
+      <button class="suporte-submit" onclick="showToast('✅ Ticket enviado! Responderemos em até 24h.')">ENVIAR TICKET</button>
+    </div>
+    <div class="suporte-faq">
+      <div style="font-family:var(--pixel-font);font-size:9px;color:#000080;padding:12px 0 8px">PERGUNTAS FREQUENTES</div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Como recuperar minha senha?</span><span>▼</span></div>
+        <div class="faq-a">Acesse a tela de login e clique em "Esqueci minha senha". Um e-mail de recuperação será enviado.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Posso jogar offline?</span><span>▼</span></div>
+        <div class="faq-a">Sim! A maioria dos jogos suporta modo offline. Ative no menu de configurações do jogo.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Como solicitar reembolso?</span><span>▼</span></div>
+        <div class="faq-a">Jogos com menos de 2h de jogo e comprados há menos de 14 dias são elegíveis para reembolso automático.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Meus saves estão seguros?</span><span>▼</span></div>
+        <div class="faq-a">Sim! Todos os saves são sincronizados automaticamente na nuvem SteamWave Cloud.</div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:16px;z-index:10">
+    <button class="gnav-btn" onclick="goTo('page-homenav')" style="color:rgba(150,200,255,0.8)">🏠 Home</button>
+    <button class="gnav-btn" onclick="goTo('page-loja')" style="color:rgba(150,200,255,0.8)">🛒 Loja</button>
+    <button class="gnav-btn" onclick="goTo('page-perfil')" style="color:rgba(150,200,255,0.8)">👤 Perfil</button>
+  </div>
+</div>
+
+<!-- ======================== TOAST ======================== -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== STARS GENERATOR =====
+function generateStars(containerId, count=80) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  for (let i = 0; i < count; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*70}%;
+      --dur:${Math.random()*4+2}s;
+      --delay:${Math.random()*3}s;
+      opacity:${Math.random()*0.7+0.2};
+    `;
+    c.appendChild(s);
+  }
+}
+generateStars('loginStars', 100);
+generateStars('homeStars', 100);
+generateStars('homenavStars', 80);
+
+// ===== PAGE NAVIGATION =====
+function goTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById(pageId);
+  if (target) target.classList.add('active');
+  // Update nav active state
+  document.querySelectorAll('.gnav-btn').forEach(b => b.classList.remove('active'));
+}
+
+// ===== LOGIN =====
+function doLogin() {
+  showToast('🌊 Bem-vindo ao SteamWave!');
+  setTimeout(() => goTo('page-home'), 500);
+}
+
+// ===== TOAST =====
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ===== SEARCH TOGGLE =====
+function toggleSearch() {
+  const bar = document.getElementById('searchBar');
+  const toggle = document.getElementById('searchToggle');
+  bar.classList.toggle('open');
+  if (bar.classList.contains('open')) {
+    bar.querySelector('input').focus();
+  }
+}
+
+// ===== CONFIG SUB PANEL =====
+const toggleStates = {};
+function openSubPanel(title, options) {
+  document.getElementById('subTitle').textContent = title;
+  const container = document.getElementById('subOptions');
+  container.innerHTML = '';
+  options.forEach((opt, i) => {
+    const key = title + i;
+    if (!toggleStates[key]) toggleStates[key] = Math.random() > 0.5;
+    const div = document.createElement('div');
+    div.className = 'config-option';
+    div.innerHTML = `
+      <span>${opt}</span>
+      <div class="toggle-switch ${toggleStates[key] ? 'on' : ''}" onclick="toggleOpt(this, '${key}')"></div>
+    `;
+    container.appendChild(div);
+  });
+  document.getElementById('subPanel').classList.add('open');
+}
+function toggleOpt(el, key) {
+  el.classList.toggle('on');
+  toggleStates[key] = el.classList.contains('on');
+  showToast(`✅ Configuração ${el.classList.contains('on') ? 'ativada' : 'desativada'}!`);
+}
+function closeSubPanel() {
+  document.getElementById('subPanel').classList.remove('open');
+}
+
+// ===== BIBLIOTECA GAME SELECT =====
+function selectBibGame(el, name, emoji, hours, achievements) {
+  document.querySelectorAll('.bib-game-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  const main = document.getElementById('bibMain');
+  main.querySelector('.bib-game-banner').innerHTML = `
+    <span>${emoji}</span>
+    <div class="bib-game-banner-title">${name}</div>
+  `;
+  document.getElementById('bibHours').textContent = hours;
+  document.getElementById('bibAchievements').textContent = achievements + ' 🏆';
+}
+
+// ===== FAQ =====
+function toggleFaq(el) {
+  const answer = el.nextElementSibling;
+  answer.classList.toggle('open');
+  el.querySelector('span:last-child').textContent = answer.classList.contains('open') ? '▲' : '▼';
+}
+
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const panel = document.getElementById('subPanel');
+    if (panel.classList.contains('open')) { closeSubPanel(); return; }
+  }
+});
+</script>
+</body>
+</html>

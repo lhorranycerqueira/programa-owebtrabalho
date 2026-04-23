@@ -1,0 +1,104 @@
+arrumando tudo pq vou ficar maluca com tanta informação
+
+slides: vibe vaporwave 
+explicar pq a decisao de usar essa estetica
+resgatar retro e nostalgia
+falar sobre o foco entre musica e jogos e focar nisso como artes conjuntas
+fazer aqueles slides de vangogh falando sobre os topicos
+separar em estetica, wireframes, codificação e diferencias
+focar na bibliotecca
+
+num geral:
+incorporar musica vaporwave 
+
+SITE:
+
+homepage:
+- deixar funcionando e quando entrar ter uma animação da logo subindo
+e ai aparece as telas 
+colocar a opçao de continuar jogo
+- quando clicar no icone da pessoazinha aparecer nossa pixel arte
+quando passar o mouse por cima animar o texto
+e dar pra clicar em qualquer opcao que vai ficar passando
+
+configurações:
+se clicar em suporte aparece a mesma tela de pixel arte
+se der pra trocar o tema aparecer nessa página
+
+biblioteca:
+sem noção ainda dde muita coisa
+muita estetica vaporwave pois eh o foco
+foco no jogos mais jogados talvez comunidade
+melhor visualização daqlo que ja se tem
+
+
+loja:
+poder escutar musica enquanto navega
+aba so pra exepriencia sonoras
+integração com spotify ou nada a ver
+
+
+perfil:
+melhorar a organização do perfil
+janelinha do paint com a foto
+ver sobre amigos online
+ter historico de jogos
+
+
+diferenciais que podem aparecer:
+API de pesquisa
+integração com banco de dados
+tema claro e tema escuro
+deixar o github arrumadinho pra poder ver o progresso
+conseguir fazer login realmente e ter um site diferente pra quando se esta logado e quando nao esta
+
+
+gama de cores e fontes
+
+
+Monoton  https://fonts.google.com/specimen/Monoton
+Michroma  https://fonts.google.com/specimen/Michroma - titulos navegação
+Turret Road https://fonts.google.com/specimen/Turret+Road - corpo
+VT323  https://fonts.google.com/specimen/VT323 - dados e subtitulos
+
+
+cores pra homepage loja e componentes globais
+#0a0612 - fundo
+#120a1e - fundo cards
+#1e0f35 - fundo hoover
+#ff6ec7
+#4dc9ff
+#b87fff
+#00f5d4
+#e8d5f5 - txt principal
+#9e8ab0 - txt secundario
+#6b5580 - txt desabilitado
+#ff6ec730 - destaque neon rosa
+#ffff10 - borda desse destaque
+
+
+login configuralçoes modais de confirmações e alertas
+
+#060b1a - fundo
+#0d1933 - fundo cards
+#0f2040 - fundo elevado
+#ff4fa3
+#1e90ff
+#7b5ea7
+#e8f4fd - texto claro
+#8899bb - texto secundario
+ffffff08 - borda do destaque
+#1e90ff30 - destaque azul
+
+biblioteca perfil estados vazios e achievements
+
+#0f0a18 - fundo 
+#160d20 - fundo
+#2d1f40 - fundo
+#e040fb
+#40c4ff
+#ff80ab
+#f8f0ff - texto claro
+#b09ac8 - texto secundario
+ffffff0a - borda do destque
+#e040fb25 - destaque

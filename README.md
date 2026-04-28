@@ -11,3 +11,5 @@ as páginas serão: homepage, loja, biblioteca, perfil, login, configurações
 SteamWave 
 pensar na estrutura
 
+## anotações do que cada um está fazendo! (atualizem conforme forem fazendo por favor)
+carol: produzindo (e aprendendo como fazer) o back end do formulário do cadastro

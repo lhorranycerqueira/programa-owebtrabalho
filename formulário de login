@@ -1,0 +1,72 @@
+<!-- ======================== LOGIN ======================== -->
+<div id="page-login" class="page active">
+  <div class="login-bg synth-bg" id="login-synth">
+    <div class="stars" id="loginStars"></div>
+    <div class="horizon">
+      <div class="grid-floor"></div>
+      <div class="neon-line" style="top:0"></div>
+    </div>
+  </div>
+
+  <div class="login-divider"></div>
+
+  <div class="login-left">
+    <div class="avatar-circle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+      </svg>
+    </div>
+
+    <input class="login-input" type="text" placeholder="Email" id="loginEmail">
+    <input class="login-input" type="password" placeholder="Senha" id="loginPass">
+
+    <button class="login-btn" onclick="doLogin()">▶ ENTRAR</button>
+
+    <p style="font-family:var(--pixel-font);font-size:7px;color:rgba(255,255,255,0.4);cursor:pointer" onclick="doLogin()">
+      Não tem conta? Cadastrar
+    </p>
+  </div>
+
+  <div class="login-right">
+    <p class="social-login-title">Se preferir, entre com:</p>
+
+    <button class="social-btn" onclick="doLogin()">
+      <span>🎮</span> Continuar com Steam
+    </button>
+
+    <button class="social-btn" onclick="doLogin()" style="background:rgba(255,80,80,0.6)">
+      <span>🎯</span> Continuar com Google
+    </button>
+
+    <button class="social-btn" onclick="doLogin()" style="background:rgba(40,80,200,0.6)">
+      <span>💬</span> Continuar com Discord
+    </button>
+
+    <button class="social-btn" onclick="doLogin()" style="background:rgba(0,150,150,0.5)">
+      <span>🐦</span> Continuar com Twitter/X
+    </button>
+  </div>
+</div>
+
+<!-- script!!!!!! -->
+<script>
+function doLogin() {
+  const email = document.getElementById("loginEmail").value;
+  const senha = document.getElementById("loginPass").value;
+
+  console.log("Email:", email);
+  console.log("Senha:", senha);
+
+  if (!email || !senha) {
+    alert("Preencha todos os campos para continuar!");
+    return;
+  }
+
+  alert("Login capturado com sucesso (ainda sem backend completinho)
+
+</script>
+
+--> comentários:: creio que vincular um login de acesso com contas de outras plataformas sem pegarmos script exterior seja complicado... <--
+
+

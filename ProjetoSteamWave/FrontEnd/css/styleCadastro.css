@@ -1,0 +1,128 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 1. Primeiro, definimos a "receita" da animação no topo do seu CSS */
+@keyframes subirFade {
+    from {
+        opacity: 0;
+        transform: translateY(30px); /* Começa 30px abaixo */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);    /* Termina na posição original */
+    }
+}
+
+/* Ajustes no Body para centralizar e adicionar o fundo */
+body.main-container {
+    display: flex; 
+    justify-content: center; /* Centraliza na horizontal */
+    align-items: center; /* Centraliza na vertical */
+    min-height: 100vh; /* Garante que o body ocupe toda a altura da tela */
+    /*O linear-gradient deixa com um efeito degrade*/
+    background: linear-gradient(to bottom, #1b2838, #171a21);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 2. Agora aplicamos no seu container da Steam */
+.steam-auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(28, 31, 41, 0.98); 
+    padding: 60px 50px;
+    border-radius: 12px;
+    border: 2px; 
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0;
+}
+
+.auth-title {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+}
+
+.input-group {
+    margin-top: 9px; /*Para elas não se encostarem*/
+}
+
+.input-group label {
+    display: block;
+    color: whitesmoke;
+    font-size: 13px;
+    letter-spacing: 1px;/*Aumenta o espaço entre cada letra*/
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px;
+    background-color: #1e2129; /* Input bem escuro */
+    border-radius: 12px; /*Serve para arredondar as bordas*/
+    border: 1px solid #1e2129; /* Borda invisível inicialmente */
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+}
+
+/* Efeito de borda azul quando passar o mouse, o hover faz isso*/
+.input-group input:hover {
+    border-color: #1a9fff;
+}
+
+.action-area {
+    margin-top: 12px;
+}
+
+.btn-steam-primary {
+    width: 100%;
+    padding: 19px;
+    background: #1a9fff; 
+    border-radius: 50px;
+    border: 9px;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer; /*Transforma o cursor em uma mãozinha*/
+    letter-spacing: 1px;
+}
+
+.btn-steam-primary:hover {
+    background-color: #47bfff; 
+}
+
+.toggle-link {
+    color: #afb1b4; /* Link cinza discreto */
+    cursor: pointer;
+    display: block;
+    margin-top: 15px;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.toggle-link:hover {
+    color: white; /* Link fica branco no hover */
+}
+
+/* REGRA ESSENCIAL DE FUNCIONALIDADE */
+.hidden {
+    display: none !important;
+}
+
+/* Responsividade Básica */
+@media (max-width: 480px) {
+    .steam-auth-container {
+        padding: 40px 25px;
+    }
+    .auth-title {
+        font-size: 24px;
+    }
+}

@@ -1,0 +1,43 @@
+//Vamos pegar o botão de cadastrar
+const btnCadastrar = document.getElementById('btn-cadastrar');
+
+if (btnCadastrar) {
+    btnCadastrar.onclick = async () => {
+        const user = document.getElementById('reg-user').value;
+        const password = document.getElementById('reg-pass').value;
+        const CaracterEspecial = /[^a-zA-Z0-9]/; //Regra para simbolos
+
+        //Validação: Email @gmail, senha 8+ caracteres e ter caractere especial
+        if (!user.endsWith("@gmail.com") || password.length < 8 || !CaracterEspecial.test(password)) {
+            alert("O email deve ser @gmail.com, a senha deve ter 8+ caracteres e pelo menos um caractere especial!");
+            return;
+        } 
+
+        const dados = {
+            email: user,
+            password: password
+        };
+
+        try {
+            const response = await fetch("http://localhost:8080/Users", {
+                method: "POST", // <-- Aqui era "=", trocamos para ":"
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dados)
+            });
+
+            const resultado = await response.json();
+
+            if (response.status === 201) {
+                alert("Sucesso: " + resultado.message);
+                window.location.href = 'login.html'; 
+            } else {
+                alert("Erro: " + resultado.message);
+            }
+        } catch (error) {
+            console.error("Erro na requisição:", error);
+            alert("Não foi possível falar com o servidor. Verifique se o Go está rodando!");
+        }
+    };
+}

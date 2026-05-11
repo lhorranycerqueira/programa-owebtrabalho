@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Fonte para as letras, tiramos elaa do GoogleFont-->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styleLogin.css" />
+    <link rel="stylesheet" href="../css/styleLogin.css" />
     <title>SteamWave - login</title>
 </head>
 <body>
     <!--Div onde vai ter a animação, e onde faz o login -->
-    <div id="page-login" class="page active">
+    <div id="page-login" class="page-active">
         <!--Fundo animado -->
-        <div class="login-bg synth-bg" id="login-synth">
+        <div class="login-bg-synth-bg" id="login-synth">
             <!--Aqui teremos nossas estrelas, sera feito no JS-->
             <div class="stars" id="loginStars"></div>
             <div class="horizon">
@@ -26,13 +26,13 @@
         <!-- Lado Esquerdo: Login Form -->
         <div class="login-left">
             <div class="avatar-holder">
-                <img src="avatarGenerico.png" alt="User Avatar" class="avatar-img">
+                <img src="../assent/avatarGenerico.png" alt="User Avatar" class="avatar-img">
             </div>
             <!--Para para o Login -->
             <input class="login-input" type="text" placeholder="Email" id="loginEmail" />
             <input class="login-input" type="password" placeholder="Senha" id="loginPass" />
             <button class="login-btn" onclick="doLogin()"> <span class="span-entrar">▶ ENTRAR</span></button>
-            <p class="register-link">Não tem conta? <span onclick="goToRegister()">Cadastrar</span></p>
+            <p class="register-link">Não tem conta? <span onclick="goToRegister()"><a href="cadastro.html">Cadastrar</a></span></p>
         </div>
 
         <!-- Lado Direito: Social Login -->
@@ -57,6 +57,6 @@
     <!-- Componente de Toast (Aviso) -->
     <div class="toast" id="toast"></div>
 
-    <script src="scriptLogin.js"></script>
+    <script src="../js/scriptLogin.js"></script>
 </body>
 </html>

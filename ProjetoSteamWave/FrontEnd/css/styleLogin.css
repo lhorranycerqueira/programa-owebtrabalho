@@ -142,7 +142,9 @@ body {
   transition: 0.3s;
 }
 
-.login-input:focus { border-color: var(--neon-cyan); }
+.login-input:focus { 
+  border-color: var(--neon-cyan); 
+}
 
 .login-btn {
     width: 280px;

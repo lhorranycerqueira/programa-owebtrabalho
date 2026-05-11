@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steam - Autenticação</title>
+    <link rel="stylesheet" href="../css/styleCadastro.css">
+</head>
+<body class="main-container">
+    <div class="steam-auth-container">
+        <div id="register-section">
+            <h1 class="auth-title">CRIAR CONTA</h1>
+            
+            <div class="input-group">
+                <label for="reg-user">DIGITE SEU NOME DA CONTA</label>
+                <input type="text" id="reg-user" required autocomplete="username">
+            </div>
+
+            <div class="input-group">
+                <label for="reg-pass">DIGITE SUA SENHA</label>
+                <input type="password" id="reg-pass" required autocomplete="new-password">
+            </div>
+
+            <div class="action-area">
+                <button class="btn-steam-primary" id="btn-cadastrar">CADASTRAR</button>
+                <a href="login.html" class="toggle-link">Já tem uma conta? Iniciar sessão</a>
+            </div>
+        </div>
+    </div>
+    <script src="../js/scriptCadastro.js" defer></script>
+</body>
+</html>

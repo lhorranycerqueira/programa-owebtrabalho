@@ -48,6 +48,7 @@ function Login() {
 
     showToast(`Bem vindo`);
 }
+
 //Esse menssagem dentro é o paramentro
 //Ela serve para passarmos informaçoes para a func
 function showToast(messagem) {

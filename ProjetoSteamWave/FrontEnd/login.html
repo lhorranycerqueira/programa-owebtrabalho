@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Fonte para as letras, tiramos elaa do GoogleFont-->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styleLogin.css" />
+    <title>SteamWave - login</title>
+</head>
+<body>
+    <!--Div onde vai ter a animação, e onde faz o login -->
+    <div id="page-login" class="page active">
+        <!--Fundo animado -->
+        <div class="login-bg synth-bg" id="login-synth">
+            <!--Aqui teremos nossas estrelas, sera feito no JS-->
+            <div class="stars" id="loginStars"></div>
+            <div class="horizon">
+                <div class="grid-floor"></div>
+                <div class="neon-line"></div>
+            </div>
+        </div>
+
+        <div class="login-divider"></div>
+
+        <!-- Lado Esquerdo: Login Form -->
+        <div class="login-left">
+            <div class="avatar-holder">
+                <img src="avatarGenerico.png" alt="User Avatar" class="avatar-img">
+            </div>
+            <!-- Corrigido: Inputs agora estão dentro da login-left -->
+            <input class="login-input" type="text" placeholder="Email" id="loginEmail" />
+            <input class="login-input" type="password" placeholder="Senha" id="loginPass" />
+            <button class="login-btn" onclick="doLogin()">▶ ENTRAR</button>
+            <p class="register-link">Não tem conta? <span onclick="goToRegister()">Cadastrar</span></p>
+        </div>
+
+        <!-- Lado Direito: Social Login -->
+        <div class="login-right">
+            <p class="social-login-title">Se preferir, entre com:</p>
+            <button class="social-btn" onclick="socialLogin('Steam')">
+                <span>🎮</span> Continuar com Steam
+            </button>
+            <button class="social-btn btn-google" onclick="socialLogin('Google')">
+                <span>🎯</span> Continuar com Google
+            </button>
+            <button class="social-btn btn-discord" onclick="socialLogin('Discord')">
+                <span>💬</span> Continuar com Discord
+            </button>
+            <button class="social-btn btn-twitter" onclick="socialLogin('Twitter')">
+                <span>🐦</span> Continuar com Twitter/X
+            </button>
+        </div>
+    </div>
+    
+
+    <!-- Componente de Toast (Aviso) -->
+    <div class="toast" id="toast"></div>
+
+    <script src="scriptLogin.js"></script>
+</body>
+</html>

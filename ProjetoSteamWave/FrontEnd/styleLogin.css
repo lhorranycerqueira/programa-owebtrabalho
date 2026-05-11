@@ -1,0 +1,210 @@
+/*O * é para selecioar tudo, isso serve para deixar pafrão em todos os navegadores*/
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/*Isso é literalmente eu declarar uma variavel em css, em todos vão ter isso*/
+/*Deixa o codigo mais limpo*/
+:root {
+  --neon-pink: #ff00ff;
+  --neon-purple: #9b30ff;
+  --neon-cyan: #00eaff;
+  --dark-bg: #08000f;
+  --win-bg: #c0c0c0;
+  --pixel-font: "Press Start 2P", monospace; /*Essa fonte veio la do link do GoogleFont*/
+  --vt-font: "VT323", monospace;
+  --orb-font: "Orbitron", sans-serif;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--dark-bg);
+  font-family: var(--pixel-font);
+}
+
+/* ===== ANIMAÇÕES ===== */
+/*O keyframe faz aparecer suavemente na tela o que nos queremos, literalmente uma animação*/
+@keyframes starTwinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes gridFlow {
+  0% {
+    transform: perspective(400px) rotateX(45deg) translateY(0);
+  }
+  100% {
+    transform: perspective(400px) rotateX(45deg) translateY(80px);
+  }
+}
+
+/*Aqui sera a parte da DIV das animações de fundo*/
+.synth-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, #1a0040 0%, #08000f 60%);
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: starTwinkle var(--dur) var(--delay) infinite;
+}
+
+.grid-floor {
+  position: absolute;
+  bottom: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background-image:
+    linear-gradient(to bottom, transparent, rgba(180, 0, 255, 0.15)),
+    repeating-linear-gradient(90deg, rgba(200, 0, 255, 0.4) 0 1px, transparent 1px 80px),
+    repeating-linear-gradient(0deg, rgba(200, 0, 255, 0.4) 0 1px, transparent 1px 80px);
+  transform: perspective(400px) rotateX(50deg);
+  animation: gridFlow 4s linear infinite;
+}
+
+/*Elementos do login*/
+#page-login {
+  display: flex;
+  height: 100%;
+  position: relative;
+}
+
+.login-left, .login-right {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-left { 
+    width: 35%; 
+    gap: 15px; 
+    padding: 40px; 
+}
+
+.login-right { 
+    width: 65%; 
+    gap: 15px; 
+    padding: 60px; 
+}
+
+.avatar-holder {
+  width: 120px;
+  height: 120px;
+  border-radius: 40%;
+  border: 3px solid violet;
+  box-shadow: 0 0 15px white;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.avatar-img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+.login-divider {
+  position: absolute;
+  left: 35%;
+  top: 5%;
+  bottom: 5%;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, var(--neon-pink), var(--neon-purple), transparent);
+  z-index: 11;
+}
+
+.login-input {
+  width: 280px;
+  padding: 12px 20px;
+  background: rgba(80, 0, 160, 0.7);
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-family: var(--pixel-font);
+  font-size: 10px;
+  transition: 0.3s;
+}
+
+.login-input:focus { border-color: var(--neon-cyan); }
+
+.login-btn {
+    width: 280px;
+    padding: 12px;
+    border-radius: 15px;
+    border: none;
+    background: var(--neon-pink);
+    color: white;
+    font-family: var(--pixel-font);
+    cursor: pointer; /*Ele diz que o elemento é clicavel*/
+}
+
+.register-link span:hover {
+    color: #00ffff; /* Brilho ao passar o mouse*/
+}
+
+.social-login-title{
+    color: fuchsia;
+}
+
+.register-link{
+    color: fuchsia;
+}
+
+.social-btn {
+  width: 360px;
+  padding: 14px;
+  border-radius: 25px;
+  border: none;
+  background: rgba(100, 130, 255, 0.7);
+  color: white;
+  font-family: var(--orb-font);
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-google { 
+    background: rgba(255, 80, 80, 0.6); 
+}
+
+.btn-discord { 
+    background: rgba(40, 80, 200, 0.6); 
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(30, 0, 60, 0.95);
+  border: 1px solid var(--neon-purple);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 8px;
+  transform: translateX(150%);
+  transition: 0.4s;
+}
+
+.toast.show { 
+    transform: translateX(0); 
+}

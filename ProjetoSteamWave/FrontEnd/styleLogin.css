@@ -159,6 +159,10 @@ body {
     color: #00ffff; /* Brilho ao passar o mouse*/
 }
 
+.span-entrar:hover {
+  color: violet;
+}
+
 .social-login-title{
     color: fuchsia;
 }

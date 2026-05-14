@@ -40,7 +40,6 @@ func HandleCadastro(w http.ResponseWriter, r *http.Request) {
 	//Vai vir com o tipo Json, não tipo texto(text/plan)
 	w.Header().Add("Content-Type", "application/json")
 
-	//Se nao for metodo POST
 	if r.Method != "POST" {
 		//Se o método não for POST, envia uma mensagem de erro com
 		//json.NewEncoder(w).Encode(...)

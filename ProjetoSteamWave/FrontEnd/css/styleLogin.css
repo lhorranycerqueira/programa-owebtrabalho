@@ -38,42 +38,70 @@ body {
   }
 }
 
+/* ===== ANIMAÇÃO DO GRID INDO PARA O INFINITO ===== */
 @keyframes gridFlow {
   0% {
-    transform: perspective(400px) rotateX(45deg) translateY(0);
+    transform: rotateX(63deg) translateY(0);
   }
   100% {
-    transform: perspective(400px) rotateX(45deg) translateY(80px);
+    /* Move exatamente 80px (o tamanho do quadrado) para o loop ser perfeito */
+    transform: rotateX(63deg) translateY(80px);
   }
 }
 
-/*Aqui sera a parte da DIV das animações de fundo*/
 .synth-bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 30%, #1a0040 0%, #08000f 60%);
+  background: radial-gradient(ellipse at 50% 30%, #1a0040 0%, #08000f 70%);
   overflow: hidden;
+  z-index: 1;
 }
 
 .star {
   position: absolute;
   background: white;
   border-radius: 50%;
-  animation: starTwinkle var(--dur) var(--delay) infinite;
+  opacity: 0; /*deixa as estrelas "invisiveis" ao recarregar a pag*/
+  animation: starTwinkle var(--dur, 2s) var(--delay, 0s) infinite ease-in-out both;
 }
 
-.grid-floor {
+/* O contêiner cria o ambiente 3D e fica fixo na tela */
+/* O Horizonte cria a caixa de perspectiva 3D */
+.horizon {
   position: absolute;
   bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%; /* Controla a altura do horizonte na tela */
+  perspective: 350px; /* Quanto menor o número, mais "deitado" e 3D fica o grid */
+  perspective-origin: 50% 0%; /* Ponto de fuga centralizado no horizonte */
+  overflow: hidden;
+}
+
+/* O Grid que se move dentro do espaço 3D */
+.grid-floor {
+  position: absolute;
+  top: -60%;
   left: -50%;
   width: 200%;
-  height: 100%;
+  height: 200%;
   background-image:
-    linear-gradient(to bottom, transparent, rgba(180, 0, 255, 0.15)),
-    repeating-linear-gradient(90deg, rgba(200, 0, 255, 0.4) 0 1px, transparent 1px 80px),
-    repeating-linear-gradient(0deg, rgba(200, 0, 255, 0.4) 0 1px, transparent 1px 80px);
-  transform: perspective(400px) rotateX(50deg);
-  animation: gridFlow 4s linear infinite;
+    repeating-linear-gradient(90deg, rgba(200, 0, 255, 0.35) 0 1px, transparent 1px 80px),
+    repeating-linear-gradient(0deg, rgba(200, 0, 255, 0.35) 0 1px, transparent 1px 80px);
+  
+  transform-style: preserve-3d;
+  /* A animação precisa rodar o rotateX junto com o translateY */
+  animation: gridFlow 2.5s linear infinite; 
+}
+
+/* Máscara estática para o horizonte sumir suavemente sem dar saltos */
+.horizon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--dark-bg) 0%, transparent 45%);
+  z-index: 5;
+  pointer-events: none;
 }
 
 /*Elementos do login*/
@@ -157,6 +185,11 @@ body {
     cursor: pointer; /*Ele diz que o elemento é clicavel*/
 }
 
+.login-btn:hover{
+  filter:brightness(1.2);
+  transform: translateY(-2px);
+}
+
 .register-link span:hover {
     color: #00ffff; /* Brilho ao passar o mouse*/
 }
@@ -171,6 +204,7 @@ body {
 
 .register-link{
     color: fuchsia;
+    font-size: 1.3vh;
 }
 
 .social-btn {
@@ -182,11 +216,16 @@ body {
   color: white;
   font-family: var(--orb-font);
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+}
+
+.social-btn:hover {
+  filter: brightness(1.2); /* Dá o efeito de "highlight" clareando o botão */
+  transform: translateY(-2px); /* Dá um leve sobressalto para cima, bem sutil */
 }
 
 .btn-google { 

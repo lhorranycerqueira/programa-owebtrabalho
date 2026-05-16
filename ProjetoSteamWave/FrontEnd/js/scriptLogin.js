@@ -12,11 +12,11 @@ function createStar() {
 
         //Posição das estrelas
         // O Math.random(), gera um número decimal aleatório entre 0 e 1 .
-        const x = Math.random() * 90; // Posição vertical
-        const y = Math.random() * 42; // POsição Horizontal
-        const size = Math.random(1) * 3; //Define o tamnho(Largura que eles vão ter, e a altura tbm)
-        const duration = 2 + Math.random() * 2;
-        const delay = Math.random() * 3;
+        const x = Math.random() * 100; // Posição vertical
+        const y = Math.random() * 37; // POsição Horizontal
+        const size = Math.random( ) * 3; //Define o tamnho(Largura que eles vão ter, e a altura tbm)
+        const duration = 2 + Math.random() * 3;
+        const delay = -(Math.random() * 5);
 
         
         // Aplica a posição e o tamanho calculados à estrela usando CSS
@@ -26,8 +26,8 @@ function createStar() {
         star.style.height = `${size}px`;//A altura
         //O .style.setProperty deixa nos definir uma propriedade de estilo direto no codigo
         //O --dur so pode porque usamos o setProperty
-        star.style.setProperty = ('--dur', `${duration}s`); //Isso serve para ver o tempo 
-        star.style.setProperty = (`--delay`, `${delay}s`);
+        star.style.setProperty ('--dur', `${duration}s`); //Isso serve para ver o tempo 
+        star.style.setProperty (`--delay`, `${delay}s`);
 
 
         container.appendChild(star);

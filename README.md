@@ -11,6 +11,14 @@ as páginas serão: homepage, loja, biblioteca, perfil, login, configurações
 SteamWave 
 pensar na estrutura
 
+## Tecnologias e Ferramentas
+O que usamos no projeto:
+
+- **Back-End:** Go (Golang) — Escolhido por sua eficiência na construção de APIs RESTful.
+- **Front-End:** HTML e CSS usados para fazer os layouts modernos (CSS Grid/Flexbox) e JavaScript.
+- **Estilo e Design:** Conceito estético *Vaporwave* com referências a interfaces desktop clássicas e animações.
+- **Versionamento:** Git e GitHub para organização do código e integração entre a nossa equipe.
+
 ## anotações do que cada um está fazendo! (atualizem conforme forem fazendo por favor)
 carol: produzindo (e aprendendo como fazer) o back end do formulário do cadastro
 

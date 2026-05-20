@@ -1,0 +1,164 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --neon-pink: #ff00ff;
+  --neon-purple: #9b30ff;
+  --neon-cyan: #00eaff;
+  --neon-blue: #7b7bff;
+  --dark-bg: #080010;
+  --panel-bg: #1a0026; /* Cor do seu painel base */
+  --text-color: #ffffff;
+  --pixel-font: "Press Start 2P", monospace;
+  --orb-font: "Orbitron", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: var(--pixel-font);
+  color: var(--text-color);
+  background: #0a0010;
+}
+
+main {
+  background: var(--panel-bg);
+  border: 1px solid var(--neon-purple);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 10px;
+  color: var(--neon-cyan);
+}
+
+fieldset {
+  border-radius: 5px;
+  border: 1px solid var(--neon-purple);
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+fieldset h2 {
+  font-size: 20px;
+  color: var(--neon-pink);
+  margin-bottom: 15px;
+}
+
+.customer-privacy,
+.customer-status,
+.change-password,
+.customer-theme {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
+
+/* Esconde o checkbox real */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* O "fundo" do slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--dark-bg);
+  border: 1px solid var(--neon-blue);
+  border-radius: 25px;
+}
+
+/* O botão que desliza */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 17px;
+  width: 17px;
+  left: 4px;
+  bottom: 3px;
+  background-color: var(--neon-cyan);
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+/* Quando ativo (checked) */
+input:checked + .slider {
+  background-color: var(--neon-purple);
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+select,
+input[type="password"] {
+  background-color: var(--dark-bg);
+  border: 1px solid var(--neon-blue);
+  color: var(--text-color);
+  padding: 5px;
+  width: 180px;
+  outline: none;
+}
+
+.action-area{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 12px;
+}
+
+.toggle-link{
+  color: var(--neon-cyan);
+}
+.toggle-link:hover{
+  cursor: pointer;
+}
+
+.btn-alteracoes {
+  width: 100%;
+  margin-top: 10px;
+  background-color: transparent;
+  color: var(--neon-cyan);
+  font-size: 10px;
+  font-family: var(--pixel-font);
+  border-radius: 10px;
+  border: 1px solid var(--neon-cyan);
+  padding: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-alteracoes:hover {
+  background-color: var(--neon-cyan);
+  color: var(--dark-bg);
+}

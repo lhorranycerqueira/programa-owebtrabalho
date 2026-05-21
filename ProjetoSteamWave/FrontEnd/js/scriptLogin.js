@@ -34,7 +34,7 @@ function createStar() {
     }
 }
 
-function Login() {
+async function doLogin() {
     //Ele pega o que está digitado nos campos
     const email = document.getElementById("loginEmail").value;
     const password = document.getElementById("loginPass").value;
@@ -46,7 +46,30 @@ function Login() {
         return;
     }
 
-    showToast(`Bem vindo`);
+    const dados = {
+        email: email,
+        password: password,
+    };
+
+    try{
+        const response = await fetch("http://localhost:8080/Login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dados)
+        });
+
+        if (response.status == 200){
+            showToast("Login realizado");
+        } else {
+            const erro = await response.json();
+            showToast(erro.message);
+        }
+    } catch (error) {
+        showToast("Erro com o servido");
+        console.error("Erro", error);
+    }
 }
 
 //Esse menssagem dentro é o paramentro
@@ -57,7 +80,7 @@ function showToast(messagem) {
     toast.innerText = messagem;
     //Ele adiciona mais uma class do toast, não usamos o className aqui pq?
     //O className substitui todas as classes do elemento, ele iria apagar todos
-    toast.className.add("show");
+    toast.classList.add("show");
 
 
     // Define um temporizador: após 3 segundos (3000ms), remove a classe 'show'

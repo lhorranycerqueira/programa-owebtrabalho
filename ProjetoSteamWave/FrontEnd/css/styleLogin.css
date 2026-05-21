@@ -246,10 +246,13 @@ body {
   padding: 12px 20px;
   border-radius: 8px;
   font-size: 8px;
-  transform: translateX(150%);
   transition: 0.4s;
+  transform: translateX(150%);
+  z-index: 1;
 }
 
 .toast.show { 
-    transform: translateX(0); 
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
 }

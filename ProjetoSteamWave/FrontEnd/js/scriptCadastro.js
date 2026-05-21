@@ -20,7 +20,7 @@ if (btnCadastrar) {
 
         try {
             const response = await fetch("http://localhost:8080/Users", {
-                method: "POST", // <-- Aqui era "=", trocamos para ":"
+                method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },

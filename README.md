@@ -19,6 +19,30 @@ O que usamos no projeto:
 - **Estilo e Design:** Conceito estético *Vaporwave* com referências a interfaces desktop clássicas e animações.
 - **Versionamento:** Git e GitHub para organização do código e integração entre a nossa equipe.
 
+# Como rodar o projeto
+###  Pré-requisitos
+Ter instalado em sua máquina:
+* [Go (Golang)](https://go.dev/dl/)
+* **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** (Certifique-se de que o Docker esteja rodando antes de subir o banco)
+### Instalação de Dependências
+Abra o terminal na pasta do BackEnd do projeto e execute os comandos abaixo para baixar as dependências:
+```bash
+go get [github.com/go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)
+```
+```bash
+go get [github.com/joho/godotenv](https://github.com/joho/godotenv)
+```
+### Iniciando o Banco de Dados
+Suba o container do banco de dados com o Docker:
+```bash
+docker-compose up -d
+```
+### Inicie o BackEnd
+Após subir o banco, inicie o servido:
+```bash
+go run .
+``` 
+
 ## anotações do que cada um está fazendo! (atualizem conforme forem fazendo por favor)
 carol: produzindo (e aprendendo como fazer) o back end do formulário do cadastro
 
@@ -33,3 +57,7 @@ carol: produzindo (e aprendendo como fazer) o back end do formulário do cadastr
 - correção de bugs no grid de fundo da pagina do login
 - efeito de hover nos botões entrar e logins sociais 
 - correção de bugs no js no fade das estrelas
+
+## Atualização Rickelmy 21/05
+- **Docker**: Colquei nosso banco de dados no **Docker**.
+- **BackEnd**: Resolvi o problema de login.

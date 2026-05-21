@@ -1,25 +1,49 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
+
+	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/joho/godotenv"
 )
 
+// Go é meio estranho, mas isso serve para eu conseguir usar essa varivael em qualquer func
+// Se não fosse por causa da documentação do Go eu não ia saber que preciso colocar aqui
+var db *sql.DB
+
 func main() {
 	godotenv.Load()
 
+	var err error
+	db, err = sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/steamwave")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	err = db.Ping()
+	if err != nil {
+		log.Fatal("Não conectou no bd:", err)
+	}
+
+	//Isso é para eu saber se deu certo a conecção
+	fmt.Println("Conectou")
+
 	port := os.Getenv("PORT")
 
+	http.HandleFunc("/Login", HandleLogin)
 	http.HandleFunc("/Users", HandleCadastro)
 	http.ListenAndServe(":"+port, nil)
+
 }
 
 func HandleCadastro(w http.ResponseWriter, r *http.Request) {
-
 	// Sem isso, o navegador bloqueia a requisição vinda do seu HTML
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
@@ -66,6 +90,22 @@ func HandleCadastro(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
+
+	query := ("INSERT INTO steamwave.Cadastro (email, senha) VALUES (?, ?)")
+	res, err := db.Exec(query, user.Email, user.Password)
+
+	if err != nil {
+		log.Printf("Deu erro %v", err) //Aprendi da pior forma que aqui não pode se usar o log.Fatal(No exemplo tava usando um)
+		w.WriteHeader(500)
+		json.NewEncoder(w).Encode(Error{
+			Message: "Erro interno" + err.Error(),
+			Status:  500,
+		})
+		return
+	}
+	rowCount, err := res.RowsAffected()
+	fmt.Printf("User criado: %s\n", user.Email)
+	fmt.Printf("Se de ruim aparece aqui %d", rowCount)
 
 	fmt.Printf("Usuário criado %s\n", user.Email)
 

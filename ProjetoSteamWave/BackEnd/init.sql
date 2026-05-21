@@ -1,0 +1,8 @@
+USE steamwave;
+
+CREATE TABLE IF NOT EXISTS Cadastro (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(250) NOT NULL UNIQUE,
+    senha VARCHAR(30) NOT NULL
+);
+

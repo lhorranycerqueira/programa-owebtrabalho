@@ -27,10 +27,10 @@ Ter instalado em sua máquina:
 ### Instalação de Dependências
 Abra o terminal na pasta do BackEnd do projeto e execute os comandos abaixo para baixar as dependências:
 ```bash
-go get [github.com/go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)
+go get -u github.com/go-sql-driver/mysql
 ```
 ```bash
-go get [github.com/joho/godotenv](https://github.com/joho/godotenv)
+go get github.com/joho/godotenv
 ```
 ### Iniciando o Banco de Dados
 Suba o container do banco de dados com o Docker:

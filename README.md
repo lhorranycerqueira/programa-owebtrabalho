@@ -19,8 +19,12 @@ O que usamos no projeto:
 - **Estilo e Design:** Conceito estético *Vaporwave* com referências a interfaces desktop clássicas e animações.
 - **Versionamento:** Git e GitHub para organização do código e integração entre a nossa equipe.
 
-## anotações do que cada um está fazendo! (atualizem conforme forem fazendo por favor)
-carol: produzindo (e aprendendo como fazer) o back end do formulário do cadastro
+anotações do que cada um está fazendo! (atualizem conforme forem fazendo por favor)
+
+## Atualizações Carol 21/05
+- **Modal**: feito seguindo o padrão estético do site.
+- **JS e CSS do Modal**: feito também. o javascript seria back-end nesse caso...
+eu to chorando o rickelmy parece um personagem animado na aula da celide KKKMKKMKMKM
 
 ## Atualizações Rickelmy 11/05
 - **Arquitetura**: Separei os arquivos do projeto entre **Front-End** e **Back-End**.

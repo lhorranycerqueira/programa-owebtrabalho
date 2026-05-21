@@ -61,3 +61,8 @@ carol: produzindo (e aprendendo como fazer) o back end do formulário do cadastr
 ## Atualização Rickelmy 21/05
 - **Docker**: Colquei nosso banco de dados no **Docker**.
 - **BackEnd**: Resolvi o problema de login.
+
+## Atualizações Carol 21/05
+- **Modal**: feito seguindo o padrão estético do site.
+- **JS e CSS do Modal**: feito também. o javascript seria back-end nesse caso...
+eu to chorando o rickelmy parece um personagem animado na aula da celide KKKMKKMKMKM

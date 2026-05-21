@@ -62,6 +62,8 @@ async function doLogin() {
 
         if (response.status == 200){
             showToast("Login realizado");
+            //Agora o Login leva para a homepage
+            window.location.href = 'homepage.html'; 
         } else {
             const erro = await response.json();
             showToast(erro.message);

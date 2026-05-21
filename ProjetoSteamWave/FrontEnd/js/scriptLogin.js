@@ -63,7 +63,10 @@ async function doLogin() {
         if (response.status == 200){
             showToast("Login realizado");
             //Agora o Login leva para a homepage
-            window.location.href = 'homepage.html'; 
+            setTimeout (() => {
+                window.location.href = "homepage.html"; 
+            }, 1500);
+
         } else {
             const erro = await response.json();
             showToast(erro.message);

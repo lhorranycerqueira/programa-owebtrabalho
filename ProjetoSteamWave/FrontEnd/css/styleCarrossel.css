@@ -1,0 +1,134 @@
+#page-homenav {
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 0.4s ease;
+    display: flex;
+}
+.homenav-title {
+    font-family: var(--pixel-font);
+    font-size: 32px;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    z-index: 10;
+    animation: glowPulse 3s ease-in-out infinite;
+}
+.nav-cards-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex: 1;
+    z-index: 10;
+    padding: 20px;
+    perspective: 800px;
+}
+.nav-card {
+    background: var(--win-bg);
+    border: 2px solid #fff;
+    border-right-color: #444;
+    border-bottom-color: #444;
+    box-shadow:
+      inset 1px 1px 0 #dfdfdf,
+      3px 3px 0 #000;
+    width: 200px;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    margin: 0 -20px;
+    transform: scale(0.85) translateY(20px);
+       animation: winSlide 0.5s ease forwards;
+}
+.nav-card:nth-child(1) {
+    animation-delay: 0.1s;
+    z-index: 1;
+}
+.nav-card:nth-child(2) {
+    animation-delay: 0.15s;
+    z-index: 2;
+}
+.nav-card:nth-child(3) {
+    animation-delay: 0s;
+    z-index: 5;
+    transform: scale(1) translateY(0);
+}
+.nav-card:nth-child(4) {
+    animation-delay: 0.15s;
+    z-index: 2;
+}
+.nav-card:nth-child(5) {
+    animation-delay: 0.2s;
+    z-index: 1;
+}
+.nav-card.center-card {
+    width: 230px;
+    min-height: 290px;
+    z-index: 5;
+    transform: scale(1) translateY(0px);
+    box-shadow:
+      inset 1px 1px 0 #dfdfdf,
+      4px 4px 0 #000,
+      0 0 30px rgba(0, 50, 200, 0.4);
+}
+.nav-card:hover:not(.center-card) {
+    transform: scale(0.9) translateY(10px);
+    z-index: 3;
+}
+.nav-card.center-card:hover {
+    transform: scale(1.05) translateY(-5px);
+}
+.nav-card .win-titlebar {
+    display: flex;                  
+    justify-content: space-between; 
+    align-items: center;            
+    background-color: var(--win-title); 
+    color: white;                   
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 6px;
+}
+.nav-card-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(80, 0, 160, 0.7);
+    font-family: var(--pixel-font);
+    font-size: 11px;
+    text-align: center;
+    padding: 20px;
+    background: white;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.win-controls {
+    display: flex; /* Faz os botões ficarem lado a lado */
+    gap: 3px;      /* Cria um pequeno espaçamento de 3px entre cada botão */
+}
+/*estiliza os botões da barrinha azul*/
+.win-btn {
+    background: var(--win-bg); 
+    color: black;
+    border: 1px solid #fff;
+    border-right-color: #555;
+    border-bottom-color: #555;
+    font-size: 9px;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;  /* Impede o usuário de selecionar o texto do botão ao clicar */
+}
+/* Efeito de clique no botão (afunda de leve) */
+.win-btn:active {
+    border: 1px solid #555;
+    border-right-color: #fff;
+    border-bottom-color: #fff;
+    padding-top: 1px;
+    padding-left: 1px;
+}

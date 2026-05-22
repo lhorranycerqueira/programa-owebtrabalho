@@ -225,6 +225,63 @@
           0 0 20px var(--neon-purple);
       }
 
+      /* ===== WIN95 WINDOW ===== */
+      .win-window {
+        background: var(--win-bg);
+        border: 2px solid #fff;
+        border-right-color: #444;
+        border-bottom-color: #444;
+        box-shadow:
+          inset 1px 1px 0 #dfdfdf,
+          2px 2px 0 #000;
+        font-family: var(--pixel-font);
+      }
+      .win-titlebar {
+        background: var(--win-title);
+        color: white;
+        padding: 4px 6px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 10px;
+        letter-spacing: 1px;
+        user-select: none;
+      }
+      .win-controls {
+        display: flex;
+        gap: 3px;
+      }
+      .win-btn {
+        width: 18px;
+        height: 16px;
+        background: var(--win-bg);
+        border: 1px solid #fff;
+        border-right-color: #444;
+        border-bottom-color: #444;
+        box-shadow: inset 1px 1px 0 #dfdfdf;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 8px;
+        cursor: pointer;
+        color: #000;
+        font-family: var(--pixel-font);
+      }
+      .win-btn:hover {
+        background: #e0e0ff;
+      }
+      .win-content {
+        padding: 8px;
+        background: white;
+      }
+      .win-btn:active {
+        border: 1px solid #555;
+        border-right-color: #fff;
+        border-bottom-color: #fff;
+        padding-top: 1px;
+        padding-left: 1px;
+}
+
       /* ===== RETRO SUN LOGO ===== */
       .retro-sun {
         width: 120px;
@@ -289,4 +346,75 @@
       .user-icon-btn svg {
         width: 26px;
         height: 26px;
+      }
+
+            /* ========================
+   GLOBAL NAV BAR
+======================== */
+      .global-nav {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        background: rgba(10, 0, 20, 0.8);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(155, 48, 255, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        padding: 6px 0;
+        height: 44px;
+      }
+      .gnav-btn {
+        padding: 6px 16px;
+        color: rgba(255, 255, 255, 0.6);
+        font-family: var(--pixel-font);
+        font-size: 7px;
+        letter-spacing: 1px;
+        cursor: pointer;
+        border-radius: 4px;
+        border: none;
+        background: none;
+        transition: all 0.3s;
+        text-transform: uppercase;
+      }
+      .gnav-btn:hover {
+        color: white;
+        background: rgba(155, 48, 255, 0.3);
+      }
+      .gnav-btn.active {
+        color: var(--neon-cyan);
+        background: rgba(0, 234, 255, 0.1);
+        border-bottom: 2px solid var(--neon-cyan);
+      }
+      .gnav-separator {
+        width: 1px;
+        height: 20px;
+        background: rgba(155, 48, 255, 0.3);
+      }
+
+      /* toast notification */
+      .toast {
+        position: fixed;
+        bottom: 60px;
+        right: 20px;
+        z-index: 999;
+        background: rgba(30, 0, 60, 0.95);
+        border: 1px solid var(--neon-purple);
+        color: white;
+        font-family: var(--pixel-font);
+        font-size: 8px;
+        letter-spacing: 1px;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(155, 48, 255, 0.5);
+        transform: translateX(120%);
+        transition: transform 0.4s ease;
+        max-width: 280px;
+        line-height: 1.6;
+      }
+      .toast.show {
+        transform: translateX(0);
       }

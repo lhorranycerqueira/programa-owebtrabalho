@@ -1,4 +1,4 @@
-      document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
        // ===== STARS GENERATOR =====
       function generateStars(containerId, count = 80) {
         const c = document.getElementById(containerId);
@@ -21,4 +21,4 @@
       generateStars("loginStars", 100);
       generateStars("homeStars", 100);
       generateStars("homenavStars", 80);
-      });
+});

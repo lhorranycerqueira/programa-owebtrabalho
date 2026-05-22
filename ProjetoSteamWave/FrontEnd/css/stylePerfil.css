@@ -1,0 +1,255 @@
+#page-perfil {
+        flex-direction: column;
+        animation: fadeIn 0.4s ease;
+        display: flex;
+        justify-content: space-between;
+      }
+      .perfil-bg {
+        position: absolute;
+        inset: 0;
+        background: #2a1a50;
+      }
+      .desktop-area {
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+        bottom: 60px;
+      }
+      .desktop-icon {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 4px;
+        transition: background 0.2s;
+        width: 80px;
+        text-align: center;
+      }
+      .desktop-icon:hover {
+        background: rgba(155, 48, 255, 0.3);
+      }
+      .desktop-icon .icon-img {
+        font-size: 40px;
+        filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
+      }
+      .desktop-icon .icon-label {
+        font-family: var(--pixel-font);
+        font-size: 7px;
+        color: white;
+        text-shadow: 1px 1px 2px black;
+        word-break: break-word;
+        line-height: 1.4;
+      }
+      .pixel-folder {
+        font-size: 40px;
+      }
+
+      /* Windows on desktop */
+      .desktop-window {
+        position: absolute;
+        z-index: 10;
+        min-width: 300px;
+        animation: winSlide 0.3s ease;
+      }
+      .paint-window {
+        left: 38%;
+        top: 5%;
+        width: 520px;
+      }
+      .amigos-window {
+        right: 3%;
+        top: 28%;
+        width: 250px;
+      }
+      .profile-info-window {
+        left: 3%;
+        top: 5%;
+        width: 280px;
+      }
+      .activity-window {
+        left: 3%;
+        bottom: 10%;
+        width: 280px;
+      }
+
+      .paint-canvas {
+        width: 100%;
+        height: 250px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+      .paint-canvas-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 80px;
+      }
+      .paint-toolbar {
+        background: #c0c0c0;
+        padding: 4px;
+        display: flex;
+        gap: 2px;
+        border-bottom: 1px solid #888;
+        flex-wrap: wrap;
+      }
+      .paint-tool {
+        width: 24px;
+        height: 24px;
+        background: #c0c0c0;
+        border: 1px solid #fff;
+        border-right-color: #444;
+        border-bottom-color: #444;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .paint-tool:hover,
+      .paint-tool.active {
+        background: #a0a0a0;
+        border-color: #444;
+        border-right-color: #fff;
+        border-bottom-color: #fff;
+      }
+      .paint-statusbar {
+        background: #c0c0c0;
+        padding: 3px 6px;
+        font-family: var(--pixel-font);
+        font-size: 7px;
+        color: #333;
+        border-top: 1px solid #888;
+        display: flex;
+        gap: 10px;
+      }
+      .paint-palette {
+        background: #c0c0c0;
+        padding: 3px 6px;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        border-top: 1px solid #888;
+      }
+      .palette-color {
+        width: 16px;
+        height: 16px;
+        border: 1px solid #666;
+        cursor: pointer;
+      }
+
+      .amigos-list {
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .amigo-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px;
+        font-family: var(--pixel-font);
+        font-size: 8px;
+        color: #333;
+        cursor: pointer;
+        border-radius: 3px;
+        transition: background 0.2s;
+      }
+      .amigo-item:hover {
+        background: #e0e0ff;
+      }
+      .amigo-avatar {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+      }
+      .amigo-status {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-left: auto;
+        flex-shrink: 0;
+      }
+      .status-online {
+        background: #00cc00;
+      }
+      .status-away {
+        background: #ffaa00;
+      }
+      .status-offline {
+        background: #888;
+      }
+
+      .profile-stats {
+        padding: 10px;
+      }
+      .stat-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0;
+        border-bottom: 1px solid #eee;
+        font-family: var(--pixel-font);
+        font-size: 7px;
+      }
+      .stat-label {
+        color: #666;
+      }
+      .stat-val {
+        color: #000080;
+        font-weight: bold;
+      }
+      .profile-avatar-big {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(
+          135deg,
+          var(--neon-purple),
+          var(--neon-cyan)
+        );
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        margin: 10px auto;
+      }
+      .profile-name {
+        text-align: center;
+        font-family: var(--pixel-font);
+        font-size: 9px;
+        color: #000080;
+        padding-bottom: 8px;
+      }
+      .nav-btn-perfil {
+        width: 100%;
+        padding: 6px;
+        background: #000080;
+        color: white;
+        font-family: var(--pixel-font);
+        font-size: 7px;
+        border: none;
+        cursor: pointer;
+        margin-top: 2px;
+        text-align: center;
+        display: block;
+        transition: background 0.2s;
+        letter-spacing: 1px;
+      }
+      .nav-btn-perfil:hover {
+        background: #0000cc;
+      }

@@ -104,31 +104,3 @@
     letter-spacing: 2px;
     text-transform: uppercase;
 }
-.win-controls {
-    display: flex; /* Faz os botões ficarem lado a lado */
-    gap: 3px;      /* Cria um pequeno espaçamento de 3px entre cada botão */
-}
-/*estiliza os botões da barrinha azul*/
-.win-btn {
-    background: var(--win-bg); 
-    color: black;
-    border: 1px solid #fff;
-    border-right-color: #555;
-    border-bottom-color: #555;
-    font-size: 9px;
-    width: 14px;
-    height: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    user-select: none;  /* Impede o usuário de selecionar o texto do botão ao clicar */
-}
-/* Efeito de clique no botão (afunda de leve) */
-.win-btn:active {
-    border: 1px solid #555;
-    border-right-color: #fff;
-    border-bottom-color: #fff;
-    padding-top: 1px;
-    padding-left: 1px;
-}

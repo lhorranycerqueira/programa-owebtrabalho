@@ -61,6 +61,7 @@ go run .
 - **Docker**: Colquei nosso banco de dados no **Docker**.
 - **BackEnd**: Resolvi o problema de login.
 - **FrontEnd**: Atualizei para quando fizer login a pessoa ir para a homepage, o suporta tbm ir para a home page e depos configurei o que faltava para o carrossel.
+- **Adicionar**: Tem que colocar o light mode no Configuração.
 
 ## Atualizações Carol 21/05
 - **Modal**: feito seguindo o padrão estético do site.

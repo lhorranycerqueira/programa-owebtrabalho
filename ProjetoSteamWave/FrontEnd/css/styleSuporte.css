@@ -1,0 +1,335 @@
+
+
+   /* tirando margens e paddings para que o box-model considere borders e paddings no 
+   tamanho total do elemento */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* faz html e body ocuparem 100% da tela sem barra de rolagem externa */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0a0010; /* o fundo preto com roxo */
+}
+
+
+:root {
+  --neon-pink:   #ff00ff; /* rosa neon */
+  --neon-purple: #9b30ff; /* roxo neon */
+  --neon-cyan:   #00eaff; /* ciano neon */
+  --neon-blue:   #7b7bff; /* azul neon */
+  --dark-bg:     #08000f; /* fundo escuro */
+  --mid-purple:  #1a0030; /* roxo médio para fundos */
+  --win-bg:      #c0c0c0; /* cinza win95 */
+  --win-title:   #000080; /* azul marinho */
+
+  /* as fontes importadas do google */
+  --pixel-font: "Press Start 2P", monospace;
+  --vt-font:    "VT323",          monospace;
+  --orb-font:   "Orbitron",       sans-serif;
+}
+
+
+/* cada pagina eh uma div com a classe page, elas ficam ocultas por padrao
+e a classe active exibe a pagina atual em flex layout, e VAI OCUPAR TODA a tela ! */
+.page {
+  position: fixed;
+  inset: 0;          /* equivale a top:0; right:0; bottom:0; left:0 */
+  display: none;
+  overflow: hidden;
+}
+.page.active {
+  display: flex;     /* a página ativa ocupa toda a tela */
+}
+
+
+/* keyframes pra animações*/
+
+
+/* gradualmente do invisivel ao visivel */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* desliza de baixo para cima enquanto aparece */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* janela Win95: escala e sobe ao aparecer */
+@keyframes winSlide {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* piscando o brilho da borda entre roxo e rosa */
+@keyframes neonBorder {
+  0%, 100% {
+    box-shadow:
+      0 0 5px  var(--neon-purple),
+      0 0 15px var(--neon-purple);
+  }
+  50% {
+    box-shadow:
+      0 0 10px var(--neon-pink),
+      0 0 30px var(--neon-pink);
+  }
+}
+
+
+/* uma scrollbar neon, so deve rodar em chrome, safari e edge  
+FUNCIONOU NO MEU OPERA*/
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #1a0030; /* trilho roxo escuro */
+}
+::-webkit-scrollbar-thumb {
+  background: var(--neon-purple); /* roxo neon */
+  border-radius: 4px;
+}
+
+
+/* a janela win95 que é o container principal*/
+.win-window {
+  background: var(--win-bg);       /* cinza pWin95 */
+  border: 2px solid #fff;          /* borda clara pro efeito 3d */
+  border-right-color:  #444;       /* borda direita escura sombra */
+  border-bottom-color: #444;       /* borda inferior escura sombra */
+  box-shadow:
+    inset 1px 1px 0 #dfdfdf,       /* brilho interno */
+    2px 2px 0 #000;                /* sombra externa */
+  font-family: var(--pixel-font);
+}
+
+/* barra de titulo azul no topo da janela */
+.win-titlebar {
+  background: var(--win-title);    /* usando o var pra evitar repetição */
+  color: white;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  letter-spacing: 1px;
+  user-select: none;               /* impede seleção de texto ao clicar */
+}
+
+/* grupo dos botões minimizar/maximizar/fechar */
+.win-controls {
+  display: flex;
+  gap: 3px;
+}
+
+/* botões individuais (_, □, ✕) da titlebar */
+.win-btn {
+  width: 18px;
+  height: 16px;
+  background: var(--win-bg);
+  border: 1px solid #fff;
+  border-right-color:  #444;
+  border-bottom-color: #444;
+  box-shadow: inset 1px 1px 0 #dfdfdf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  cursor: pointer;
+  color: #000;
+  font-family: var(--pixel-font);
+}
+.win-btn:hover {
+  background: #e0e0ff; /* leve toque azulado ao passar o mouse */
+}
+
+
+/* ===== PAGE 8: SUPORTE =====
+container principal da pag de sup e vai centralizar o conteudo de forma vertical e horizontal */
+#page-suporte {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.4s ease; /* aparece suavemente usando fadein */
+}
+
+/* fundo azul escuro que preenche toda a página */
+.suporte-bg {
+  position: absolute;
+  inset: 0;
+  background: #0d1a30;
+}
+
+/* janela win95 central que tem o form e o faq*/
+.suporte-window {
+  width: 600px;
+  z-index: 10;
+  animation: winSlide 0.4s ease; /* entra com efeito de escala */
+}
+
+/* área branca do formulário de ticket */
+.suporte-form {
+  padding: 20px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* espaço entre os campos */
+}
+
+/* campos de texto e textarea do formulário */
+.suporte-input {
+  padding: 8px 12px;
+  border: 1px solid #999;
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  background: #f8f8f8; 
+  width: 100%;
+}
+/* borda azul win95 ao focar no campo */
+.suporte-input:focus {
+  outline: 2px solid #000080;
+}
+
+/* textarea específica para a mensagem detalhada */
+.suporte-textarea {
+  height: 100px;
+  resize: vertical; /* usuário pode redimensionar verticalmente */
+}
+
+/* btn de enviar ticket */
+.suporte-submit {
+  align-self: flex-end;            /* alinha a direita dentro do flex */
+  padding: 8px 20px;
+  background: #000080;          
+  color: white;
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  cursor: pointer;
+  border: 2px solid #fff;          /* borda clara pra dar efeito 3d */
+  border-right-color:  #444;       /* sombra direita */
+  border-bottom-color: #444;       /* sombra inferior */
+  transition: all 0.2s;
+}
+.suporte-submit:hover {
+  background: #0000cc; /* azul mais vivo no hover */
+}
+
+/* label de assunto e mensagem */
+.suporte-label {
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  color: #333;
+  margin-bottom: -6px; /* compensa o gap do flex para ficar colado ao input */
+}
+
+/* faq agora */
+.suporte-faq {
+  padding: 0 20px 16px;
+  background: white;
+}
+
+/* cada item do faq com q e a */
+.faq-item {
+  border-bottom: 1px solid #ddd; /* linha separadora */
+}
+
+/* linha clicável da pergunta */
+.faq-q {
+  padding: 10px 0;
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  cursor: pointer;
+  color: #000080;                  
+  display: flex;
+  justify-content: space-between;  /* pergunta à esquerda, seta à direita */
+  transition: color 0.2s;
+}
+.faq-q:hover {
+  color: #7b2fff; 
+}
+
+/* resposta colapsada por padrão */
+.faq-a {
+  display: none;
+  padding: 0 0 10px;
+  font-family: var(--vt-font);
+  font-size: 16px;
+  color: #333;
+}
+/* classe adicionada pelo js para expandir a resposta */
+.faq-a.open {
+  display: block;
+}
+
+
+/*botao de navegação da barra inferior */
+.gnav-btn {
+  padding: 6px 16px;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+  background: none;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+.gnav-btn:hover {
+  color: white;
+  background: rgba(155, 48, 255, 0.3);
+}
+
+.gnav-btn.active {
+  color: var(--neon-cyan);
+  background: rgba(0, 234, 255, 0.1);
+  border-bottom: 2px solid var(--neon-cyan);
+}
+
+
+/*
+   eh a toast a mensagem que aparece la no canto controlando pelo js na classe .show */
+.toast {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  z-index: 999;                           /* fica acima de tudo */
+  background: rgba(30, 0, 60, 0.95);     
+  border: 1px solid var(--neon-purple);
+  color: white;
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  letter-spacing: 1px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(155, 48, 255, 0.5);
+  transform: translateX(120%);            /* começa fora da tela (direita) */
+  transition: transform 0.4s ease;
+  max-width: 280px;
+  line-height: 1.6;
+}
+/* desliza para dentro da tela quando ativo */
+.toast.show {
+  transform: translateX(0);
+}

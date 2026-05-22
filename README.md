@@ -66,3 +66,7 @@ carol: produzindo (e aprendendo como fazer) o back end do formulário do cadastr
 - **Modal**: feito seguindo o padrão estético do site.
 - **JS e CSS do Modal**: feito também. o javascript seria back-end nesse caso...
 eu to chorando o rickelmy parece um personagem animado na aula da celide KKKMKKMKMKM
+
+## Atualizações Lhorrany 21/05
+- Separação da página de suporte
+- teste de banco de dados com node (so pra ver ne)

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrossel</title>
+    <!--linkagem de css e importação de fontes-->
+    <link rel="stylesheet" href="../css/root.css">
+    <link rel="stylesheet" href="../css/styleCarrossel.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Orbitron:wght@400;700;900&display=swap"
+      rel="stylesheet"/>
+    <script src="../js/scriptCarrossel.js" defer></script>
+</head>
+<body>
+<!--div que engloba toda a pagina do carrossel-->
+<div id="page-homenav" class="page">
+
+    <!--importando o fundo synth. classes no root.css-->
+    <div class="synth-bg">
+        <div class="stars" id="homenavStars"></div>
+        <div class="horizon">
+            <div class="grid-floor"></div>
+            <div class="neon-line" style="top: 0"></div>
+            <div class="neon-line" style="top: 60%"></div>
+         </div>
+    </div>
+    
+    <!--botão do icone de usuario com redirecionamento para pagina do perfil. classes no root.css-->
+    <button class="user-icon-btn" onclick="goTo('page-perfil')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+        </svg>
+    </button>
+    <h1 class="homenav-title" style="padding-top: 16px">SteamWave</h1>
+
+    <!--div que engloba todas as abas do carrossel-->
+    <div class="nav-cards-container">
+
+        <!--aba perfil do carrossel-->
+        <div class="nav-card" onclick="window.location.href='javascript:void(0)'">
+            <div class="win-titlebar">
+                <span>perfil.exe</span>
+                <div class="win-controls">
+                    <div class="win-btn">_</div>
+                    <div class="win-btn">□</div>
+                    <div class="win-btn">✕</div>
+                </div>
+            </div>
+            <div class="nav-card-body">👤<br /><br />PERFIL</div>
+        </div>
+
+        <!--aba loja do carrossel-->
+        <div class="nav-card" onclick="window.location.href='javascript:void(0)'">
+            <div class="win-titlebar">
+                <span>loja.exe</span>
+                <div class="win-controls">
+                    <div class="win-btn">_</div>
+                    <div class="win-btn">□</div>
+                    <div class="win-btn">✕</div>
+                </div>
+            </div>
+            <div class="nav-card-body">🛒<br /><br />LOJA</div>
+        </div>
+
+        <!--aba biblioteca do carrossel-->
+        <div class="nav-card center-card" onclick="window.location.href='javascript:void(0)'">
+            <div class="win-titlebar">
+                <span>BIBLIOTECA</span>
+                <div class="win-controls">
+                    <div class="win-btn">_</div>
+                    <div class="win-btn">□</div>
+                    <div class="win-btn">✕</div>
+                </div>
+            </div>
+            <div class="nav-card-body" style="font-size: 13px">
+            📚<br /><br />BIBLIOTECA
+            </div>
+        </div>
+
+        <!--aba config do carrossel-->
+        <div class="nav-card" onclick="window.location.href='Configuração.html'">
+            <div class="win-titlebar">
+                <span>config.exe</span>
+                <div class="win-controls">
+                    <div class="win-btn">_</div>
+                    <div class="win-btn">□</div>
+                    <div class="win-btn">✕</div>
+                </div>
+            </div>
+            <div class="nav-card-body">⚙️<br /><br />CONFIGURAÇÕES</div>
+        </div>
+
+        <!--aba suporte do carrossel-->
+        <div class="nav-card" onclick="window.location.href='suporte.html'">
+            <div class="win-titlebar">
+                <span>suporte.exe</span>
+                <div class="win-controls">
+                    <div class="win-btn">_</div>
+                    <div class="win-btn">□</div>
+                    <div class="win-btn">✕</div>
+                </div>
+            </div>
+            <div class="nav-card-body">❓<br /><br />SUPORTE</div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

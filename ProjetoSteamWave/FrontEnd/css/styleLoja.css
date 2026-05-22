@@ -1,0 +1,412 @@
+      /* ===== RESET & BASE (Extraído do principal) ===== */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #0a0010;
+      }
+      
+      :root {
+        --neon-pink: #ff00ff;
+        --neon-purple: #9b30ff;
+        --neon-cyan: #00eaff;
+        --neon-blue: #7b7bff;
+        --dark-bg: #08000f;
+        --mid-purple: #1a0030;
+        --win-bg: #c0c0c0;
+        --win-title: #000080;
+        --pixel-font: "Press Start 2P", monospace;
+        --vt-font: "VT323", monospace;
+        --orb-font: "Orbitron", sans-serif;
+      }
+
+      /* ===== ANIMATIONS NECESSÁRIAS ===== */
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes winSlide {
+        from {
+          opacity: 0;
+          transform: scale(0.8) translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+
+      /* ===== RETRO SUN LOGO ===== */
+      .retro-sun {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(to bottom, #00e5ff 0%, #7b2fff 50%, #ff00aa 100%);
+        animation: float 3s ease-in-out infinite;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .retro-sun.small {
+        width: 50px;
+        height: 50px;
+      }
+      .retro-sun.small::after {
+        display: none;
+      }
+
+      /* ===== WIN95 WINDOW ===== */
+      .win-window {
+        background: var(--win-bg);
+        border: 2px solid #fff;
+        border-right-color: #444;
+        border-bottom-color: #444;
+        box-shadow: inset 1px 1px 0 #dfdfdf, 2px 2px 0 #000;
+        font-family: var(--pixel-font);
+      }
+      .win-titlebar {
+        background: var(--win-title);
+        color: white;
+        padding: 4px 6px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 10px;
+        letter-spacing: 1px;
+        user-select: none;
+      }
+      .win-controls {
+        display: flex;
+        gap: 3px;
+      }
+      .win-btn {
+        width: 18px;
+        height: 16px;
+        background: var(--win-bg);
+        border: 1px solid #fff;
+        border-right-color: #444;
+        border-bottom-color: #444;
+        box-shadow: inset 1px 1px 0 #dfdfdf;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 8px;
+        cursor: pointer;
+        color: #000;
+        font-family: var(--pixel-font);
+      }
+      .win-btn:hover { background: #e0e0ff; }
+      .win-content { padding: 8px; background: white; }
+
+      /* ===== SCROLLBAR ===== */
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #1a0030; }
+      ::-webkit-scrollbar-thumb { background: var(--neon-purple); border-radius: 4px; }
+
+      /* ========================
+         LOJA ESPECÍFICO
+      ======================== */
+      .page-container {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        animation: fadeIn 0.4s ease;
+      }
+      .loja-bg {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #2a4070 0%, #6040a0 50%, #c060c0 100%);
+      }
+      .loja-grid-overlay {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(200, 100, 255, 0.15) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(200, 100, 255, 0.15) 1px, transparent 1px);
+        background-size: 50px 50px;
+      }
+      .loja-grid-overlay::after {
+        content: "";
+        position: absolute;
+        left: 22%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, transparent, rgba(255, 100, 200, 0.8), transparent);
+      }
+      .loja-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px;
+        z-index: 10;
+      }
+      .loja-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+      }
+      .loja-logo-text {
+        font-family: var(--pixel-font);
+        font-size: 12px;
+        color: white;
+      }
+      .loja-search { display: flex; align-items: center; gap: 8px; }
+      .search-toggle {
+        width: 80px;
+        height: 28px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #7b2fff, #00eaff);
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .search-toggle::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: white;
+        transition: left 0.3s;
+      }
+      .search-bar {
+        display: none;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 4px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+      }
+      .search-bar.open { display: flex; }
+      .search-bar input {
+        background: none;
+        border: none;
+        outline: none;
+        color: white;
+        font-family: var(--pixel-font);
+        font-size: 9px;
+        width: 150px;
+      }
+      .search-bar input::placeholder { color: rgba(255, 255, 255, 0.5); }
+      .loja-now-playing {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(200, 200, 200, 0.9);
+        border-radius: 25px;
+        padding: 8px 16px;
+        cursor: pointer;
+        font-family: var(--pixel-font);
+        font-size: 9px;
+        color: #333;
+        transition: all 0.3s;
+      }
+      .loja-now-playing:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      }
+      .headphone-icon { font-size: 20px; }
+      .loja-body {
+        display: flex;
+        flex: 1;
+        z-index: 10;
+        padding: 10px 20px 60px; /* added 60px bottom padding for global nav */
+        overflow: hidden;
+        gap: 16px;
+      }
+      .loja-sidebar {
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .sidebar-nav-btn {
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: white;
+        font-family: var(--pixel-font);
+        font-size: 8px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s;
+        letter-spacing: 1px;
+      }
+      .sidebar-nav-btn:hover {
+        background: rgba(155, 48, 255, 0.5);
+        border-color: var(--neon-purple);
+        box-shadow: 0 0 10px var(--neon-purple);
+      }
+      .sidebar-categories {
+        color: rgba(255, 255, 255, 0.6);
+        font-family: var(--pixel-font);
+        font-size: 7px;
+        padding: 10px 0 5px;
+        letter-spacing: 1px;
+      }
+      .loja-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        overflow-y: auto;
+      }
+      .loja-window {
+        background: var(--win-bg);
+        border: 2px solid #fff;
+        border-right-color: #444;
+        border-bottom-color: #444;
+        box-shadow: inset 1px 1px 0 #dfdfdf, 3px 3px 0 #000;
+        animation: winSlide 0.4s ease;
+      }
+      .game-card {
+        display: flex;
+        gap: 12px;
+        padding: 10px;
+        background: white;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .game-card:hover { background: #f0f0ff; }
+      .game-thumb {
+        width: 120px;
+        height: 70px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        border: 1px solid #999;
+      }
+      .game-info { flex: 1; }
+      .game-title {
+        font-family: var(--pixel-font);
+        font-size: 9px;
+        color: #000080;
+        margin-bottom: 6px;
+      }
+      .game-desc {
+        font-family: var(--vt-font);
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 8px;
+      }
+      .game-price {
+        font-family: var(--pixel-font);
+        font-size: 8px;
+        color: #006600;
+        background: #ccffcc;
+        padding: 3px 8px;
+        border-radius: 3px;
+        display: inline-block;
+      }
+      .game-tags {
+        display: flex;
+        gap: 4px;
+        margin-top: 6px;
+        flex-wrap: wrap;
+      }
+      .game-tag {
+        font-family: var(--vt-font);
+        font-size: 12px;
+        padding: 2px 6px;
+        background: rgba(100, 0, 200, 0.1);
+        border: 1px solid rgba(100, 0, 200, 0.3);
+        border-radius: 3px;
+        color: #500080;
+      }
+
+      /* ========================
+         GLOBAL NAV BAR
+      ======================== */
+      .global-nav {
+        position: fixed; /* Alterado para fixed para ficar independente */
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        background: rgba(10, 0, 20, 0.8);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(155, 48, 255, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        padding: 6px 0;
+        height: 44px;
+      }
+      .gnav-btn {
+        padding: 6px 16px;
+        color: rgba(255, 255, 255, 0.6);
+        font-family: var(--pixel-font);
+        font-size: 7px;
+        letter-spacing: 1px;
+        cursor: pointer;
+        border-radius: 4px;
+        border: none;
+        background: none;
+        transition: all 0.3s;
+        text-transform: uppercase;
+      }
+      .gnav-btn:hover {
+        color: white;
+        background: rgba(155, 48, 255, 0.3);
+      }
+      .gnav-btn.active {
+        color: var(--neon-cyan);
+        background: rgba(0, 234, 255, 0.1);
+        border-bottom: 2px solid var(--neon-cyan);
+      }
+      .gnav-separator {
+        width: 1px;
+        height: 20px;
+        background: rgba(155, 48, 255, 0.3);
+      }
+
+      /* ========================
+         TOAST NOTIFICATION
+      ======================== */
+      .toast {
+        position: fixed;
+        bottom: 60px;
+        right: 20px;
+        z-index: 999;
+        background: rgba(30, 0, 60, 0.95);
+        border: 1px solid var(--neon-purple);
+        color: white;
+        font-family: var(--pixel-font);
+        font-size: 8px;
+        letter-spacing: 1px;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(155, 48, 255, 0.5);
+        transform: translateX(120%);
+        transition: transform 0.4s ease;
+        max-width: 280px;
+        line-height: 1.6;
+      }
+      .toast.show {
+        transform: translateX(0);
+      }

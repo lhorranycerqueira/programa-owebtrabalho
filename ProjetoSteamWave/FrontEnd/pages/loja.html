@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loja - SteamWave</title>
+        <!-- Importação do CSS separado -->
+    <link rel="stylesheet" href="../css/styleLoja.css">
+        <!-- Fontes externas -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="loja-bg"></div>
+      <div class="loja-grid-overlay"></div>
+      
+      <!-- HEADER LOJA -->
+      <div class="loja-header">
+        <div class="loja-logo" onclick="goTo('steamwave.html')">
+          <div class="retro-sun small"></div>
+          <span class="loja-logo-text">SteamWave</span>
+        </div>
+        <div class="loja-search">
+          <div
+            class="search-toggle"
+            id="searchToggle"
+            onclick="toggleSearch()"
+            title="Pesquisar"
+          ></div>
+          <div class="search-bar" id="searchBar">
+            <span style="color: white; font-size: 14px">🔍</span>
+            <input type="text" placeholder="Buscar jogos..." />
+          </div>
+        </div>
+        <div
+          class="loja-now-playing"
+          onclick="showToast('🎵 Reproduzindo: Neon Dreams - SynthWave Radio')"
+        >
+          <span class="headphone-icon">🎧</span>
+          <span>Você está escutando:</span>
+        </div>
+      </div>
+
+      <!-- CORPO DA LOJA (Sidebar + Main) -->
+      <div class="loja-body">
+        
+        <!-- SIDEBAR -->
+        <div class="loja-sidebar">
+          <button class="sidebar-nav-btn" onclick="goTo('../frontend/steamwave.html')">
+            👤 Perfil
+          </button>
+          <button class="sidebar-nav-btn" onclick="goTo('./biblioteca.html')">
+            📚 Biblioteca
+          </button>
+          <button class="sidebar-nav-btn" onclick="goTo('./homepage.html')">
+            🏠 Home
+          </button>
+          <button class="sidebar-nav-btn" onclick="goTo('./Configuração.html')">
+            ⚙️ Configs
+          </button>
+          <div class="sidebar-categories">CATEGORIAS</div>
+          <button class="sidebar-nav-btn" style="font-size: 7px">🎮 Ação</button>
+          <button class="sidebar-nav-btn" style="font-size: 7px">🧩 Puzzle</button>
+          <button class="sidebar-nav-btn" style="font-size: 7px">⚔️ RPG</button>
+          <button class="sidebar-nav-btn" style="font-size: 7px">🚀 Sci-Fi</button>
+          <button class="sidebar-nav-btn" style="font-size: 7px">👾 Retro</button>
+        </div>
+
+        <!-- MAIN CONTENT (Jogos) -->
+        <div class="loja-main">
+          
+          <!-- Destaques -->
+          <div class="loja-window">
+            <div class="win-titlebar">
+              <span>🌟 DESTAQUES DA SEMANA</span>
+              <div class="win-controls">
+                <div class="win-btn">_</div>
+                <div class="win-btn">□</div>
+                <div
+                  class="win-btn"
+                  onclick="this.closest('.loja-window').style.display = 'none'"
+                >✕</div>
+              </div>
+            </div>
+            <div class="win-content" style="padding: 0">
+              <div class="game-card" onclick="goTo('steamwave.html')">
+                <div class="game-thumb">🐱</div>
+                <div class="game-info">
+                  <div class="game-title">NeonCat Chronicles</div>
+                  <div class="game-desc">Aventura cyberpunk com gatos no espaço profundo</div>
+                  <span class="game-price">R$ 29,99</span>
+                  <div class="game-tags">
+                    <span class="game-tag">Ação</span>
+                    <span class="game-tag">Retro</span>
+                    <span class="game-tag">Gatos</span>
+                  </div>
+                </div>
+              </div>
+              <div class="game-card" onclick="goTo('steamwave.html')">
+                <div class="game-thumb" style="background: linear-gradient(135deg, #ff6b6b, #feca57)">🌌</div>
+                <div class="game-info">
+                  <div class="game-title">Vaporworld Online</div>
+                  <div class="game-desc">MMO no mundo vaporwave — explore dimensões de synth</div>
+                  <span class="game-price">R$ 49,99</span>
+                  <div class="game-tags">
+                    <span class="game-tag">MMO</span>
+                    <span class="game-tag">Synthwave</span>
+                  </div>
+                </div>
+              </div>
+              <div class="game-card" onclick="goTo('steamwave.html')">
+                <div class="game-thumb" style="background: linear-gradient(135deg, #48dbfb, #ff9ff3)">🤖</div>
+                <div class="game-info">
+                  <div class="game-title">RetroBot Uprising</div>
+                  <div class="game-desc">Plataforma pixel art com robôs dos anos 80</div>
+                  <span class="game-price">R$ 19,90</span>
+                  <div class="game-tags">
+                    <span class="game-tag">Plataforma</span>
+                    <span class="game-tag">Pixel</span>
+                    <span class="game-tag">Robôs</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mais vendidos -->
+          <div class="loja-window">
+            <div class="win-titlebar">
+              <span>🔥 MAIS VENDIDOS</span>
+              <div class="win-controls">
+                <div class="win-btn">_</div>
+                <div class="win-btn">□</div>
+                <div
+                  class="win-btn"
+                  onclick="this.closest('.loja-window').style.display = 'none'"
+                >✕</div>
+              </div>
+            </div>
+            <div class="win-content" style="padding: 0">
+              <div class="game-card" onclick="goTo('steamwave.html')">
+                <div class="game-thumb" style="background: linear-gradient(135deg, #2d3561, #c05c7e)">🎸</div>
+                <div class="game-info">
+                  <div class="game-title">SynthRacer 84</div>
+                  <div class="game-desc">Corridas neon em pistas holográficas</div>
+                  <span class="game-price">R$ 39,99</span>
+                  <div class="game-tags">
+                    <span class="game-tag">Corrida</span>
+                    <span class="game-tag">Neon</span>
+                  </div>
+                </div>
+              </div>
+              <div class="game-card" onclick="goTo('steamwave.html')">
+                <div class="game-thumb" style="background: linear-gradient(135deg, #0f3460, #e94560)">🗡️</div>
+                <div class="game-info">
+                  <div class="game-title">Pixel Dungeon X</div>
+                  <div class="game-desc">Roguelike com estética de Windows 95</div>
+                  <span class="game-price">R$ 14,99</span>
+                  <div class="game-tags">
+                    <span class="game-tag">RPG</span>
+                    <span class="game-tag">Roguelike</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+      <!-- MENU DE NAVEGAÇÃO GLOBAL INFREIOR -->
+      <div class="global-nav">
+        <button class="gnav-btn" onclick="goTo('./homepage.html')">🏠 Home</button>
+        <div class="gnav-separator"></div>
+        <button class="gnav-btn active">🛒 Loja</button>
+        <div class="gnav-separator"></div>
+        <button class="gnav-btn" onclick="goTo('./biblioteca.html')">📚 Biblioteca</button>
+        <div class="gnav-separator"></div>
+        <button class="gnav-btn" onclick="goTo('./perfil.html')">👤 Perfil</button>
+        <div class="gnav-separator"></div>
+        <button class="gnav-btn" onclick="goTo('./Configuração.html')">⚙️ Config</button>
+        <div class="gnav-separator"></div>
+        <button class="gnav-btn" onclick="goTo('./suporte.html')">❓ Suporte</button>
+      </div>
+    </div>
+
+    <!-- CAIXA DE MENSAGENS (Toast) -->
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/scriptLoja.js"></script>
+  </body>
+</html>

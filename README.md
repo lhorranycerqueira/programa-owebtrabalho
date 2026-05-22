@@ -75,3 +75,10 @@ eu to chorando o rickelmy parece um personagem animado na aula da celide KKKMKKM
 ## Atualizações Rodrigo 21/05
 - Separação da loja
 - Separação da biblioteca (com todas as linguagens no msm arquivo)
+
+## Atualizações math 21/05:
+- separação das paginas homepage, perfil e carrossel
+- mudança de identação e comentarios nos arquivos separados 
+- atualização de redirecionamentos nos arquivos da loja e da biblioteca e do carrossel
+- adição de arquivo root contendo as funçoes globais de css (que serão usadas em grande parte das pags confiram o arquivo antes de fzr qlqr css!!!)
+- ps louie deleta a função goto do css da pag de suporte, nao vai precisar, btw nao sei se arrumei os redirecionamentos da sua pag da uma olhada la

@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SteamWave — Teste de Suporte</title>
+
+  <!-- Fonte pixel retro (igual ao projeto original) -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* ===== BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: #0d1a30;          /* fundo azul escuro igual ao suporte original */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 16px;
+      gap: 24px;
+      font-family: "Press Start 2P", monospace;
+
+      /* grade sutil de fundo */
+      background-image:
+        repeating-linear-gradient(0deg,   rgba(0,100,200,.05) 0px, transparent 1px, transparent 40px),
+        repeating-linear-gradient(90deg,  rgba(0,100,200,.05) 0px, transparent 1px, transparent 40px);
+    }
+
+    /* ===== TÍTULO DA PÁGINA ===== */
+    h1 {
+      color: white;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px #9b30ff, 0 0 20px #9b30ff;
+    }
+    h1 span { color: #00eaff; }
+
+    /* ===== JANELA WIN95 ===== */
+    .win-window {
+      width: 100%;
+      max-width: 600px;
+      background: #c0c0c0;
+      border: 2px solid #fff;
+      border-right-color:  #444;
+      border-bottom-color: #444;
+      box-shadow: inset 1px 1px 0 #dfdfdf, 3px 3px 0 #000;
+    }
+
+    /* Barra de título azul */
+    .win-titlebar {
+      background: #000080;
+      color: white;
+      padding: 5px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      user-select: none;
+    }
+    .win-controls { display: flex; gap: 3px; }
+    .win-btn {
+      width: 18px; height: 16px;
+      background: #c0c0c0;
+      border: 1px solid #fff;
+      border-right-color: #444; border-bottom-color: #444;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; cursor: pointer;
+    }
+    .win-btn:hover { background: #e0e0ff; }
+
+    /* ===== FORMULÁRIO ===== */
+    .form-body {
+      padding: 20px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    label {
+      font-size: 8px;
+      color: #333;
+      margin-bottom: -6px;
+    }
+
+    input, textarea {
+      padding: 8px 12px;
+      border: 1px solid #999;
+      font-family: "Press Start 2P", monospace;
+      font-size: 8px;
+      background: #f8f8f8;
+      width: 100%;
+    }
+    input:focus, textarea:focus { outline: 2px solid #000080; }
+
+    textarea { height: 100px; resize: vertical; }
+
+    /* Botão de envio */
+    .btn-enviar {
+      align-self: flex-end;
+      padding: 9px 22px;
+      background: #000080;
+      color: white;
+      font-family: "Press Start 2P", monospace;
+      font-size: 8px;
+      border: 2px solid #fff;
+      border-right-color: #444; border-bottom-color: #444;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-enviar:hover  { background: #0000cc; }
+    .btn-enviar:disabled { background: #888; cursor: not-allowed; }
+
+    /* ===== PAINEL DE RESPOSTA DA API ===== */
+    /* Exibe o retorno do servidor após enviar o ticket */
+    .resultado {
+      width: 100%;
+      max-width: 600px;
+      display: none;              /* oculto até receber resposta */
+      flex-direction: column;
+      gap: 8px;
+    }
+    .resultado.visivel { display: flex; }
+
+    .resultado-titulo {
+      font-size: 9px;
+      letter-spacing: 1px;
+    }
+    .resultado-titulo.ok    { color: #00cc00; }
+    .resultado-titulo.erro  { color: #ff4444; }
+
+    /* Caixa com os dados retornados formatados em JSON */
+    .resultado-json {
+      background: #0a0a0a;
+      color: #00ff88;
+      font-family: "VT323", monospace;
+      font-size: 16px;
+      padding: 14px;
+      border: 1px solid #00ff88;
+      border-radius: 4px;
+      white-space: pre-wrap;      /* mantém quebras de linha do JSON */
+      word-break: break-all;
+    }
+
+    /* Link para visualizar o e-mail no Ethereal */
+    .link-email {
+      font-family: "VT323", monospace;
+      font-size: 18px;
+      color: #00eaff;
+      text-decoration: none;
+      padding: 8px 12px;
+      border: 1px solid #00eaff;
+      border-radius: 4px;
+      align-self: flex-start;
+      transition: background .2s;
+    }
+    .link-email:hover { background: rgba(0,234,255,.1); }
+
+    /* ===== TABELA DE TICKETS SALVOS ===== */
+    .tabela-wrap {
+      width: 100%;
+      max-width: 600px;
+    }
+    .tabela-titulo {
+      font-size: 9px;
+      color: white;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      font-family: "VT323", monospace;
+      font-size: 15px;
+    }
+    th {
+      background: #000080;
+      color: white;
+      padding: 6px 10px;
+      text-align: left;
+      font-family: "Press Start 2P", monospace;
+      font-size: 7px;
+    }
+    td {
+      padding: 7px 10px;
+      border-bottom: 1px solid #ddd;
+      color: #333;
+      word-break: break-word;
+    }
+    tr:nth-child(even) td { background: #f5f5ff; }
+
+    /* Badge de status */
+    .badge {
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 13px;
+    }
+    .badge-aberto   { background: #ccffcc; color: #006600; }
+
+    /* Botão para recarregar a tabela */
+    .btn-recarregar {
+      font-family: "Press Start 2P", monospace;
+      font-size: 7px;
+      padding: 7px 14px;
+      background: rgba(155,48,255,.3);
+      color: white;
+      border: 1px solid #9b30ff;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 10px;
+      transition: background .2s;
+    }
+    .btn-recarregar:hover { background: rgba(155,48,255,.6); }
+
+    /* Toast de notificação */
+    .toast {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      background: rgba(30,0,60,.95);
+      border: 1px solid #9b30ff;
+      color: white;
+      font-size: 8px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(155,48,255,.5);
+      transform: translateX(120%);
+      transition: transform .4s ease;
+      max-width: 280px;
+      line-height: 1.6;
+      z-index: 999;
+    }
+    .toast.show { transform: translateX(0); }
+  </style>
+</head>
+
+<body>
+
+  <!-- ========== TÍTULO ========== -->
+  <h1>❓ SUPORTE <span>STEAMWAVE</span> — TESTE</h1>
+
+  <!-- ========== JANELA DO FORMULÁRIO ========== -->
+  <div class="win-window">
+
+    <!-- Barra de título Win95 -->
+    <div class="win-titlebar">
+      <span>📋 Abrir Ticket de Suporte</span>
+      <div class="win-controls">
+        <div class="win-btn">_</div>
+        <div class="win-btn">□</div>
+        <div class="win-btn">✕</div>
+      </div>
+    </div>
+
+    <!-- Formulário -->
+    <div class="form-body">
+
+      <label for="email">Seu E-mail</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="voce@exemplo.com"
+      />
+
+      <label for="assunto">Assunto</label>
+      <input
+        id="assunto"
+        type="text"
+        placeholder="Descreva o problema em poucas palavras"
+      />
+
+      <label for="mensagem">Mensagem</label>
+      <textarea
+        id="mensagem"
+        placeholder="Detalhe seu problema aqui..."
+      ></textarea>
+
+      <!-- Chama enviarTicket() ao clicar -->
+      <button class="btn-enviar" id="btnEnviar" onclick="enviarTicket()">
+        ENVIAR TICKET
+      </button>
+
+    </div>
+  </div>
+
+
+  <!-- ========== RESULTADO DA API ========== -->
+  <!-- Fica oculto até o servidor responder -->
+  <div class="resultado" id="resultado">
+
+    <p class="resultado-titulo" id="resultadoTitulo"></p>
+
+    <!-- JSON retornado pelo servidor (ticket salvo + status do e-mail) -->
+    <pre class="resultado-json" id="resultadoJson"></pre>
+
+    <!-- Link para ver o e-mail no Ethereal (aparece só quando há preview) -->
+    <a
+      class="link-email"
+      id="linkEmail"
+      href="#"
+      target="_blank"
+      style="display:none"
+    >
+      📨 Ver e-mail enviado no Ethereal →
+    </a>
+
+  </div>
+
+
+  <!-- ========== TABELA DE TICKETS SALVOS ========== -->
+  <div class="tabela-wrap">
+    <p class="tabela-titulo">📦 TICKETS SALVOS (tickets.json)</p>
+
+    <!-- Botão para buscar os tickets novamente do servidor -->
+    <button class="btn-recarregar" onclick="carregarTickets()">
+      ↺ RECARREGAR LISTA
+    </button>
+
+    <!-- Tabela preenchida dinamicamente pelo JS -->
+    <table id="tabelaTickets">
+      <thead>
+        <tr>
+          <th>#ID</th>
+          <th>E-MAIL</th>
+          <th>ASSUNTO</th>
+          <th>DATA</th>
+          <th>STATUS</th>
+        </tr>
+      </thead>
+      <tbody id="corpoTabela">
+        <tr>
+          <td colspan="5" style="text-align:center;color:#999">
+            Clique em "Recarregar Lista" para ver os tickets
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- Toast de notificação rápida -->
+  <div class="toast" id="toast"></div>
+
+
+  <script>
+    // ===== TOAST =====
+    // Exibe uma mensagem flutuante por 3 segundos
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove("show"), 3000);
+    }
+
+
+    // ===== ENVIAR TICKET =====
+    // Faz POST /api/ticket com os dados do formulário
+    // e exibe a resposta do servidor na seção #resultado
+    async function enviarTicket() {
+      const email    = document.getElementById("email").value.trim();
+      const assunto  = document.getElementById("assunto").value.trim();
+      const mensagem = document.getElementById("mensagem").value.trim();
+
+      // Validação no cliente antes de enviar
+      if (!email || !assunto || !mensagem) {
+        showToast("⚠️ Preencha todos os campos!");
+        return;
+      }
+
+      // Desabilita o botão para evitar cliques duplos
+      const btn = document.getElementById("btnEnviar");
+      btn.disabled   = true;
+      btn.textContent = "ENVIANDO...";
+
+      try {
+        // Faz a requisição para o servidor Node.js
+        const resposta = await fetch("/api/ticket", {
+          method:  "POST",
+          headers: { "Content-Type": "application/json" },
+          body:    JSON.stringify({ email, assunto, mensagem }),
+        });
+
+        const dados = await resposta.json();
+
+        // Exibe o resultado na tela
+        exibirResultado(dados, resposta.ok);
+
+        if (resposta.ok) {
+          showToast("✅ Ticket enviado com sucesso!");
+          limparFormulario();
+          carregarTickets(); // atualiza a tabela automaticamente
+        } else {
+          showToast("❌ Erro: " + (dados.erro || "tente novamente"));
+        }
+
+      } catch (err) {
+        // Erro de conexão (servidor fora do ar, etc.)
+        exibirResultado({ erro: "Não foi possível conectar ao servidor. Ele está rodando?" }, false);
+        showToast("❌ Servidor não encontrado!");
+      } finally {
+        // Reabilita o botão independentemente do resultado
+        btn.disabled    = false;
+        btn.textContent = "ENVIAR TICKET";
+      }
+    }
+
+
+    // ===== EXIBIR RESULTADO =====
+    // Mostra o JSON retornado pelo servidor e o link do Ethereal
+    function exibirResultado(dados, sucesso) {
+      const secao   = document.getElementById("resultado");
+      const titulo  = document.getElementById("resultadoTitulo");
+      const jsonBox = document.getElementById("resultadoJson");
+      const linkBtn = document.getElementById("linkEmail");
+
+      secao.classList.add("visivel"); // torna a seção visível
+
+      // Título com cor indicando sucesso ou erro
+      if (sucesso) {
+        titulo.textContent = "✅ RESPOSTA DO SERVIDOR:";
+        titulo.className   = "resultado-titulo ok";
+      } else {
+        titulo.textContent = "❌ ERRO:";
+        titulo.className   = "resultado-titulo erro";
+      }
+
+      // Formata o JSON com indentação para leitura fácil
+      jsonBox.textContent = JSON.stringify(dados, null, 2);
+
+      // Exibe o link de preview do Ethereal se disponível
+      if (dados.emailPreview) {
+        linkBtn.href          = dados.emailPreview;
+        linkBtn.style.display = "inline-block";
+      } else {
+        linkBtn.style.display = "none";
+      }
+    }
+
+
+    // ===== LIMPAR FORMULÁRIO =====
+    function limparFormulario() {
+      document.getElementById("email").value    = "";
+      document.getElementById("assunto").value  = "";
+      document.getElementById("mensagem").value = "";
+    }
+
+
+    // ===== CARREGAR TABELA DE TICKETS =====
+    // Busca GET /api/tickets e preenche a tabela na página
+    async function carregarTickets() {
+      const corpo = document.getElementById("corpoTabela");
+
+      try {
+        const resposta = await fetch("/api/tickets");
+        const tickets  = await resposta.json();
+
+        // Se não houver tickets, exibe mensagem
+        if (tickets.length === 0) {
+          corpo.innerHTML = `
+            <tr>
+              <td colspan="5" style="text-align:center;color:#999">
+                Nenhum ticket enviado ainda.
+              </td>
+            </tr>`;
+          return;
+        }
+
+        // Preenche a tabela com uma linha por ticket (mais recente primeiro)
+        corpo.innerHTML = [...tickets].reverse().map(t => `
+          <tr>
+            <td>#${t.id}</td>
+            <td>${t.email}</td>
+            <td>${t.assunto}</td>
+            <td>${t.data}</td>
+            <td><span class="badge badge-${t.status}">${t.status}</span></td>
+          </tr>
+        `).join("");
+
+      } catch {
+        corpo.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align:center;color:#cc0000">
+              Erro ao buscar tickets — servidor está rodando?
+            </td>
+          </tr>`;
+      }
+    }
+  </script>
+
+</body>
+</html>

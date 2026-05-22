@@ -61,6 +61,7 @@ carol: produzindo (e aprendendo como fazer) o back end do formulário do cadastr
 ## Atualização Rickelmy 21/05
 - **Docker**: Colquei nosso banco de dados no **Docker**.
 - **BackEnd**: Resolvi o problema de login.
+- **FrontEnd**: Atualizei para quando fizer login a pessoa ir para a homepage, o suporta tbm ir para a home page e depos configurei o que faltava para o carrossel.
 
 ## Atualizações Carol 21/05
 - **Modal**: feito seguindo o padrão estético do site.

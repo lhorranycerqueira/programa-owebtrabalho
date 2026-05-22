@@ -23,19 +23,19 @@ O que usamos no projeto:
 ###  Pré-requisitos
 Ter instalado em sua máquina:
 * [Go (Golang)](https://go.dev/dl/)
-* **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** (Certifique-se de que o Docker esteja rodando antes de subir o banco)
 ### Instalação de Dependências
 Abra o terminal na pasta do BackEnd do projeto e execute os comandos abaixo para baixar as dependências:
 ```bash
-go get -u github.com/go-sql-driver/mysql
+go get go.mongodb.org/mongo-driver/mongo
 ```
 ```bash
 go get github.com/joho/godotenv
 ```
-### Iniciando o Banco de Dados
-Suba o container do banco de dados com o Docker:
+### Configuração do Banco de Dados
+No projeto estamos usando o MongoDB Atlas.
+- Veja se seu arquivo `.env` está configurad com a sua Connection String:
 ```bash
-docker-compose up -d
+MONGO_URI=mongodb+srv://<usuario>:<senha>@cluster0.lozapyk.mongodb.net/
 ```
 ### Inicie o BackEnd
 Após subir o banco, inicie o servido:
@@ -81,3 +81,6 @@ go run .
 - atualização de redirecionamentos nos arquivos da loja e da biblioteca e do carrossel
 - adição de arquivo root contendo as funçoes globais de css (que serão usadas em grande parte das pags confiram o arquivo antes de fzr qlqr css!!!)
 - ps louie deleta a função goto do css da pag de suporte, nao vai precisar, btw nao sei se arrumei os redirecionamentos da sua pag da uma olhada la
+
+## Atualizações Rickelmy 22/05
+- **Trocas:** Tirei o banco de dados que estava no MySQL via Docker e coloquei no mongoDB Atlas

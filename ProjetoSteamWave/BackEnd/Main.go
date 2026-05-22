@@ -1,45 +1,44 @@
 package main
 
 import (
-	"database/sql"
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
-
-	_ "github.com/go-sql-driver/mysql"
+	"time"
 
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// Go é meio estranho, mas isso serve para eu conseguir usar essa varivael em qualquer func
+// Go é meio estranho, mas isso serve para eu conseguir usar essa variavel em qualquer func
 // Se não fosse por causa da documentação do Go eu não ia saber que preciso colocar aqui
-var db *sql.DB
+var collection *mongo.Collection
 
 func main() {
 	godotenv.Load()
 
-	var err error
-	db, err = sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/steamwave")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
+	uri := os.Getenv("MONGO_URI")
 
-	err = db.Ping()
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
 	if err != nil {
-		log.Fatal("Não conectou no bd:", err)
+		log.Fatal("Erro ao conectar no MongoDB:", err)
 	}
+
+	collection = client.Database("steamwave").Collection("Cadastro")
 
 	//Isso é para eu saber se deu certo a conecção
 	fmt.Println("Conectou")
 
-	port := os.Getenv("PORT")
-
 	http.HandleFunc("/Login", HandleLogin)
 	http.HandleFunc("/Users", HandleCadastro)
-	http.ListenAndServe(":"+port, nil)
+	http.ListenAndServe(":8080", nil)
 
 }
 
@@ -75,13 +74,15 @@ func HandleCadastro(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Printf("Saber se o erro é aqui: %s\n", r.Method)
+
 	//O user vai guarda os dados do Users(struct)
 	var user Users
 	err := json.NewDecoder(r.Body).Decode(&user)
 	// Pega a requisição do site
 	// Tenta ler os dados em formato JSON, e coloca dentro do user
 	// O & significa "coloque os dados aqui dentro"
-
+	fmt.Printf("Saber se o erro é aqui: %s\n", err)
 	if err != nil {
 		w.WriteHeader(400)
 		json.NewEncoder(w).Encode(Error{
@@ -91,11 +92,14 @@ func HandleCadastro(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	query := ("INSERT INTO steamwave.Cadastro (email, senha) VALUES (?, ?)")
-	res, err := db.Exec(query, user.Email, user.Password)
+	// O MongoDB usa 'context' para operações
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	// O MongoDB salva objetos(BSON)
+	_, err = collection.InsertOne(ctx, user)
 
 	if err != nil {
-		log.Printf("Deu erro %v", err) //Aprendi da pior forma que aqui não pode se usar o log.Fatal(No exemplo tava usando um)
+		log.Printf("Erro ao inseri no MongoDB %v", err) //Aprendi da pior forma que aqui não pode se usar o log.Fatal(No exemplo tava usando um)
 		w.WriteHeader(500)
 		json.NewEncoder(w).Encode(Error{
 			Message: "Erro interno" + err.Error(),
@@ -103,11 +107,6 @@ func HandleCadastro(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	rowCount, err := res.RowsAffected()
-	fmt.Printf("User criado: %s\n", user.Email)
-	fmt.Printf("Se de ruim aparece aqui %d", rowCount)
-
-	fmt.Printf("Usuário criado %s\n", user.Email)
 
 	w.WriteHeader(201) //201 (criado)
 	//O NewEncoder é para enviar um resposta, não ler

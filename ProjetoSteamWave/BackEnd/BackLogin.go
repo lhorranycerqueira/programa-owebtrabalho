@@ -1,11 +1,13 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 
-	_ "github.com/go-sql-driver/mysql"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
@@ -38,10 +40,14 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//Definimos a variável que vai receber a senha que está no banco
-	var dbSenha string
-	query := "SELECT senha FROM Cadastro WHERE email = ?"
-	err = db.QueryRow(query, login.Email).Scan(&dbSenha)
+	//Criamos a conecção com o MongoDB
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	var user Users
+	err = collection.FindOne(ctx, bson.M{
+		"email": login.Email,
+	}).Decode(&user)
 
 	if err != nil {
 		w.WriteHeader(401)
@@ -51,8 +57,9 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
+	fmt.Printf("Comparando senha[%s] com a senha do bd[%s]\n", login.Password, user.Password)
 
-	if login.Password != dbSenha {
+	if login.Password != user.Password {
 		w.WriteHeader(401)
 		json.NewEncoder(w).Encode(Error{
 			Message: "Não autorizado, senha incorreta",
@@ -60,9 +67,10 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
+	fmt.Printf("ver senha [%s] e do bd[%s]\n", login.Password, user.Password)
+
 	fmt.Println("Deu tudo certo")
 	json.NewEncoder(w).Encode(map[string]string{
 		"message": "Login realizado com sucesso",
 	})
-
 }

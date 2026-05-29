@@ -1,128 +1,419 @@
-* {
+/* tela de cadastro seguindo a estética daquela tela de login! não testei ainda pq meu alienware não é o melhor nem para roblox, imagine para programação... */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Orbitron:wght@400;700;900&display=swap');
+
+/* Nome das cores e suas respectivas cores */
+:root {
+  --neon-cyan:   #00eaff;
+  --neon-green:  #00ff9f;
+  --dark-bg:     #00080f;
+  --card-bg:     rgba(0, 20, 35, 0.85);
+  --pixel-font:  "Press Start 2P", monospace;
+  --vt-font:     "VT323", monospace;
+  --orb-font:    "Orbitron", sans-serif;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* 1. Primeiro, definimos a "receita" da animação no topo do seu CSS */
-@keyframes subirFade {
-    from {
-        opacity: 0;
-        transform: translateY(30px); /* Começa 30px abaixo */
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);    /* Termina na posição original */
-    }
+/* copiei as animaçõesa do login */
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.2; }
+  50%       { opacity: 1;   }
 }
 
-/* Ajustes no Body para centralizar e adicionar o fundo */
+@keyframes gridFlow {
+  0%   { transform: rotateX(63deg) translateY(0);    }
+  100% { transform: rotateX(63deg) translateY(80px); }
+}
+
+@keyframes cardRise {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes borderGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 18px rgba(0,234,255,0.25),
+      0 0 50px rgba(0,255,159,0.08),
+      inset 0 0 30px rgba(0,234,255,0.03);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(0,234,255,0.50),
+      0 0 80px rgba(0,255,159,0.18),
+      inset 0 0 40px rgba(0,234,255,0.07);
+  }
+}
+
+@keyframes lineSlide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%);  }
+}
+
+@keyframes inputGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(0,234,255,0.3); }
+  50%       { box-shadow: 0 0 18px rgba(0,234,255,0.7); }
+}
+
+@keyframes scanPulse {
+  0%, 100% { opacity: 0.03; }
+  50%       { opacity: 0.07; }
+}
+
 body.main-container {
-    display: flex; 
-    justify-content: center; /* Centraliza na horizontal */
-    align-items: center; /* Centraliza na vertical */
-    min-height: 100vh; /* Garante que o body ocupe toda a altura da tela */
-    /*O linear-gradient deixa com um efeito degrade*/
-    background: linear-gradient(to bottom, #1b2838, #171a21);
-    font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* fundo base escuro azul-preto */
+  background: radial-gradient(ellipse at 50% 20%, #001a35 0%, var(--dark-bg) 70%);
+  font-family: var(--pixel-font);
+
+  /* estrelas geradas via pseudo-elemento de fundo */
+  position: relative;
 }
 
-/* 2. Agora aplicamos no seu container da Steam */
-.steam-auth-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(28, 31, 41, 0.98); 
-    padding: 60px 50px;
-    border-radius: 12px;
-    border: 2px; 
-    width: 100%;
-    max-width: 450px;
-    box-shadow: 0;
+/* linhas coloridas pairando por aí */
+body.main-container::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 234, 255, 0.015) 3px,
+    rgba(0, 234, 255, 0.015) 4px
+  );
+  animation: scanPulse 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
 }
+
+/* sol */
+body.main-container::after {
+  content: '';
+  position: fixed;
+  bottom: 42%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 100px;
+  border-radius: 100px 100px 0 0;
+  background: linear-gradient(to top, var(--neon-green), var(--neon-cyan));
+  box-shadow:
+    0 0 40px rgba(0,234,255,0.45),
+    0 0 100px rgba(0,255,159,0.25);
+  /* Listras sobre o sol */
+  -webkit-mask-image: repeating-linear-gradient(
+    to bottom,
+    black 0px, black 8px,
+    transparent 8px, transparent 11px
+  );
+  mask-image: repeating-linear-gradient(
+    to bottom,
+    black 0px, black 8px,
+    transparent 8px, transparent 11px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* alguém lê esses comentários mesmo? */
+
+.horizon {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  perspective: 350px;
+  perspective-origin: 50% 0%;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.horizon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--dark-bg) 0%, transparent 50%);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.grid-floor {
+  position: absolute;
+  top: -60%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(0, 234, 255, 0.28) 0 1px, transparent 1px 80px),
+    repeating-linear-gradient(0deg,  rgba(0, 234, 255, 0.28) 0 1px, transparent 1px 80px);
+  transform-style: preserve-3d;
+  animation: gridFlow 2.5s linear infinite;
+}
+
+.star {
+  position: fixed;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  animation: starTwinkle var(--dur, 2s) var(--delay, 0s) infinite ease-in-out both;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star.cyan {
+  background: var(--neon-cyan);
+  box-shadow: 0 0 4px var(--neon-cyan);
+}
+
+/* card do formulário */
+
+.steam-auth-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 460px;
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 234, 255, 0.3);
+  border-radius: 4px;
+  padding: 48px 44px 44px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation:
+    cardRise   0.7s cubic-bezier(0.22, 1, 0.36, 1) both,
+    borderGlow 4s ease-in-out 0.7s infinite;
+  margin: 40px 20px;
+}
+
+/* cantos decorativos */
+.steam-auth-container::before,
+.steam-auth-container::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: var(--neon-cyan);
+  border-style: solid;
+  opacity: 0.8;
+}
+.steam-auth-container::before {
+  top: -1px; left: -1px;
+  border-width: 2px 0 0 2px;
+}
+.steam-auth-container::after {
+  bottom: -1px; right: -1px;
+  border-width: 0 2px 2px 0;
+}
+
+/* linha extra scanner no topo do card */
+.steam-auth-container .scan-line {
+  position: absolute;
+  top: 0; left: 0;
+  height: 2px;
+  width: 60%;
+  background: linear-gradient(to right, transparent, var(--neon-cyan), transparent);
+  animation: lineSlide 3s linear infinite;
+  border-radius: 2px;
+}
+
+/* fonte do título */
 
 .auth-title {
-    color: #fff;
-    font-size: 30px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    margin-bottom: 40px;
+  font-family: var(--orb-font);
+  font-size: 22px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-align: center;
+  text-shadow: 0 0 20px rgba(0,234,255,0.6);
+  margin-bottom: 8px;
 }
 
+/* linha decorativa abaixo do título */
+.auth-title + .title-line,
+#register-section > .auth-title::after {
+  display: block;
+  content: '';
+  margin: 12px auto 32px;
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(to right, var(--neon-cyan), var(--neon-green));
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--neon-cyan);
+}
+
+/* input feito pelo claudio */
+
 .input-group {
-    margin-top: 9px; /*Para elas não se encostarem*/
+  margin-bottom: 20px;
+  position: relative;
 }
 
 .input-group label {
-    display: block;
-    color: whitesmoke;
-    font-size: 13px;
-    letter-spacing: 1px;/*Aumenta o espaço entre cada letra*/
-    margin-bottom: 8px;
-    font-weight: bold;
+  display: block;
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  color: rgba(0, 234, 255, 0.7);
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
 }
 
 .input-group input {
-    width: 100%;
-    padding: 14px;
-    background-color: #1e2129; /* Input bem escuro */
-    border-radius: 12px; /*Serve para arredondar as bordas*/
-    border: 1px solid #1e2129; /* Borda invisível inicialmente */
-    color: #fff;
-    font-size: 15px;
-    outline: none;
+  width: 100%;
+  padding: 13px 16px;
+  background: rgba(0, 30, 50, 0.8);
+  border: 1px solid rgba(0, 234, 255, 0.2);
+  border-radius: 3px;
+  color: #fff;
+  font-family: var(--vt-font);
+  font-size: 20px;
+  letter-spacing: 1px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  caret-color: var(--neon-cyan);
 }
 
-/* Efeito de borda azul quando passar o mouse, o hover faz isso*/
-.input-group input:hover {
-    border-color: #1a9fff;
+.input-group input::placeholder {
+  color: rgba(0, 234, 255, 0.2);
 }
+
+.input-group input:hover {
+  border-color: rgba(0, 234, 255, 0.5);
+}
+
+.input-group input:focus {
+  border-color: var(--neon-cyan);
+  animation: inputGlow 2s ease-in-out infinite;
+}
+
+/* botões */
 
 .action-area {
-    margin-top: 12px;
+  margin-top: 28px;
 }
 
 .btn-steam-primary {
-    width: 100%;
-    padding: 19px;
-    background: #1a9fff; 
-    border-radius: 50px;
-    border: 9px;
-    color: #fff;
-    font-size: 17px;
-    font-weight: 700;
-    cursor: pointer; /*Transforma o cursor em uma mãozinha*/
-    letter-spacing: 1px;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-green) 100%);
+  border: none;
+  border-radius: 3px;
+  color: #001a20;
+  font-family: var(--pixel-font);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: filter 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 20px rgba(0,234,255,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* reflexo luminoso no hover */
+.btn-steam-primary::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.25), transparent);
+  transition: left 0.4s ease;
+}
+
+.btn-steam-primary:hover::before {
+  left: 150%;
 }
 
 .btn-steam-primary:hover {
-    background-color: #47bfff; 
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+  box-shadow: 0 0 35px rgba(0,234,255,0.6), 0 4px 20px rgba(0,0,0,0.4);
 }
 
+.btn-steam-primary:active {
+  transform: translateY(0);
+  filter: brightness(0.95);
+}
+
+/* claude fazendo link? */
+
 .toggle-link {
-    color: #afb1b4; /* Link cinza discreto */
-    cursor: pointer;
-    display: block;
-    margin-top: 15px;
-    font-size: 14px;
-    text-decoration: underline;
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  color: rgba(0, 234, 255, 0.45);
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
 .toggle-link:hover {
-    color: white; /* Link fica branco no hover */
+  color: var(--neon-cyan);
+  text-shadow: 0 0 8px var(--neon-cyan);
 }
 
-/* REGRA ESSENCIAL DE FUNCIONALIDADE */
+/* utilitários */
+
 .hidden {
-    display: none !important;
+  display: none !important;
 }
 
-/* Responsividade Básica */
-@media (max-width: 480px) {
-    .steam-auth-container {
-        padding: 40px 25px;
-    }
-    .auth-title {
-        font-size: 24px;
-    }
+/* responsividade */
+
+@media (max-width: 520px) {
+  .steam-auth-container {
+    padding: 36px 24px 32px;
+    margin: 24px 16px;
+  }
+
+  .auth-title {
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+
+  .input-group label {
+    font-size: 7px;
+  }
+
+  .btn-steam-primary {
+    font-size: 8px;
+    padding: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .steam-auth-container {
+    padding: 28px 16px 24px;
+  }
+
+  .auth-title {
+    font-size: 13px;
+  }
 }

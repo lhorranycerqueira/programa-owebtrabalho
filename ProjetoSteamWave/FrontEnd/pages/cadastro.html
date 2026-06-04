@@ -5,19 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Steam - Autenticação</title>
     <link rel="stylesheet" href="../css/styleCadastro.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&family=VT323&display=swap" rel="stylesheet">
 </head>
 <body class="main-container">
     <div class="steam-auth-container">
-        <div id="register-section">
+        <!-- Title bar estilo Win95, com gradient vaporwave -->
+        <div class="title-bar">
+            <span class="title-bar-text"><span class="title-icon">▶</span> CRIAR CONTA</span>
+            <div class="title-bar-buttons" aria-hidden="true">
+                <button type="button" class="title-btn" tabindex="-1">_</button>
+                <button type="button" class="title-btn" tabindex="-1">▢</button>
+                <button type="button" class="title-btn" tabindex="-1">✕</button>
+            </div>
+        </div>
+
+        <!-- Conteúdo da janela -->
+        <div id="register-section" class="window-content">
             <h1 class="auth-title">CRIAR CONTA</h1>
-            
+
             <div class="input-group">
-                <label for="reg-user">DIGITE SEU NOME DA CONTA</label>
+                <label for="reg-user">DIGITE SEU NOME DA CONTA:</label>
                 <input type="text" id="reg-user" required autocomplete="username">
             </div>
 
             <div class="input-group">
-                <label for="reg-pass">DIGITE SUA SENHA</label>
+                <label for="reg-pass">DIGITE SUA SENHA:</label>
                 <input type="password" id="reg-pass" required autocomplete="new-password">
             </div>
 
@@ -25,6 +37,11 @@
                 <button class="btn-steam-primary" id="btn-cadastrar">CADASTRAR</button>
                 <a href="login.html" class="toggle-link">Já tem uma conta? Iniciar sessão</a>
             </div>
+        </div>
+
+        <!-- Status bar estilo Win95 -->
+        <div class="status-bar" aria-hidden="true">
+            <span class="status-bar-field">PRONTO</span>
         </div>
     </div>
     <script src="../js/scriptCadastro.js" defer></script>

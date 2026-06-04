@@ -1,262 +1,419 @@
-* {
+/* tela de cadastro seguindo a estética daquela tela de login! não testei ainda pq meu alienware não é o melhor nem para roblox, imagine para programação... */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Orbitron:wght@400;700;900&display=swap');
+
+/* Nome das cores e suas respectivas cores */
+:root {
+  --neon-cyan:   #00eaff;
+  --neon-green:  #00ff9f;
+  --dark-bg:     #00080f;
+  --card-bg:     rgba(0, 20, 35, 0.85);
+  --pixel-font:  "Press Start 2P", monospace;
+  --vt-font:     "VT323", monospace;
+  --orb-font:    "Orbitron", sans-serif;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-:root {
-  --neon-pink: #ff71ce;
-  --neon-purple: #b967ff;
-  --neon-cyan: #01cdfe;
-  --neon-blue: #05ffa1;
-  --win-gray: #c0c0c0;
-  --win-gray-light: #dcdcdc;
-  --win-gray-dark: #808080;
-  --win-shadow-dark: #404040;
-  --error-pink: #ff2e7e;
-  --error-bg: #ffe0ee;
-  --error-dark: #8b0033;
-  --success-green: #05ffa1;
-  --win-text: #000;
-  --win-text-light: #fff;
-  --win-link: #6b1f8c;
-  --pixel-font: "Pixelify Sans", "MS Sans Serif", Tahoma, sans-serif;
-  --vapor-font: "VT323", monospace;
+/* copiei as animaçõesa do login */
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.2; }
+  50%       { opacity: 1;   }
 }
 
-/* Ajustes no Body para centralizar e adicionar o fundo */
+@keyframes gridFlow {
+  0%   { transform: rotateX(63deg) translateY(0);    }
+  100% { transform: rotateX(63deg) translateY(80px); }
+}
+
+@keyframes cardRise {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes borderGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 18px rgba(0,234,255,0.25),
+      0 0 50px rgba(0,255,159,0.08),
+      inset 0 0 30px rgba(0,234,255,0.03);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(0,234,255,0.50),
+      0 0 80px rgba(0,255,159,0.18),
+      inset 0 0 40px rgba(0,234,255,0.07);
+  }
+}
+
+@keyframes lineSlide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%);  }
+}
+
+@keyframes inputGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(0,234,255,0.3); }
+  50%       { box-shadow: 0 0 18px rgba(0,234,255,0.7); }
+}
+
+@keyframes scanPulse {
+  0%, 100% { opacity: 0.03; }
+  50%       { opacity: 0.07; }
+}
+
 body.main-container {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
   display: flex;
   justify-content: center;
-  /* Centraliza na horizontal */
   align-items: center;
-  /* Centraliza na vertical */
-  min-height: 100vh;
-  /* Garante que o body ocupe toda a altura da tela */
+
+  /* fundo base escuro azul-preto */
+  background: radial-gradient(ellipse at 50% 20%, #001a35 0%, var(--dark-bg) 70%);
   font-family: var(--pixel-font);
-  /* Fundo pastel suave, sem grid/sol/scanlines */
-  background: linear-gradient(135deg, #ffd6f0 0%, #e8c8f0 50%, #c8e0f0 100%);
+
+  /* estrelas geradas via pseudo-elemento de fundo */
+  position: relative;
 }
 
-/* 2. Agora aplicamos no seu container da Steam */
+/* linhas coloridas pairando por aí */
+body.main-container::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 234, 255, 0.015) 3px,
+    rgba(0, 234, 255, 0.015) 4px
+  );
+  animation: scanPulse 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* sol */
+body.main-container::after {
+  content: '';
+  position: fixed;
+  bottom: 42%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 100px;
+  border-radius: 100px 100px 0 0;
+  background: linear-gradient(to top, var(--neon-green), var(--neon-cyan));
+  box-shadow:
+    0 0 40px rgba(0,234,255,0.45),
+    0 0 100px rgba(0,255,159,0.25);
+  /* Listras sobre o sol */
+  -webkit-mask-image: repeating-linear-gradient(
+    to bottom,
+    black 0px, black 8px,
+    transparent 8px, transparent 11px
+  );
+  mask-image: repeating-linear-gradient(
+    to bottom,
+    black 0px, black 8px,
+    transparent 8px, transparent 11px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* alguém lê esses comentários mesmo? */
+
+.horizon {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  perspective: 350px;
+  perspective-origin: 50% 0%;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.horizon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--dark-bg) 0%, transparent 50%);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.grid-floor {
+  position: absolute;
+  top: -60%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(0, 234, 255, 0.28) 0 1px, transparent 1px 80px),
+    repeating-linear-gradient(0deg,  rgba(0, 234, 255, 0.28) 0 1px, transparent 1px 80px);
+  transform-style: preserve-3d;
+  animation: gridFlow 2.5s linear infinite;
+}
+
+.star {
+  position: fixed;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  animation: starTwinkle var(--dur, 2s) var(--delay, 0s) infinite ease-in-out both;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star.cyan {
+  background: var(--neon-cyan);
+  box-shadow: 0 0 4px var(--neon-cyan);
+}
+
+/* card do formulário */
+
 .steam-auth-container {
-  background: var(--win-gray);
-  border-top: 2px solid var(--win-text-light);
-  border-left: 2px solid var(--win-text-light);
-  border-right: 2px solid var(--win-shadow-dark);
-  border-bottom: 2px solid var(--win-shadow-dark);
+  position: relative;
+  z-index: 10;
   width: 100%;
   max-width: 460px;
-  /* Win95 drop shadow (sem blur, deslocamento sólido) */
-  box-shadow:
-    2px 0 0 var(--win-shadow-dark),
-    0 2px 0 var(--win-shadow-dark),
-    4px 2px 0,
-    2px 4px 0,
-    4px 4px 0;
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 234, 255, 0.3);
+  border-radius: 4px;
+  padding: 48px 44px 44px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation:
+    cardRise   0.7s cubic-bezier(0.22, 1, 0.36, 1) both,
+    borderGlow 4s ease-in-out 0.7s infinite;
+  margin: 40px 20px;
 }
 
-.title-bar {
-  background: linear-gradient(
-    90deg,
-    var(--neon-pink) 0%,
-    var(--neon-purple) 40%,
-    var(--neon-cyan) 100%
-  );
-  padding: 4px 4px 4px 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* Inset bottom border */
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25);
-  position: relative;
+/* cantos decorativos */
+.steam-auth-container::before,
+.steam-auth-container::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: var(--neon-cyan);
+  border-style: solid;
+  opacity: 0.8;
+}
+.steam-auth-container::before {
+  top: -1px; left: -1px;
+  border-width: 2px 0 0 2px;
+}
+.steam-auth-container::after {
+  bottom: -1px; right: -1px;
+  border-width: 0 2px 2px 0;
 }
 
-.title-bar-text {
-  position: relative;
-  color: #fff;
-  font-family: var(--pixel-font);
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 1px;
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  gap: 5px;
+/* linha extra scanner no topo do card */
+.steam-auth-container .scan-line {
+  position: absolute;
+  top: 0; left: 0;
+  height: 2px;
+  width: 60%;
+  background: linear-gradient(to right, transparent, var(--neon-cyan), transparent);
+  animation: lineSlide 3s linear infinite;
+  border-radius: 2px;
 }
 
-.title-icon {
-  font-size: 9px;
-}
-
-.title-bar-buttons {
-  position: relative;
-  display: flex;
-  gap: 2px;
-}
-
-/* Botões de janela (minimize/maximize/close) — puramente decorativos */
-.title-btn {
-  width: 20px;
-  height: 18px;
-  background: var(--win-gray);
-  border-top: 1px solid var(--win-text-light);
-  border-left: 1px solid var(--win-text-light);
-  border-right: 1px solid var(--win-shadow-dark);
-  border-bottom: 1px solid var(--win-shadow-dark);
-  color: var(--win-text);
-  font-family: var(--pixel-font);
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 0;
-  box-shadow:
-    inset 1px 1px 0 #fff,
-    inset -1px -1px 0 #808080;
-}
-
-.title-btn:active {
-  border-top: 1px solid var(--win-shadow-dark);
-  border-left: 1px solid var(--win-shadow-dark);
-  border-right: 1px solid var(--win-text-light);
-  border-bottom: 1px solid var(--win-text-light);
-  box-shadow: none;
-}
-
-/* ===== CONTEÚDO DA JANELA ===== */
-.window-content {
-  padding: 24px 22px 20px;
-  background: var(--win-gray);
-  /* Inset border (sunken look) ao redor do conteúdo */
-  border-top: 1px solid var(--win-shadow-dark);
-  border-left: 1px solid var(--win-shadow-dark);
-  border-right: 1px solid var(--win-text-light);
-  border-bottom: 1px solid var(--win-text-light);
-  margin: 2px;
-  box-shadow:
-    inset 1px 1px 0 #808080,
-    inset -1px -1px 0 var(--win-text-light);
-}
+/* fonte do título */
 
 .auth-title {
-  color: var(--neon-purple);
-  font-family: var(--pixel-font);
+  font-family: var(--orb-font);
   font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  margin-bottom: 22px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 4px;
+  text-transform: uppercase;
   text-align: center;
-  text-shadow:
-    1px 1px 0 #fff,
-    2px 2px 0 rgba(185, 103, 255, 0.2);
+  text-shadow: 0 0 20px rgba(0,234,255,0.6);
+  margin-bottom: 8px;
 }
 
+/* linha decorativa abaixo do título */
+.auth-title + .title-line,
+#register-section > .auth-title::after {
+  display: block;
+  content: '';
+  margin: 12px auto 32px;
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(to right, var(--neon-cyan), var(--neon-green));
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--neon-cyan);
+}
+
+/* input feito pelo claudio */
+
 .input-group {
-  margin-top: 14px;
+  margin-bottom: 20px;
+  position: relative;
 }
 
 .input-group label {
   display: block;
-  color: #2a0840;
   font-family: var(--pixel-font);
-  font-size: 11px;
-  letter-spacing: 0.8px;
-  margin-bottom: 5px;
-  font-weight: 700;
+  font-size: 8px;
+  color: rgba(0, 234, 255, 0.7);
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
 }
 
 .input-group input {
   width: 100%;
-  padding: 14px;
-  font-family: var(--pixel-font);
-  background-color: #fff;
-  border-top: 2px solid var(--win-shadow-dark);
-  border-left: 2px solid var(--win-shadow-dark);
-  border-right: 2px solid var(--win-text-light);
-  border-bottom: 2px solid var(--win-text-light);
-  color: #000;
-  font-size: 15px;
+  padding: 13px 16px;
+  background: rgba(0, 30, 50, 0.8);
+  border: 1px solid rgba(0, 234, 255, 0.2);
+  border-radius: 3px;
+  color: #fff;
+  font-family: var(--vt-font);
+  font-size: 20px;
+  letter-spacing: 1px;
   outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  caret-color: var(--neon-cyan);
+}
+
+.input-group input::placeholder {
+  color: rgba(0, 234, 255, 0.2);
+}
+
+.input-group input:hover {
+  border-color: rgba(0, 234, 255, 0.5);
 }
 
 .input-group input:focus {
-  background: #fff;
+  border-color: var(--neon-cyan);
+  animation: inputGlow 2s ease-in-out infinite;
 }
 
+/* botões */
 
 .action-area {
-  margin-top: 12px;
+  margin-top: 28px;
 }
 
 .btn-steam-primary {
   width: 100%;
-  padding: 10px 20px;
-  background: var(--win-gray);
+  padding: 16px;
+  background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-green) 100%);
+  border: none;
   border-radius: 3px;
-  border: 1px solid var(--win-text-light);
+  color: #001a20;
   font-family: var(--pixel-font);
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
   cursor: pointer;
-  letter-spacing: 1.5px;
+  transition: filter 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 20px rgba(0,234,255,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* reflexo luminoso no hover */
+.btn-steam-primary::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.25), transparent);
+  transition: left 0.4s ease;
+}
+
+.btn-steam-primary:hover::before {
+  left: 150%;
 }
 
 .btn-steam-primary:hover {
-  background: linear-gradient(var(--win-gray) 40%, var(--win-link) 100%);
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+  box-shadow: 0 0 35px rgba(0,234,255,0.6), 0 4px 20px rgba(0,0,0,0.4);
 }
 
+.btn-steam-primary:active {
+  transform: translateY(0);
+  filter: brightness(0.95);
+}
+
+/* claude fazendo link? */
+
 .toggle-link {
-  color: var(--win-link);
-  font-size: 25px;
-  cursor: pointer;
-  display: inline-block;
+  display: block;
+  margin-top: 20px;
+  text-align: center;
   font-family: var(--pixel-font);
-  font-size: 14px;
+  font-size: 7px;
+  color: rgba(0, 234, 255, 0.45);
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
 .toggle-link:hover {
-  color: var(--neon-pink);
+  color: var(--neon-cyan);
+  text-shadow: 0 0 8px var(--neon-cyan);
 }
 
-.status-bar {
-  display: flex;
-  gap: 2px;
-  padding: 2px;
-  background: var(--win-gray);
-}
-
-.status-bar-field {
-  flex: 1;
-  font-family: var(--pixel-font);
-  font-size: 15px;
-  color: #2a0840;
-  background: var(--win-gray);
-}
+/* utilitários */
 
 .hidden {
   display: none !important;
 }
 
-/*RESPONSIVO*/
-@media (max-width: 480px) {
-  .steam-auth-container {
-    max-width: 95%;
-  }
+/* responsividade */
 
-  .window-content {
-    padding: 20px 16px 16px;
+@media (max-width: 520px) {
+  .steam-auth-container {
+    padding: 36px 24px 32px;
+    margin: 24px 16px;
   }
 
   .auth-title {
-    font-size: 18px;
-    letter-spacing: 1.5px;
+    font-size: 16px;
+    letter-spacing: 2px;
   }
 
-  .title-bar-text {
-    font-size: 11px;
+  .input-group label {
+    font-size: 7px;
+  }
+
+  .btn-steam-primary {
+    font-size: 8px;
+    padding: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .steam-auth-container {
+    padding: 28px 16px 24px;
+  }
+
+  .auth-title {
+    font-size: 13px;
   }
 }

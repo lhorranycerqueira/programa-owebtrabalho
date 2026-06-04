@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+<!-- adaptei o HTML para o CSS ter uma estética parecidaa com o restante do site, como é esperado de um usuário -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,19 +9,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&family=VT323&display=swap" rel="stylesheet">
 </head>
 <body class="main-container">
-    <div class="steam-auth-container">
-        <!-- Title bar estilo Win95, com gradient vaporwave -->
-        <div class="title-bar">
-            <span class="title-bar-text"><span class="title-icon">▶</span> CRIAR CONTA</span>
-            <div class="title-bar-buttons" aria-hidden="true">
-                <button type="button" class="title-btn" tabindex="-1">_</button>
-                <button type="button" class="title-btn" tabindex="-1">▢</button>
-                <button type="button" class="title-btn" tabindex="-1">✕</button>
-            </div>
-        </div>
 
-        <!-- Conteúdo da janela -->
-        <div id="register-section" class="window-content">
+    <!-- fundo com estrelas + grid (não mexam nessa div) -->
+    <div id="synth-bg" aria-hidden="true">
+        <div class="horizon">
+            <div class="grid-floor"></div>
+        </div>
+    </div>
+
+    <!-- card de cadastro -->
+    <div class="steam-auth-container">
+
+        <!-- linha scanner animada no topo do card -->
+        <div class="scan-line" aria-hidden="true"></div>
+
+        <div id="register-section">
             <h1 class="auth-title">CRIAR CONTA</h1>
 
             <div class="input-group">
@@ -39,11 +42,29 @@
             </div>
         </div>
 
-        <!-- Status bar estilo Win95 -->
-        <div class="status-bar" aria-hidden="true">
-            <span class="status-bar-field">PRONTO</span>
-        </div>
     </div>
+
     <script src="../js/scriptCadastro.js" defer></script>
+
+    <!-- geração de estrelas q não depende do scriptCadastro.js -->
+    <script>
+        const bg = document.getElementById('synth-bg');
+        for (let i = 0; i < 120; i++) {
+            const s = document.createElement('div');
+            s.classList.add('star');
+            if (Math.random() < 0.2) s.classList.add('cyan');
+            const size = Math.random() * 2.5 + 0.5;
+            s.style.cssText = `
+                width: ${size}px;
+                height: ${size}px;
+                top: ${Math.random() * 100}%;
+                left: ${Math.random() * 100}%;
+                --dur: ${(Math.random() * 3 + 1.5).toFixed(2)}s;
+                --delay: ${(Math.random() * 4).toFixed(2)}s;
+            `;
+            bg.appendChild(s);
+        }
+    </script>
+
 </body>
 </html>

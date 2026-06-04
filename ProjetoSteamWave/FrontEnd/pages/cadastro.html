@@ -45,26 +45,5 @@
     </div>
 
     <script src="../js/scriptCadastro.js" defer></script>
-
-    <!-- geração de estrelas q não depende do scriptCadastro.js -->
-    <script>
-        const bg = document.getElementById('synth-bg');
-        for (let i = 0; i < 120; i++) {
-            const s = document.createElement('div');
-            s.classList.add('star');
-            if (Math.random() < 0.2) s.classList.add('cyan');
-            const size = Math.random() * 2.5 + 0.5;
-            s.style.cssText = `
-                width: ${size}px;
-                height: ${size}px;
-                top: ${Math.random() * 100}%;
-                left: ${Math.random() * 100}%;
-                --dur: ${(Math.random() * 3 + 1.5).toFixed(2)}s;
-                --delay: ${(Math.random() * 4).toFixed(2)}s;
-            `;
-            bg.appendChild(s);
-        }
-    </script>
-
 </body>
 </html>

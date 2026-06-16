@@ -380,13 +380,11 @@ body.main-container::after {
 }
 
 /* utilitários */
-
 .hidden {
   display: none !important;
 }
 
 /* responsividade */
-
 @media (max-width: 520px) {
   .steam-auth-container {
     padding: 36px 24px 32px;
@@ -416,4 +414,26 @@ body.main-container::after {
   .auth-title {
     font-size: 13px;
   }
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--dark-bg);
+  border: 1px solid var(--neon-cyan);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-family: var(--pixel-font);
+  transition: 0.4s;
+  transform: translateX(150%);
+  z-index: 1;
+}
+
+.toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
 }

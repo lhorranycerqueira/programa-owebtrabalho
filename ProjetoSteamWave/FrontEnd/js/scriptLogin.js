@@ -47,7 +47,7 @@ async function doLogin() {
     }
 
     const dados = {
-        email: email,
+        email: email.trim(),
         password: password,
     };
 
@@ -61,6 +61,9 @@ async function doLogin() {
         });
 
         if (response.status == 200){
+            const resultado = await response.json();
+            //Salvamos o email do usuário logado para usar na página de configurações
+            localStorage.setItem("steamUserEmail", resultado.email);
             showToast("Login realizado");
             //Agora o Login leva para a homepage
             setTimeout (() => {

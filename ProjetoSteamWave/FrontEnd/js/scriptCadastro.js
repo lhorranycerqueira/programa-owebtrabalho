@@ -1,26 +1,42 @@
-//Vamos pegar o botão de cadastrar
+function showToast(mensagem) {
+    const toast = document.getElementById("toast");
+    if (!toast) {
+        console.error("Elemento toast não encontrado!");
+        return;
+    }
+    toast.innerText = mensagem;
+    toast.classList.add("show");
+
+    if (window.toastTimeout) {
+        clearTimeout(window.toastTimeout);
+    }
+
+    window.toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
 const btnCadastrar = document.getElementById("btn-cadastrar");
 
 if (btnCadastrar) {
     btnCadastrar.onclick = async () => {
         const user = document.getElementById("reg-user").value;
         const password = document.getElementById("reg-pass").value;
-        const CaracterEspecial = /[^a-zA-Z0-9]/; //Regra para simbolos
+        const CaracterEspecial = /[^a-zA-Z0-9]/;
 
-        //Validação: Email @gmail, senha 8+ caracteres e ter caractere especial
         if (
             !user.endsWith("@gmail.com") ||
             password.length < 8 ||
             !CaracterEspecial.test(password)
         ) {
-            alert(
-                "O email deve ser @gmail.com, a senha deve ter 8+ caracteres e pelo menos um caractere especial!",
+            showToast(
+                "O email deve ser @gmail.com, a senha deve ter 8+ caracteres e pelo menos um caractere especial!"
             );
             return;
         }
 
         const dados = {
-            email: user,
+            email: user.trim(),
             password: password,
         };
 
@@ -36,20 +52,21 @@ if (btnCadastrar) {
             const resultado = await response.json();
 
             if (response.status === 201) {
-                alert("Sucesso: " + resultado.message);
-                window.location.href = "login.html";
+                showToast("Sucesso: " + resultado.message);
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 1500);
             } else {
-                alert("Erro: " + resultado.message);
+                showToast("Erro: " + resultado.message);
             }
         } catch (error) {
-            console.error("Erro na requisição:", error);
-            alert(
-                "Não foi possível falar com o servidor. Verifique se o Go está rodando!",
+            console.error("[Cadastro] Erro na requisição:", error);
+            showToast(
+                "Não foi possível falar com o servidor. Verifique se o Go está rodando!"
             );
         }
     };
-    
-    // Geração de estrelas
+
     const bg = document.getElementById("synth-bg");
     for (let i = 0; i < 120; i++) {
         const s = document.createElement("div");

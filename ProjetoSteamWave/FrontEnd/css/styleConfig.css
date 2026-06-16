@@ -10,7 +10,8 @@
   --neon-cyan: #00eaff;
   --neon-blue: #7b7bff;
   --dark-bg: #080010;
-  --panel-bg: #1a0026; /* Cor do seu painel base */
+  --panel-bg: #1a0026;
+  /* Cor do seu painel base */
   --text-color: #ffffff;
   --pixel-font: "Press Start 2P", monospace;
   --orb-font: "Orbitron", sans-serif;
@@ -112,11 +113,11 @@ fieldset h2 {
 }
 
 /* Quando ativo (checked) */
-input:checked + .slider {
+input:checked+.slider {
   background-color: var(--neon-purple);
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   transform: translateX(24px);
 }
 
@@ -130,17 +131,18 @@ input[type="password"] {
   outline: none;
 }
 
-.action-area{
+.action-area {
   position: absolute;
   top: 20px;
   left: 20px;
   font-size: 12px;
 }
 
-.toggle-link{
+.toggle-link {
   color: var(--neon-cyan);
 }
-.toggle-link:hover{
+
+.toggle-link:hover {
   cursor: pointer;
 }
 
@@ -161,4 +163,32 @@ input[type="password"] {
 .btn-alteracoes:hover {
   background-color: var(--neon-cyan);
   color: var(--dark-bg);
+}
+
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--dark-bg);
+  backdrop-filter: blur(20px);
+  border: 2px solid #ff6bff;
+  color: #00eaff;
+  padding: 18px 30px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 9999;
+  max-width: 400px;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+.toast::before {
+  color: #ff6bff;
+  font-size: 1.2rem;
 }

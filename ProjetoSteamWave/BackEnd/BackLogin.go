@@ -7,7 +7,10 @@ import (
 	"net/http"
 	"time"
 
+	"strings"
+
 	"go.mongodb.org/mongo-driver/bson"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
@@ -39,6 +42,9 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
+	//Remove o espaço que o usuario pode colocar no cadastro e vir colocar no login
+	//Aprendi da pior forma
+	login.Email = strings.TrimSpace(login.Email)
 
 	//Criamos a conecção com o MongoDB
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -57,9 +63,11 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	fmt.Printf("Comparando senha[%s] com a senha do bd[%s]\n", login.Password, user.Password)
+	fmt.Printf("[Login] Comparando senha para: %s\n", login.Email)
 
-	if login.Password != user.Password {
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password))
+	if err != nil {
+		fmt.Printf("[Login] Senha incorreta para: %s\n", login.Email)
 		w.WriteHeader(401)
 		json.NewEncoder(w).Encode(Error{
 			Message: "Não autorizado, senha incorreta",
@@ -67,10 +75,10 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	fmt.Printf("ver senha [%s] e do bd[%s]\n", login.Password, user.Password)
 
-	fmt.Println("Deu tudo certo")
+	fmt.Printf("[Login] Login bem-sucedido para: %s\n", login.Email)
 	json.NewEncoder(w).Encode(map[string]string{
 		"message": "Login realizado com sucesso",
+		"email":   user.Email,
 	})
 }

@@ -14,3 +14,10 @@ type LoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
+
+// Das configurações para atualizar a senha do usuário
+type UpdatePasswordRequest struct {
+	Email           string `json:"email"`
+	CurrentPassword string `json:"currentPassword"`
+	NewPassword     string `json:"newPassword"`
+}

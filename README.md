@@ -84,3 +84,8 @@ go run .
 
 ## Atualizações Rickelmy 22/05
 - **Trocas:** Tirei o banco de dados que estava no MySQL via Docker e coloquei no mongoDB Atlas
+
+## Atualizações math 15/06
+- **fix** homepage link ficando vermelho (fixed).
+- **atualização** pagina carrossel com rotatividade scroll e botões
+ps: bahia pfv faz um tutorial de como abrir o BD mais intuitivo pfv to mematano aq

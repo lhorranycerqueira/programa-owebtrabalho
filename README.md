@@ -89,3 +89,9 @@ go run .
 - **fix** homepage link ficando vermelho (fixed).
 - **atualização** pagina carrossel com rotatividade scroll e botões
 ps: bahia pfv faz um tutorial de como abrir o BD mais intuitivo pfv to mematano aq
+
+## Atualizações Rickelmy | 17/06
+- **Responsividade**: Adicionada responsividade mobile na tela de login.
+- **Backend**: Criação dos novos arquivos `BackCadastro.go` e `BackUpdatePassword.go`. O arquivo `BackUpdatePassword.go` foi implementado para gerenciar a alteração de senha na tela de `Configurações`. Também foi adicionada o Hash nas senhas.
+- **Frontend**: Ajustes no design do cadastro, configurações e scripts para melhorar a estética e a responsividade. Coloquei alertas via *Toast*.
+- **Correções & Refatorações**: Modificações e melhorias nos arquivos `BackLogin.go`, `Main.go` e `Struct.go`.

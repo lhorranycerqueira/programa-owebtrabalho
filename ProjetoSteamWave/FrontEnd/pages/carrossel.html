@@ -12,7 +12,9 @@
       rel="stylesheet"/>
     <script src="../js/scriptCarrossel.js" defer></script>
 </head>
+
 <body>
+
 <!--div que engloba toda a pagina do carrossel-->
 <div id="page-homenav" class="page">
 
@@ -27,13 +29,15 @@
     </div>
     
     <!--botão do icone de usuario com redirecionamento para pagina do perfil. classes no root.css-->
-    <button class="user-icon-btn" onclick="goTo('page-perfil')">
+    <button class="user-icon-btn" onclick="window.location.href='login.html'">
         <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
             <circle cx="12" cy="8" r="4" />
             <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
         </svg>
     </button>
+
     <h1 class="homenav-title" style="padding-top: 16px">SteamWave</h1>
+    <button class="go-rigth-button" id="go-rigth">></button>
 
     <!--div que engloba todas as abas do carrossel-->
     <div class="nav-cards-container">
@@ -65,7 +69,7 @@
         </div>
 
         <!--aba biblioteca do carrossel-->
-        <div class="nav-card center-card" onclick="window.location.href='biblioteca.html'">
+        <div class="nav-card" onclick="window.location.href='biblioteca.html'">
             <div class="win-titlebar">
                 <span>BIBLIOTECA</span>
                 <div class="win-controls">
@@ -106,6 +110,7 @@
         </div>
 
     </div>
+    <button class="go-left-button" id="go-left"><</button>
 </div>
 
 </body>

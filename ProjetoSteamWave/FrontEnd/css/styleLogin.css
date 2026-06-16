@@ -13,7 +13,8 @@
   --neon-cyan: #00eaff;
   --dark-bg: #08000f;
   --win-bg: #c0c0c0;
-  --pixel-font: "Press Start 2P", monospace; /*Essa fonte veio la do link do GoogleFont*/
+  --pixel-font: "Press Start 2P", monospace;
+  /*Essa fonte veio la do link do GoogleFont*/
   --vt-font: "VT323", monospace;
   --orb-font: "Orbitron", sans-serif;
 }
@@ -29,10 +30,12 @@ body {
 /* ===== ANIMAÇÕES ===== */
 /*O keyframe faz aparecer suavemente na tela o que nos queremos, literalmente uma animação*/
 @keyframes starTwinkle {
+
   0%,
   100% {
     opacity: 0.3;
   }
+
   50% {
     opacity: 1;
   }
@@ -43,6 +46,7 @@ body {
   0% {
     transform: rotateX(63deg) translateY(0);
   }
+
   100% {
     /* Move exatamente 80px (o tamanho do quadrado) para o loop ser perfeito */
     transform: rotateX(63deg) translateY(80px);
@@ -61,7 +65,8 @@ body {
   position: absolute;
   background: white;
   border-radius: 50%;
-  opacity: 0; /*deixa as estrelas "invisiveis" ao recarregar a pag*/
+  opacity: 0;
+  /*deixa as estrelas "invisiveis" ao recarregar a pag*/
   animation: starTwinkle var(--dur, 2s) var(--delay, 0s) infinite ease-in-out both;
 }
 
@@ -72,9 +77,12 @@ body {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 60%; /* Controla a altura do horizonte na tela */
-  perspective: 350px; /* Quanto menor o número, mais "deitado" e 3D fica o grid */
-  perspective-origin: 50% 0%; /* Ponto de fuga centralizado no horizonte */
+  height: 60%;
+  /* Controla a altura do horizonte na tela */
+  perspective: 350px;
+  /* Quanto menor o número, mais "deitado" e 3D fica o grid */
+  perspective-origin: 50% 0%;
+  /* Ponto de fuga centralizado no horizonte */
   overflow: hidden;
 }
 
@@ -88,10 +96,10 @@ body {
   background-image:
     repeating-linear-gradient(90deg, rgba(200, 0, 255, 0.35) 0 1px, transparent 1px 80px),
     repeating-linear-gradient(0deg, rgba(200, 0, 255, 0.35) 0 1px, transparent 1px 80px);
-  
+
   transform-style: preserve-3d;
   /* A animação precisa rodar o rotateX junto com o translateY */
-  animation: gridFlow 2.5s linear infinite; 
+  animation: gridFlow 2.5s linear infinite;
 }
 
 /* Máscara estática para o horizonte sumir suavemente sem dar saltos */
@@ -111,7 +119,8 @@ body {
   position: relative;
 }
 
-.login-left, .login-right {
+.login-left,
+.login-right {
   position: relative;
   z-index: 10;
   display: flex;
@@ -120,16 +129,16 @@ body {
   align-items: center;
 }
 
-.login-left { 
-    width: 35%; 
-    gap: 15px; 
-    padding: 40px; 
+.login-left {
+  width: 35%;
+  gap: 15px;
+  padding: 40px;
 }
 
-.login-right { 
-    width: 65%; 
-    gap: 15px; 
-    padding: 60px; 
+.login-right {
+  width: 65%;
+  gap: 15px;
+  padding: 60px;
 }
 
 .avatar-holder {
@@ -142,10 +151,10 @@ body {
   margin-bottom: 10px;
 }
 
-.avatar-img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .login-divider {
@@ -170,41 +179,43 @@ body {
   transition: 0.3s;
 }
 
-.login-input:focus { 
-  border-color: var(--neon-cyan); 
+.login-input:focus {
+  border-color: var(--neon-cyan);
 }
 
 .login-btn {
-    width: 280px;
-    padding: 12px;
-    border-radius: 15px;
-    border: none;
-    background: var(--neon-pink);
-    color: white;
-    font-family: var(--pixel-font);
-    cursor: pointer; /*Ele diz que o elemento é clicavel*/
+  width: 280px;
+  padding: 12px;
+  border-radius: 15px;
+  border: none;
+  background: var(--neon-pink);
+  color: white;
+  font-family: var(--pixel-font);
+  cursor: pointer;
+  /*Ele diz que o elemento é clicavel*/
 }
 
-.login-btn:hover{
-  filter:brightness(1.2);
+.login-btn:hover {
+  filter: brightness(1.2);
   transform: translateY(-2px);
 }
 
 .register-link span:hover {
-    color: #00ffff; /* Brilho ao passar o mouse*/
+  color: #00ffff;
+  /* Brilho ao passar o mouse*/
 }
 
 .span-entrar:hover {
   color: violet;
 }
 
-.social-login-title{
-    color: fuchsia;
+.social-login-title {
+  color: fuchsia;
 }
 
-.register-link{
-    color: fuchsia;
-    font-size: 1.3vh;
+.register-link {
+  color: fuchsia;
+  font-size: 1.3vh;
 }
 
 .social-btn {
@@ -224,16 +235,18 @@ body {
 }
 
 .social-btn:hover {
-  filter: brightness(1.2); /* Dá o efeito de "highlight" clareando o botão */
-  transform: translateY(-2px); /* Dá um leve sobressalto para cima, bem sutil */
+  filter: brightness(1.2);
+  /* Dá o efeito de "highlight" clareando o botão */
+  transform: translateY(-2px);
+  /* Dá um leve sobressalto para cima, bem sutil */
 }
 
-.btn-google { 
-    background: rgba(255, 80, 80, 0.6); 
+.btn-google {
+  background: rgba(255, 80, 80, 0.6);
 }
 
-.btn-discord { 
-    background: rgba(40, 80, 200, 0.6); 
+.btn-discord {
+  background: rgba(40, 80, 200, 0.6);
 }
 
 .toast {
@@ -251,8 +264,102 @@ body {
   z-index: 1;
 }
 
-.toast.show { 
+.toast.show {
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
+}
+
+/*Responsividade Mobile*/
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  #page-login {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .login-left,
+  .login-right {
+    width: 100%;
+    padding: 30px 20px;
+  }
+
+  .login-divider {
+    position: relative;
+    left: auto;
+    top: auto;
+    bottom: auto;
+    width: 80%;
+    height: 2px;
+    margin: 0 auto;
+    background: linear-gradient(to right, transparent, var(--neon-pink), var(--neon-purple), transparent);
+  }
+
+  .login-input {
+    width: 100%;
+    max-width: 320px;
+    font-size: 9px;
+  }
+
+  .login-btn {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .social-btn {
+    width: 100%;
+    max-width: 320px;
+    font-size: 12px;
+    padding: 12px;
+  }
+
+  .avatar-holder {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+  }
+
+  .register-link {
+    font-size: 10px;
+    text-align: center;
+  }
+
+  .social-login-title {
+    font-size: 10px;
+    text-align: center;
+  }
+
+  .toast {
+    left: 20px;
+    right: 20px;
+    bottom: 10px;
+    font-size: 8px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 400px) {
+
+  .login-left,
+  .login-right {
+    padding: 20px 15px;
+  }
+
+  .login-input,
+  .login-btn,
+  .social-btn {
+    max-width: 260px;
+  }
+
+  .avatar-holder {
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+  }
 }

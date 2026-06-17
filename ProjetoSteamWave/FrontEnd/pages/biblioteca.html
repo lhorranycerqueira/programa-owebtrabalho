@@ -7,11 +7,14 @@
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca - SteamWave</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Orbitron:wght@400;700;900&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --neon-purple: #9b30ff;
@@ -21,38 +24,135 @@
             --pixel-font: "Press Start 2P", monospace;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: var(--dark-bg); color: white; font-family: var(--pixel-font); height: 100vh; overflow: hidden; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-        .page-container { display: flex; flex-direction: column; height: 100vh; }
+        body {
+            background: var(--dark-bg);
+            color: white;
+            font-family: var(--pixel-font);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
 
         /* Header da Biblioteca */
-        .bib-header { padding: 20px; text-align: center; border-bottom: 2px solid var(--neon-purple); }
-        .bib-header h1 { font-size: 16px; color: var(--neon-purple); text-shadow: 0 0 10px var(--neon-purple); }
+        .bib-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--neon-purple);
+        }
 
-        .bib-body { display: flex; flex: 1; padding: 20px; gap: 20px; }
+        .bib-header h1 {
+            font-size: 16px;
+            color: var(--neon-purple);
+            text-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        .bib-body {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+        }
 
         /* Sidebar de Jogos */
-        .bib-sidebar { width: 250px; background: rgba(0,0,0,0.3); padding: 10px; border: 1px solid #444; }
-        .bib-game-item { 
-            padding: 12px; cursor: pointer; border-bottom: 1px solid #444; 
-            font-size: 10px; transition: 0.3s;
+        .bib-sidebar {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border: 1px solid #444;
         }
-        .bib-game-item:hover, .bib-game-item.active { background: var(--neon-purple); color: white; }
+
+        .bib-game-item {
+            padding: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #444;
+            font-size: 10px;
+            transition: 0.3s;
+        }
+
+        .bib-game-item:hover,
+        .bib-game-item.active {
+            background: var(--neon-purple);
+            color: white;
+        }
 
         /* Main da Biblioteca */
-        .bib-main { flex: 1; background: var(--mid-purple); padding: 30px; border: 2px solid var(--neon-purple); display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .bib-game-banner { font-size: 80px; text-align: center; margin-bottom: 20px; }
-        .bib-game-banner-title { font-size: 20px; margin-top: 10px; color: var(--neon-cyan); }
-        .bib-stats { margin-top: 20px; font-size: 12px; line-height: 2; text-align: center; }
+        .bib-main {
+            flex: 1;
+            background: var(--mid-purple);
+            padding: 30px;
+            border: 2px solid var(--neon-purple);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bib-game-banner {
+            font-size: 80px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .bib-game-banner-title {
+            font-size: 20px;
+            margin-top: 10px;
+            color: var(--neon-cyan);
+        }
+
+        .bib-stats {
+            margin-top: 20px;
+            font-size: 12px;
+            line-height: 2;
+            text-align: center;
+        }
 
         /* Navegação Global */
-        .global-nav { height: 60px; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; gap: 30px; border-top: 2px solid var(--neon-purple); }
-        .gnav-btn { cursor: pointer; background: none; border: none; color: white; font-family: var(--pixel-font); font-size: 8px; text-transform: uppercase; }
-        .gnav-btn:hover { color: var(--neon-cyan); }
-        .gnav-btn.active { color: var(--neon-cyan); border-bottom: 2px solid var(--neon-cyan); }
+        .global-nav {
+            height: 60px;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            border-top: 2px solid var(--neon-purple);
+        }
+
+        .gnav-btn {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            font-family: var(--pixel-font);
+            font-size: 8px;
+            text-transform: uppercase;
+        }
+
+        .gnav-btn:hover {
+            color: var(--neon-cyan);
+        }
+
+        .gnav-btn.active {
+            color: var(--neon-cyan);
+            border-bottom: 2px solid var(--neon-cyan);
+        }
+
+        @view-transition{
+            navigation: auto;
+        }
     </style>
 </head>
+
 <body>
     <div class="page-container">
         <header class="bib-header">
@@ -61,9 +161,12 @@
 
         <div class="bib-body">
             <aside class="bib-sidebar">
-                <div class="bib-game-item active" onclick="selectBibGame(this, 'Cyber-Gato', '🐱', '42h', '15')">🐱 Cyber-Gato</div>
-                <div class="bib-game-item" onclick="selectBibGame(this, 'VaporWorld', '🌌', '120h', '42')">🌌 VaporWorld</div>
-                <div class="bib-game-item" onclick="selectBibGame(this, 'PixelQuest', '⚔️', '8h', '5')">⚔️ PixelQuest</div>
+                <div class="bib-game-item active" onclick="selectBibGame(this, 'Cyber-Gato', '🐱', '42h', '15')">🐱
+                    Cyber-Gato</div>
+                <div class="bib-game-item" onclick="selectBibGame(this, 'VaporWorld', '🌌', '120h', '42')">🌌 VaporWorld
+                </div>
+                <div class="bib-game-item" onclick="selectBibGame(this, 'PixelQuest', '⚔️', '8h', '5')">⚔️ PixelQuest
+                </div>
             </aside>
 
             <main class="bib-main" id="bibMain">
@@ -107,4 +210,5 @@
         }
     </script>
 </body>
+
 </html>

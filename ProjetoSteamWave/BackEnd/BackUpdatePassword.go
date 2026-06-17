@@ -45,7 +45,7 @@ func HandleUpdatePassword(w http.ResponseWriter, r *http.Request) {
 	}
 
 	req.Email = strings.TrimSpace(req.Email)
-	fmt.Printf("[UpdatePassword] Email recebido: %s\n", req.Email)
+	fmt.Printf("UpdatePassword Email recebido: %s\n", req.Email)
 
 	if req.Email == "" || req.CurrentPassword == "" || req.NewPassword == "" {
 		w.WriteHeader(400)
@@ -75,7 +75,7 @@ func HandleUpdatePassword(w http.ResponseWriter, r *http.Request) {
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.CurrentPassword))
 	if err != nil {
-		fmt.Printf("[UpdatePassword] Senha atual incorreta para: %s\n", req.Email)
+		fmt.Printf("UpdatePassword Senha atual incorreta para: %s\n", req.Email)
 		w.WriteHeader(401)
 		json.NewEncoder(w).Encode(Error{
 			Message: "Senha atual incorreta",
@@ -86,7 +86,7 @@ func HandleUpdatePassword(w http.ResponseWriter, r *http.Request) {
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(req.NewPassword), bcrypt.DefaultCost)
 	if err != nil {
-		fmt.Printf("[UpdatePassword] Erro ao gerar hash: %v\n", err)
+		fmt.Printf("UpdatePassword Erro ao gerar hash: %v\n", err)
 		w.WriteHeader(500)
 		json.NewEncoder(w).Encode(Error{
 			Message: "Erro interno ao processar senha",
@@ -101,7 +101,7 @@ func HandleUpdatePassword(w http.ResponseWriter, r *http.Request) {
 	)
 
 	if err != nil {
-		fmt.Printf("[UpdatePassword] Erro ao atualizar MongoDB: %v\n", err)
+		fmt.Printf("UpdatePassword Erro ao atualizar MongoDB: %v\n", err)
 		w.WriteHeader(500)
 		json.NewEncoder(w).Encode(Error{
 			Message: "Erro interno ao atualizar senha",
@@ -110,7 +110,7 @@ func HandleUpdatePassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Printf("[UpdatePassword] Senha atualizada com sucesso para: %s\n", req.Email)
+	fmt.Printf("UpdatePassword Senha atualizada com sucesso para: %s\n", req.Email)
 	json.NewEncoder(w).Encode(map[string]string{
 		"message": "Senha alterada com sucesso",
 	})

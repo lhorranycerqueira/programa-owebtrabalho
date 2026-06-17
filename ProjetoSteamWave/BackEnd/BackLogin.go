@@ -63,11 +63,11 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	fmt.Printf("[Login] Comparando senha para: %s\n", login.Email)
+	fmt.Printf("Login Comparando senha para: %s\n", login.Email)
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password))
 	if err != nil {
-		fmt.Printf("[Login] Senha incorreta para: %s\n", login.Email)
+		fmt.Printf("Login Senha incorreta para: %s\n", login.Email)
 		w.WriteHeader(401)
 		json.NewEncoder(w).Encode(Error{
 			Message: "Não autorizado, senha incorreta",
@@ -76,7 +76,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Printf("[Login] Login bem-sucedido para: %s\n", login.Email)
+	fmt.Printf("Login bem-sucedido para: %s\n", login.Email)
 	json.NewEncoder(w).Encode(map[string]string{
 		"message": "Login realizado com sucesso",
 		"email":   user.Email,

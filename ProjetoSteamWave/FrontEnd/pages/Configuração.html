@@ -5,65 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/styleConfig.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.cdnfonts.com/css/motiva-sans" rel="stylesheet"> 
+    <link href="https://fonts.cdnfonts.com/css/motiva-sans" rel="stylesheet">
     <title>Configurações</title>
 </head>
 <body>
-    <!--Obrigado Siles por ter falado do site que tinha coisa já pronta-->
-    <div class="action-area">
-        <a href="carrossel.html" class="toggle-link">Voltar para o Menu</a>
+    <div class="config-wrapper">
+        <main class="config-panel">
+            <div class="panel-header">
+                <div class="panel-title-bar">
+                    <span class="panel-icon">⚙</span>
+                    <h1>Configurações</h1>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <fieldset>
+                    <legend>Privacidade</legend>
+                    <div class="config-row">
+                        <label for="profile-status">Perfil público:</label>
+                        <select id="profile-status">
+                            <option value="public">Público</option>
+                            <option value="private">Privado</option>
+                        </select>
+                    </div>
+                    <div class="config-row">
+                        <label for="online-status">Mostrar status online</label>
+                        <label class="switch">
+                            <input type="checkbox" id="online-status">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Conta</legend>
+                    <div class="config-row">
+                        <label for="current-password">Senha Atual:</label>
+                        <input type="password" id="current-password" placeholder="Digite sua senha atual">
+                    </div>
+                    <div class="config-row">
+                        <label for="id-password">Nova Senha:</label>
+                        <input type="password" id="id-password" placeholder="Digite sua nova senha">
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Preferências Visuais</legend>
+                    <div class="config-row">
+                        <label for="theme-selector">Escolher Tema:</label>
+                        <select id="theme-selector" onchange="mudarTema()">
+                            <option value="neon-classic">Neon Classic (Padrão)</option>
+                            <option value="terminal-green">Terminal Green</option>
+                            <option value="steam-original">Steam Original</option>
+                        </select>
+                    </div>
+                </fieldset>
+
+                <button type="button" class="btn-alteracoes">
+                    <span class="btn-glow"></span>
+                    <strong>SALVAR ALTERAÇÕES</strong>
+                </button>
+            </div>
+
+            <div class="toast" id="toast"></div>
+        </main>
+
+        <section class="nav-footer">
+            <a href="carrossel.html" class="btn-home">
+                <span class="btn-home-icon">⌂</span>
+                Voltar para o Menu
+            </a>
+            <button type="button" class="btn-cancel" id="btn-cancelar">
+                Cancelar e Sair
+            </button>
+        </section>
     </div>
-    <main>
-        <h1>Configurações</h1>
-
-        <fieldset>
-            <h2>Privacidade</h2>
-            <div class="customer-privacy">
-                <label for="profile-status">Perfil publico:</label>
-                <select id="profile-status">
-                    <option value="public">Publico</option>
-                    <option value="private">Privado</option>
-                </select>
-            </div>
-
-            <div class="customer-status">
-                <label for="online-status">Mostrar status online</label>
-                <label class="switch">
-                    <input type="checkbox" id="online-status">
-                    <span class="slider"></span>
-                </label>
-            </div>
-        </fieldset>
-
-        <fieldset>
-            <h2>Conta</h2>
-            <div class="change-password">
-                <label for="current-password">Senha Atual:</label>
-                <input type="password" id="current-password" placeholder="Digite sua senha atual">
-            </div>
-            <div class="change-password">
-                <label for="new-password">Nova Senha:</label>
-                <input type="password" id="id-password" placeholder="Digite sua nova senha">
-            </div>
-        </fieldset>
-
-        <fieldset>
-            <h2>Preferências Visuais</h2>
-            <div class="customer-theme">
-                <label for="theme-selector">Escolher Tema:</label>
-                <select id="theme-selector" onchange="mudarTema()">
-                    <option value="neon-classic">Neon Classic (Padrão)</option>
-                    <option value="terminal-green">Terminal Green</option>
-                    <option value="steam-original">Steam Original</option>
-                </select>
-            </div>
-        </fieldset>
-
-        <button type="button" class="btn-alteracoes"><strong>SALVAR ALTERAÇÕES</strong></button>
-
-        <!--Toast que vou colocar para ficar mais bonito o site-->
-        <div class="toast" id="toast"></div>
-    </main>
 
     <script src="../js/scriptConfiguracoes.js"></script>
 </body>

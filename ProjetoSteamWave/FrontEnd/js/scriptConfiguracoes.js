@@ -1,3 +1,17 @@
+//Verifica o token
+document.addEventListener("DOMContentLoaded", function() {
+    const token = localStorage.getItem("steamWaveToken");
+    const email = localStorage.getItem("steamUserEmail");
+    
+    if (!token || !email) {
+        showToast("Faça login para acessar as configurações!");
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 1500);
+        return;
+    }
+});
+
 function mudarTema() {
   const seletor = document.getElementById("theme-selector");
   const chosenTheme = seletor.value;

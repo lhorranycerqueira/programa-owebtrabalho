@@ -24,12 +24,9 @@ O que usamos no projeto:
 Ter instalado em sua máquina:
 * [Go (Golang)](https://go.dev/dl/)
 ### Instalação de Dependências
-Abra o terminal na pasta do BackEnd do projeto e execute os comandos abaixo para baixar as dependências:
+Baixe todas as dependências automaticamente:
 ```bash
-go get go.mongodb.org/mongo-driver/mongo
-```
-```bash
-go get github.com/joho/godotenv
+go mod download
 ```
 ### Configuração do Banco de Dados
 No projeto estamos usando o MongoDB Atlas.

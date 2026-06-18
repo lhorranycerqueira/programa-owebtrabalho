@@ -95,3 +95,9 @@ ps: bahia pfv faz um tutorial de como abrir o BD mais intuitivo pfv to mematano 
 - **Backend**: Criação dos novos arquivos `BackCadastro.go` e `BackUpdatePassword.go`. O arquivo `BackUpdatePassword.go` foi implementado para gerenciar a alteração de senha na tela de `Configurações`. Também foi adicionada o Hash nas senhas.
 - **Frontend**: Ajustes no design do cadastro, configurações e scripts para melhorar a estética e a responsividade. Coloquei alertas via *Toast*.
 - **Correções & Refatorações**: Modificações e melhorias nos arquivos `BackLogin.go`, `Main.go` e `Struct.go`.
+
+## Atualizações Rickelmy | 18/06
+- **Autenticação JWT**: Implementado sistema de autenticação via **JWT (JSON Web Tokens)** no fluxo de login.
+  - Adicionada a biblioteca `github.com/golang-jwt/v5` como dependência no projeto.
+  - Criada a função `gerarTokenJWT()` no `BackLogin.go`, que gera um token assinado com o algoritmo **HS256**, contendo o email do usuário e tempo de expiração de 24 horas no payload (claims).
+  - O `scriptLogin.js` pega o token e salva no `localStorage` (Seria mais seguro colocar em um Cookie no BackEnd, mas no LocalStorage é mais, o exemplo do video usava no LocalStorage).

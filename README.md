@@ -110,5 +110,7 @@ ps: bahia pfv faz um tutorial de como abrir o BD mais intuitivo pfv to mematano 
 
 
 ## atualizacoes lui | 21/06
-- padronizei as fontes e os tamanhos nas páginas utilizando o stylesheet de tema pra base;
-- arrumei a barra de pesquisa da loja e agora está mais intuitiva.
+- padronizei as fontes e os tamanhos nas páginas utilizando o stylesheet de tema pra base
+para utilizar a padronização do arquivo, so colocar txt-title dentro da classe;
+- arrumei a barra de pesquisa da loja e agora está mais intuitiva;
+- arrumei o problema das janelas fechando.

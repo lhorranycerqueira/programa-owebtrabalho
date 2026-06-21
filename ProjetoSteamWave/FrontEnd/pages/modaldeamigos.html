@@ -70,14 +70,8 @@
       user-select: none;
     ">
       <div style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:14px;line-height:1;">👥</span>
-        <span style="
-          font-family: var(--pixel-font);
-          font-size: 9px;
-          color: #00eaff;
-          letter-spacing: 2px;
-          text-shadow: 0 0 8px rgba(0,234,255,0.7);
-        ">AMIGOS ONLINE</span>
+        <span class="txt-title" style="line-height:1;">👥</span>
+        <span class="txt-title" style="color: #00eaff; letter-spacing: 2px; text-shadow: 0 0 8px rgba(0,234,255,0.7);">AMIGOS ONLINE</span>
       </div>
       <div style="display:flex;gap:3px;">
         <div class="win-btn" style="background:#c0c0c0;color:#000;">_</div>
@@ -98,10 +92,10 @@
       gap: 20px;
       flex-shrink: 0;
     ">
-      <span onclick="setAbaModal('todos')"  id="aba-todos"    class="modal-aba modal-aba-ativa">TODOS</span>
-      <span onclick="setAbaModal('online')" id="aba-online"   class="modal-aba">ONLINE</span>
-      <span onclick="setAbaModal('jogando')"id="aba-jogando"  class="modal-aba">JOGANDO</span>
-      <span onclick="setAbaModal('offline')"id="aba-offline"  class="modal-aba">OFFLINE</span>
+      <span onclick="setAbaModal('todos')"  id="aba-todos"    class="modal-aba modal-aba-ativa txt-title">TODOS</span>
+      <span onclick="setAbaModal('online')" id="aba-online"   class="modal-aba txt-title">ONLINE</span>
+      <span onclick="setAbaModal('jogando')"id="aba-jogando"  class="modal-aba txt-title">JOGANDO</span>
+      <span onclick="setAbaModal('offline')"id="aba-offline"  class="modal-aba txt-title">OFFLINE</span>
     </div>
 
     <div style="
@@ -113,8 +107,9 @@
       gap: 8px;
       flex-shrink: 0;
     ">
-      <span style="color:rgba(123,47,255,0.7);font-size:12px;">🔍</span>
+      <span class="txt-body" style="color:rgba(123,47,255,0.7);">🔍</span>
       <input
+        class="txt-body"
         id="modal-busca"
         type="text"
         placeholder="Buscar amigo..."
@@ -125,17 +120,13 @@
           border: 1px solid rgba(123,47,255,0.3);
           padding: 5px 10px;
           color: rgba(220,200,255,0.9);
-          font-family: var(--pixel-font);
-          font-size: 8px;
           outline: none;
           transition: border-color 0.2s, box-shadow 0.2s;
         "
         onfocus="this.style.borderColor='rgba(0,234,255,0.6)';this.style.boxShadow='0 0 8px rgba(0,234,255,0.2)'"
         onblur="this.style.borderColor='rgba(123,47,255,0.3)';this.style.boxShadow='none'"
       />
-      <span id="modal-contador" style="
-        font-family: var(--pixel-font);
-        font-size: 7px;
+      <span id="modal-contador" class="txt-body" style="
         color: rgba(123,47,255,0.6);
         white-space: nowrap;
         min-width: 60px;
@@ -163,21 +154,18 @@
       justify-content: space-between;
       flex-shrink: 0;
     ">
-      <span style="
-        font-family: var(--pixel-font);
-        font-size: 7px;
+      <span class="txt-body" style="
         color: rgba(123,47,255,0.5);
         letter-spacing: 1px;
       ">STEAMWAVE v1.0 — LISTA DE AMIGOS</span>
 
       <button
+        class="txt-body"
         onclick="showToast('➕ Em breve: adicionar amigos por nome ou código!')"
         style="
           background: linear-gradient(135deg, rgba(123,47,255,0.4), rgba(0,234,255,0.2));
           border: 1px solid rgba(0,234,255,0.4);
           color: #00eaff;
-          font-family: var(--pixel-font);
-          font-size: 7px;
           padding: 5px 12px;
           cursor: pointer;
           letter-spacing: 1px;

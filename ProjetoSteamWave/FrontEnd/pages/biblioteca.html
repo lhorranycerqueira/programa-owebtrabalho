@@ -12,9 +12,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca - SteamWave</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Orbitron:wght@400;700;900&display=swap"
-        rel="stylesheet">
+    <link rel="stylesheet" href="../css/tema.css">
     <style>
         :root {
             --neon-purple: #9b30ff;
@@ -156,25 +154,25 @@
 <body>
     <div class="page-container">
         <header class="bib-header">
-            <h1>A MINHA BIBLIOTECA</h1>
+            <h1 class="txt-title">A MINHA BIBLIOTECA</h1>
         </header>
 
         <div class="bib-body">
             <aside class="bib-sidebar">
-                <div class="bib-game-item active" onclick="selectBibGame(this, 'Cyber-Gato', '🐱', '42h', '15')">🐱
+                <div class="bib-game-item active txt-body" onclick="selectBibGame(this, 'Cyber-Gato', '🐱', '42h', '15')">🐱
                     Cyber-Gato</div>
-                <div class="bib-game-item" onclick="selectBibGame(this, 'VaporWorld', '🌌', '120h', '42')">🌌 VaporWorld
+                <div class="bib-game-item txt-body" onclick="selectBibGame(this, 'VaporWorld', '🌌', '120h', '42')">🌌 VaporWorld
                 </div>
-                <div class="bib-game-item" onclick="selectBibGame(this, 'PixelQuest', '⚔️', '8h', '5')">⚔️ PixelQuest
+                <div class="bib-game-item txt-body" onclick="selectBibGame(this, 'PixelQuest', '⚔️', '8h', '5')">⚔️ PixelQuest
                 </div>
             </aside>
 
             <main class="bib-main" id="bibMain">
-                <div class="bib-game-banner">
+                <div class="bib-game-banner txt-title">
                     <span>🐱</span>
-                    <div class="bib-game-banner-title">Cyber-Gato</div>
+                    <div class="bib-game-banner-title txt-title">Cyber-Gato</div>
                 </div>
-                <div class="bib-stats">
+                <div class="bib-stats txt-body">
                     <p>Horas jogadas: <span id="bibHours">42h</span></p>
                     <p>Conquistas: <span id="bibAchievements">15 🏆</span></p>
                 </div>
@@ -183,8 +181,8 @@
 
         <nav class="global-nav">
             <button class="gnav-btn" onclick="window.location.href='homepage.html'">🏠 Home</button>
-            <button class="gnav-btn" onclick="window.location.href='loja.html'">🛒 Loja</button>
-            <button class="gnav-btn active" onclick="window.location.href='biblioteca.html'">📚 Biblioteca</button>
+            <button class="gnav-btn txt-title" onclick="window.location.href='homepage.html'">🏠 Home</button>
+            <button class="gnav-btn active txt-title" onclick="window.location.href='biblioteca.html'">📚 Biblioteca</button>
         </nav>
     </div>
 

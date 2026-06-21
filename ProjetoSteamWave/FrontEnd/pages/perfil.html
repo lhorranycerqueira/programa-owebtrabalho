@@ -6,9 +6,7 @@
     <title>Perfil</title>
     <link rel="stylesheet" href="../css/root.css">
     <link rel="stylesheet" href="../css/stylePerfil.css">
-    <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Orbitron:wght@400;700;900&display=swap"
-      rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/tema.css">
     <script src="#" defer></script>
 </head>
 <body>
@@ -137,7 +135,7 @@
         <!-- aba de customização de perfil -->
         <div class="desktop-window paint-window">
           <div class="win-window">
-            <div class="win-titlebar" style="font-size: 9px">
+            <div class="win-titlebar txt-title">
               <span>🎨 untitled - Paint</span>
               <div class="win-controls">
                 <div class="win-btn">_</div>
@@ -161,59 +159,29 @@
                 border-bottom: 1px solid #888;
               "
             >
-              <span
-                style="
-                  font-family: var(--pixel-font);
-                  font-size: 7px;
-                  cursor: pointer;
-                  color: #000;
-                "
+              <span class="txt-title"
+                style="cursor: pointer; color: #000;"
                 onclick="showToast('📄 Arquivo...')"
                 >Arquivo</span
               >
-              <span
-                style="
-                  font-family: var(--pixel-font);
-                  font-size: 7px;
-                  cursor: pointer;
-                  color: #000;
-                "
+              <span class="txt-title"
+                style="cursor: pointer; color: #000;"
                 >Editar</span
               >
-              <span
-                style="
-                  font-family: var(--pixel-font);
-                  font-size: 7px;
-                  cursor: pointer;
-                  color: #000;
-                "
+              <span class="txt-title"
+                style="cursor: pointer; color: #000;"
                 >Exibir</span
               >
-              <span
-                style="
-                  font-family: var(--pixel-font);
-                  font-size: 7px;
-                  cursor: pointer;
-                  color: #000;
-                "
+              <span class="txt-title"
+                style="cursor: pointer; color: #000;"
                 >Imagem</span
               >
-              <span
-                style="
-                  font-family: var(--pixel-font);
-                  font-size: 7px;
-                  cursor: pointer;
-                  color: #000;
-                "
+              <span class="txt-title"
+                style="cursor: pointer; color: #000;"
                 >Opções</span
               >
-              <span
-                style="
-                  font-family: var(--pixel-font);
-                  font-size: 7px;
-                  cursor: pointer;
-                  color: #000;
-                "
+              <span class="txt-title"
+                style="cursor: pointer; color: #000;"
                 >Ajuda</span
               >
             </div>
@@ -240,7 +208,7 @@
                 <div class="paint-tool">〰️</div>
               </div>
               <div class="paint-canvas">
-                <div style="font-size: 110px; position: relative; z-index: 2">
+                <div class="txt-title big-icon" style="position: relative; z-index: 2">
                   🐱
                 </div>
                 <div
@@ -294,10 +262,8 @@
               </div>
             </div>
             <div class="amigos-list">
-              <div
+              <div class="txt-body"
                 style="
-                  font-family: var(--pixel-font);
-                  font-size: 7px;
                   color: #666;
                   padding: 4px 0 2px;
                 "
@@ -319,10 +285,8 @@
                 VaporFox
                 <div class="amigo-status status-away"></div>
               </div>
-              <div
+              <div class="txt-body"
                 style="
-                  font-family: var(--pixel-font);
-                  font-size: 7px;
                   color: #666;
                   padding: 8px 0 2px;
                 "
@@ -340,6 +304,7 @@
                 <div class="amigo-status status-offline"></div>
               </div>
               <button
+                class="txt-body"
                 onclick="showToast('➕ Adicionar amigo em breve!')"
                 style="
                   width: 100%;
@@ -347,8 +312,6 @@
                   padding: 6px;
                   background: #6a0dad;
                   color: white;
-                  font-family: var(--pixel-font);
-                  font-size: 7px;
                   border: none;
                   cursor: pointer;
                   border-radius: 4px;

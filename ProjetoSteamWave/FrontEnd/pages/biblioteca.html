@@ -31,7 +31,6 @@
         body {
             background: var(--dark-bg);
             color: white;
-            font-family: var(--pixel-font);
             height: 100vh;
             overflow: hidden;
         }
@@ -50,7 +49,6 @@
         }
 
         .bib-header h1 {
-            font-size: 16px;
             color: var(--neon-purple);
             text-shadow: 0 0 10px var(--neon-purple);
         }
@@ -74,7 +72,6 @@
             padding: 12px;
             cursor: pointer;
             border-bottom: 1px solid #444;
-            font-size: 10px;
             transition: 0.3s;
         }
 
@@ -97,20 +94,17 @@
         }
 
         .bib-game-banner {
-            font-size: 80px;
             text-align: center;
             margin-bottom: 20px;
         }
 
         .bib-game-banner-title {
-            font-size: 20px;
             margin-top: 10px;
             color: var(--neon-cyan);
         }
 
         .bib-stats {
             margin-top: 20px;
-            font-size: 12px;
             line-height: 2;
             text-align: center;
         }
@@ -131,8 +125,6 @@
             background: none;
             border: none;
             color: white;
-            font-family: var(--pixel-font);
-            font-size: 8px;
             text-transform: uppercase;
         }
 
@@ -154,25 +146,25 @@
 <body>
     <div class="page-container">
         <header class="bib-header">
-            <h1 class="txt-title">A MINHA BIBLIOTECA</h1>
+            <h1>A MINHA BIBLIOTECA</h1>
         </header>
 
         <div class="bib-body">
             <aside class="bib-sidebar">
-                <div class="bib-game-item active txt-body" onclick="selectBibGame(this, 'Cyber-Gato', '🐱', '42h', '15')">🐱
+                <div class="bib-game-item active" onclick="selectBibGame(this, 'Cyber-Gato', '🐱', '42h', '15')">🐱
                     Cyber-Gato</div>
-                <div class="bib-game-item txt-body" onclick="selectBibGame(this, 'VaporWorld', '🌌', '120h', '42')">🌌 VaporWorld
+                <div class="bib-game-item" onclick="selectBibGame(this, 'VaporWorld', '🌌', '120h', '42')">🌌 VaporWorld
                 </div>
-                <div class="bib-game-item txt-body" onclick="selectBibGame(this, 'PixelQuest', '⚔️', '8h', '5')">⚔️ PixelQuest
+                <div class="bib-game-item" onclick="selectBibGame(this, 'PixelQuest', '⚔️', '8h', '5')">⚔️ PixelQuest
                 </div>
             </aside>
 
             <main class="bib-main" id="bibMain">
-                <div class="bib-game-banner txt-title">
+                <div class="bib-game-banner">
                     <span>🐱</span>
-                    <div class="bib-game-banner-title txt-title">Cyber-Gato</div>
+                    <div class="bib-game-banner-title">Cyber-Gato</div>
                 </div>
-                <div class="bib-stats txt-body">
+                <div class="bib-stats">
                     <p>Horas jogadas: <span id="bibHours">42h</span></p>
                     <p>Conquistas: <span id="bibAchievements">15 🏆</span></p>
                 </div>
@@ -181,8 +173,8 @@
 
         <nav class="global-nav">
             <button class="gnav-btn" onclick="window.location.href='homepage.html'">🏠 Home</button>
-            <button class="gnav-btn txt-title" onclick="window.location.href='homepage.html'">🏠 Home</button>
-            <button class="gnav-btn active txt-title" onclick="window.location.href='biblioteca.html'">📚 Biblioteca</button>
+            <button class="gnav-btn" onclick="window.location.href='loja.html'">🛒 Loja</button>
+            <button class="gnav-btn active" onclick="window.location.href='biblioteca.html'">📚 Biblioteca</button>
         </nav>
     </div>
 

@@ -1,18 +1,16 @@
 /* =========================================
-   STEAMWAVE - TEMAS ALTERNATIVOS
+   STEAMWAVE THEMES
    Light Mode + Fotossensibilidade
 ========================================= */
 
 
 /* =========================================
-   LIGHT MODE - VAPORWAVE PASTEL
+   LIGHT MODE - VAPORWAVE
 ========================================= */
 
 
 .light-mode {
 
-
-    /* Fundo */
 
     --dark-bg:
     #f4efff;
@@ -31,8 +29,6 @@
 
 
 
-    /* Textos */
-
     --text:
     #241433;
 
@@ -45,8 +41,6 @@
     #67547c;
 
 
-
-    /* Neon */
 
     --neon-pink:
     #ff4fd8;
@@ -61,8 +55,6 @@
 
 
 
-    /* Janelas estilo retrô */
-
     --win-bg:
     #eeeaf5;
 
@@ -75,8 +67,6 @@
     );
 
 
-
-    /* Bordas e sombras */
 
     --border-color:
     rgba(
@@ -101,14 +91,11 @@
 
 /* =========================================
    MODO FOTOSSENSIBILIDADE
-   Menos contraste e menos brilho
 ========================================= */
 
 
 .low-sensitivity {
 
-
-    /* Fundo */
 
     --dark-bg:
     #f2eee8;
@@ -127,8 +114,6 @@
 
 
 
-    /* Texto */
-
     --text:
     #3b3640;
 
@@ -141,8 +126,6 @@
     #625c68;
 
 
-
-    /* Cores suaves */
 
     --neon-pink:
     #c985b5;
@@ -157,8 +140,6 @@
 
 
 
-    /* Janelas */
-
     --win-bg:
     #e6dfd6;
 
@@ -171,8 +152,6 @@
     );
 
 
-
-    /* Reduz brilho */
 
     --border-color:
     rgba(
@@ -195,14 +174,12 @@
 
 
 
-/* =========================================
-   Transição suave entre temas
-========================================= */
-
+/* transição */
 
 body {
 
     transition:
+
     background-color .3s ease,
     color .3s ease;
 

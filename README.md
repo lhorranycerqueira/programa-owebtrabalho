@@ -97,4 +97,13 @@ ps: bahia pfv faz um tutorial de como abrir o BD mais intuitivo pfv to mematano 
 - **Autenticação JWT**: Implementado sistema de autenticação via **JWT (JSON Web Tokens)** no fluxo de login.
   - Adicionada a biblioteca `github.com/golang-jwt/v5` como dependência no projeto.
   - Criada a função `gerarTokenJWT()` no `BackLogin.go`, que gera um token assinado com o algoritmo **HS256**, contendo o email do usuário e tempo de expiração de 24 horas no payload (claims).
-  - O `scriptLogin.js` pega o token e salva no `localStorage` (Seria mais seguro colocar em um Cookie no BackEnd, mas no LocalStorage é mais, o exemplo do video usava no LocalStorage).
+   - O `scriptLogin.js` pega o token e salva no `localStorage` (Seria mais seguro colocar em um Cookie no BackEnd, mas no LocalStorage é mais, o exemplo do video usava no LocalStorage).
+
+## Atualizações Rickelmy | 20/06
+- **Autenticação JWT (Frontend)**: Adicionei a função `tokenValido()` no `scriptConfiguracoes.js` que decodifica o payload do JWT e verifica se o campo `exp` ainda não expirou. Agora a página de configurações bloqueia o acesso se o token estiver ausente, inválido ou expirado, limpando o `localStorage` e redirecionando para o login.
+- **Sistema de Temas (Backend)**: Adicionei o campo `Theme` na struct `Users` no `Struct.go`. No `BackCadastro.go`, todo novo usuário é cadastrado agora com o tema padrão `"neon-classic"`. O `BackLogin.go` passou a retornar o `theme` do usuário na resposta JSON do login.
+- **Endpoint `/UpdateTheme`**: Criei o endpoint `POST /UpdateTheme` que recebe `{ email, theme }` e atualiza o campo `theme` no MongoDB com `$set` (sem alterar outros campos do documento).
+- **Endpoint `/Me`**: Criei o **endpoint** para validar o JWT pelo header `Authorization: Bearer <token>`, extrair o email das claims e retornar `{ email, theme }` do banco. Serve para o frontend buscar os dados atualizados do usuário sem precisar fazer login novamente. Adicionei a verificação rigorosa do algoritmo de assinatura para evitar falsificação de tokens.
+- **Refatoração do Backend**: Criei o **arquivo** `BackConfiguracoes.go` com as funções de alterar senha e salvar o tema do usuário no BD.
+- **Comentários**: Adicionei comentários explicativos no `BackMe.go` e `BackConfiguracoes.go`.
+- **Frontend (Configurações)**: A função `salvarConfiguracoes()` agora chama `POST /UpdateTheme` para persistir o tema no MongoDB ao clicar em salvar, mantendo também o salvamento no `localStorage`.   

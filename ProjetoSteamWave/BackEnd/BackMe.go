@@ -76,10 +76,12 @@ func HandleMe(w http.ResponseWriter, r *http.Request) {
 	//jwt.Parse faz tudo de uma vez, ela decodifica o token, valida a assinatura e vê a expiração
 	//A função que passo como parâmetro serve pra devolver a chave que o Parse vai usar pra validar
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		//Aqui eu garanto que o algoritmo de assinatura é HS256
+		//Aqui eu garanto que o algoritmo de assinatura é HMAC(HS256), e só aceitara HMAC
 		//Isso evita ataques de hackers
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("método de assinatura inesperado: %v", token.Header["alg"])
+			//Aqui verificamos se o token tem o algoritmo HMAC; no Header do token está o ["alg"].
+			//Se o alg for alterado para qualquer outro algoritmo ou for none, ele já será inválido
 		}
 		return []byte(secretKey), nil
 	})
@@ -124,6 +126,8 @@ func HandleMe(w http.ResponseWriter, r *http.Request) {
 	//Busco o usuário no MongoDB pelo email que tirei do token
 	var user Users
 	err = collection.FindOne(ctx, bson.M{"email": email}).Decode(&user)
+	//Esse bson.M seria como o WHERE no SQL, e o FindOne ele pega apenas UMA informação
+	//retorna um ponteiro que ainda precisa ser lido. Por isso o Decode(&user)
 	if err != nil {
 		w.WriteHeader(404)
 		json.NewEncoder(w).Encode(Error{

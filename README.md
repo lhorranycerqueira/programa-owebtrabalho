@@ -23,19 +23,16 @@ O que usamos no projeto:
 ###  Pré-requisitos
 Ter instalado em sua máquina:
 * [Go (Golang)](https://go.dev/dl/)
-* **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** (Certifique-se de que o Docker esteja rodando antes de subir o banco)
 ### Instalação de Dependências
-Abra o terminal na pasta do BackEnd do projeto e execute os comandos abaixo para baixar as dependências:
+Baixe todas as dependências automaticamente:
 ```bash
-go get -u github.com/go-sql-driver/mysql
+go mod download
 ```
+### Configuração do Banco de Dados
+No projeto estamos usando o MongoDB Atlas.
+- Veja se seu arquivo `.env` está configurad com a sua Connection String:
 ```bash
-go get github.com/joho/godotenv
-```
-### Iniciando o Banco de Dados
-Suba o container do banco de dados com o Docker:
-```bash
-docker-compose up -d
+MONGO_URI=mongodb+srv://<usuario>:<senha>@cluster0.lozapyk.mongodb.net/
 ```
 ### Inicie o BackEnd
 Após subir o banco, inicie o servido:
@@ -44,7 +41,6 @@ go run .
 ``` 
 
 ## anotações do que cada um está fazendo! (atualizem conforme forem fazendo por favor)
-carol: produzindo (e aprendendo como fazer) o back end do formulário do cadastro
 
 ## Atualizações Rickelmy 11/05
 - **Arquitetura**: Separei os arquivos do projeto entre **Front-End** e **Back-End**.
@@ -61,12 +57,53 @@ carol: produzindo (e aprendendo como fazer) o back end do formulário do cadastr
 ## Atualização Rickelmy 21/05
 - **Docker**: Colquei nosso banco de dados no **Docker**.
 - **BackEnd**: Resolvi o problema de login.
+- **FrontEnd**: Atualizei para quando fizer login a pessoa ir para a homepage, o suporta tbm ir para a home page e depos configurei o que faltava para o carrossel.
+- **Adicionar**: Tem que colocar o light mode no Configuração.
 
 ## Atualizações Carol 21/05
 - **Modal**: feito seguindo o padrão estético do site.
 - **JS e CSS do Modal**: feito também. o javascript seria back-end nesse caso...
-eu to chorando o rickelmy parece um personagem animado na aula da celide KKKMKKMKMKM
 
 ## Atualizações Lhorrany 21/05
 - Separação da página de suporte
 - teste de banco de dados com node (so pra ver ne)
+
+## Atualizações Rodrigo 21/05
+- Separação da loja
+- Separação da biblioteca (com todas as linguagens no msm arquivo)
+
+## Atualizações math 21/05:
+- separação das paginas homepage, perfil e carrossel
+- mudança de identação e comentarios nos arquivos separados 
+- atualização de redirecionamentos nos arquivos da loja e da biblioteca e do carrossel
+- adição de arquivo root contendo as funçoes globais de css (que serão usadas em grande parte das pags confiram o arquivo antes de fzr qlqr css!!!)
+- ps louie deleta a função goto do css da pag de suporte, nao vai precisar, btw nao sei se arrumei os redirecionamentos da sua pag da uma olhada la
+
+## Atualizações Rickelmy 22/05
+- **Trocas:** Tirei o banco de dados que estava no MySQL via Docker e coloquei no mongoDB Atlas
+
+## Atualizações math 15/06
+- **fix** homepage link ficando vermelho (fixed).
+- **atualização** pagina carrossel com rotatividade scroll e botões
+ps: bahia pfv faz um tutorial de como abrir o BD mais intuitivo pfv to mematano aq
+
+## Atualizações Rickelmy | 17/06
+- **Responsividade**: Adicionada responsividade mobile na tela de login.
+- **Backend**: Criação dos novos arquivos `BackCadastro.go` e `BackUpdatePassword.go`. O arquivo `BackUpdatePassword.go` foi implementado para gerenciar a alteração de senha na tela de `Configurações`. Também foi adicionada o Hash nas senhas.
+- **Frontend**: Ajustes no design do cadastro, configurações e scripts para melhorar a estética e a responsividade. Coloquei alertas via *Toast*.
+- **Correções & Refatorações**: Modificações e melhorias nos arquivos `BackLogin.go`, `Main.go` e `Struct.go`.
+
+## Atualizações Rickelmy | 18/06
+- **Autenticação JWT**: Implementado sistema de autenticação via **JWT (JSON Web Tokens)** no fluxo de login.
+  - Adicionada a biblioteca `github.com/golang-jwt/v5` como dependência no projeto.
+  - Criada a função `gerarTokenJWT()` no `BackLogin.go`, que gera um token assinado com o algoritmo **HS256**, contendo o email do usuário e tempo de expiração de 24 horas no payload (claims).
+   - O `scriptLogin.js` pega o token e salva no `localStorage` (Seria mais seguro colocar em um Cookie no BackEnd, mas no LocalStorage é mais, o exemplo do video usava no LocalStorage).
+
+## Atualizações Rickelmy | 20/06
+- **Autenticação JWT (Frontend)**: Adicionei a função `tokenValido()` no `scriptConfiguracoes.js` que decodifica o payload do JWT e verifica se o campo `exp` ainda não expirou. Agora a página de configurações bloqueia o acesso se o token estiver ausente, inválido ou expirado, limpando o `localStorage` e redirecionando para o login.
+- **Sistema de Temas (Backend)**: Adicionei o campo `Theme` na struct `Users` no `Struct.go`. No `BackCadastro.go`, todo novo usuário é cadastrado agora com o tema padrão `"neon-classic"`. O `BackLogin.go` passou a retornar o `theme` do usuário na resposta JSON do login.
+- **Endpoint `/UpdateTheme`**: Criei o endpoint `POST /UpdateTheme` que recebe `{ email, theme }` e atualiza o campo `theme` no MongoDB com `$set` (sem alterar outros campos do documento).
+- **Endpoint `/Me`**: Criei o **endpoint** para validar o JWT pelo header `Authorization: Bearer <token>`, extrair o email das claims e retornar `{ email, theme }` do banco. Serve para o frontend buscar os dados atualizados do usuário sem precisar fazer login novamente. Adicionei a verificação rigorosa do algoritmo de assinatura para evitar falsificação de tokens.
+- **Refatoração do Backend**: Criei o **arquivo** `BackConfiguracoes.go` com as funções de alterar senha e salvar o tema do usuário no BD.
+- **Comentários**: Adicionei comentários explicativos no `BackMe.go` e `BackConfiguracoes.go`.
+- **Frontend (Configurações)**: A função `salvarConfiguracoes()` agora chama `POST /UpdateTheme` para persistir o tema no MongoDB ao clicar em salvar, mantendo também o salvamento no `localStorage`.   

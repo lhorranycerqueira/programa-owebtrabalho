@@ -1,23 +1,38 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+<!-- adaptei o HTML para o CSS ter uma estética parecidaa com o restante do site, como é esperado de um usuário -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Steam - Autenticação</title>
     <link rel="stylesheet" href="../css/styleCadastro.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&family=VT323&display=swap" rel="stylesheet">
 </head>
 <body class="main-container">
+
+    <!-- fundo com estrelas + grid (não mexam nessa div) -->
+    <div id="synth-bg" aria-hidden="true">
+        <div class="horizon">
+            <div class="grid-floor"></div>
+        </div>
+    </div>
+
+    <!-- card de cadastro -->
     <div class="steam-auth-container">
+
+        <!-- linha scanner animada no topo do card -->
+        <div class="scan-line" aria-hidden="true"></div>
+
         <div id="register-section">
             <h1 class="auth-title">CRIAR CONTA</h1>
-            
+
             <div class="input-group">
-                <label for="reg-user">DIGITE SEU NOME DA CONTA</label>
+                <label for="reg-user">EMAIL:</label>
                 <input type="text" id="reg-user" required autocomplete="username">
             </div>
 
             <div class="input-group">
-                <label for="reg-pass">DIGITE SUA SENHA</label>
+                <label for="reg-pass">SENHA:</label>
                 <input type="password" id="reg-pass" required autocomplete="new-password">
             </div>
 
@@ -26,7 +41,11 @@
                 <a href="login.html" class="toggle-link">Já tem uma conta? Iniciar sessão</a>
             </div>
         </div>
+
     </div>
+
+    <div class="toast" id="toast"></div>
+
     <script src="../js/scriptCadastro.js" defer></script>
 </body>
 </html>

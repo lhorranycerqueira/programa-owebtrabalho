@@ -1,0 +1,5 @@
+<!--Essa sera a URI que conecta com o MongoDB-->
+MONGO_URI=mongodb+srv://<USUARIO>:<SUA_SENHA>@cluster0.lozapyk.mongodb.net/?appName=Cluster0
+
+<!--Chave secreta para assinar tokens JWT-->
+JWT_SECRET=<SUA_CHAVE_SECRETA_AQUI>

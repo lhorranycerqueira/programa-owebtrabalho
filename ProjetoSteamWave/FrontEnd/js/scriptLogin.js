@@ -47,7 +47,7 @@ async function doLogin() {
     }
 
     const dados = {
-        email: email,
+        email: email.trim(),
         password: password,
     };
 
@@ -61,6 +61,19 @@ async function doLogin() {
         });
 
         if (response.status == 200){
+            const resultado = await response.json();
+            //Salvamos o email do usuário logado para usar na página de configurações
+            localStorage.setItem("steamUserEmail", resultado.email);
+
+
+            //O backend agora retorna um token JWT junto com a resposta.
+            //Ele contém o email do usuário e expira em 1 horas
+            //Salvamos ele no localStorage
+            //IMPORTANTE: o token é salvo como string pura (texto), não como JSON
+            if (resultado.token) {
+                localStorage.setItem("steamWaveToken", resultado.token);
+            }
+
             showToast("Login realizado");
             //Agora o Login leva para a homepage
             setTimeout (() => {
@@ -88,8 +101,8 @@ function showToast(messagem) {
     toast.classList.add("show");
 
 
-    // Define um temporizador: após 3 segundos (3000ms), remove a classe 'show'
-    // Isso faz com que o toast desapareça
+    //Define um temporizador: após 3 segundos (3000ms), remove a classe 'show'
+    //Isso faz com que o toast desapareça
     setTimeout(() => {
         toast.classList.remove('show');
     }, 3000);

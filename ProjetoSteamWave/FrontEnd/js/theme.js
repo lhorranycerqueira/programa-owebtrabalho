@@ -7,7 +7,6 @@
 const body = document.body;
 
 
-
 // ======================================
 // Limpar temas alternativos
 // ======================================
@@ -16,11 +15,8 @@ const body = document.body;
 function clearThemes() {
 
     body.classList.remove(
-
         "light-mode",
-
         "low-sensitivity"
-
     );
 
 }
@@ -59,6 +55,7 @@ function applyTheme(theme) {
 
 
 
+
     // Dark é o padrão
     // então não adiciona classe
 
@@ -87,6 +84,7 @@ function applyTheme(theme) {
 
 
 }
+
 
 
 
@@ -184,6 +182,7 @@ async function loadUserTheme() {
 
 
 
+
 // ======================================
 // Alterar tema pelo SELECT
 // ======================================
@@ -192,11 +191,19 @@ async function loadUserTheme() {
 async function changeTheme(theme) {
 
 
-
     const token =
     localStorage.getItem(
         "token"
     );
+
+
+
+    // Aplica imediatamente
+    // sem esperar o backend
+
+    applyTheme(theme);
+
+
 
 
 
@@ -213,7 +220,6 @@ async function changeTheme(theme) {
     try {
 
 
-        const response =
         await fetch(
             "http://localhost:8080/theme",
             {
@@ -252,17 +258,6 @@ async function changeTheme(theme) {
 
 
 
-        if(response.ok){
-
-
-            // aplica imediatamente
-            applyTheme(theme);
-
-
-        }
-
-
-
     }
 
 
@@ -279,6 +274,8 @@ async function changeTheme(theme) {
 
 
 }
+
+
 
 
 

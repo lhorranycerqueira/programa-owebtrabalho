@@ -113,4 +113,5 @@ ps: bahia pfv faz um tutorial de como abrir o BD mais intuitivo pfv to mematano 
 - padronizei as fontes e os tamanhos nas páginas utilizando o stylesheet de tema pra base
 para utilizar a padronização do arquivo, so colocar txt-title dentro da classe;
 - arrumei a barra de pesquisa da loja e agora está mais intuitiva;
-- arrumei o problema das janelas fechando.
+- arrumei o problema das janelas fechando;
+- adicionei janelas arrastaveis utilizando o gerenciadorJanelas.js linkado ao html e que ao fechar a janela, ela fica minimizada.

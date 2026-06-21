@@ -107,3 +107,8 @@ ps: bahia pfv faz um tutorial de como abrir o BD mais intuitivo pfv to mematano 
 - **Refatoração do Backend**: Criei o **arquivo** `BackConfiguracoes.go` com as funções de alterar senha e salvar o tema do usuário no BD.
 - **Comentários**: Adicionei comentários explicativos no `BackMe.go` e `BackConfiguracoes.go`.
 - **Frontend (Configurações)**: A função `salvarConfiguracoes()` agora chama `POST /UpdateTheme` para persistir o tema no MongoDB ao clicar em salvar, mantendo também o salvamento no `localStorage`.   
+
+
+## atualizacoes lui | 21/06
+- padronizei as fontes e os tamanhos nas páginas utilizando o stylesheet de tema pra base;
+- arrumei a barra de pesquisa da loja e agora está mais intuitiva.

@@ -22,3 +22,43 @@
   font-family: var(--vt-font);
   font-size: var(--size-text);
 }
+
+/* containers das janelas pra deixar elas moveis agora vai ser relative porque as janelas são absolute e elemento absolute se posiciona relativo ao antecessor que tenha position definida, se tirar isso elas se posicionariam a página inteira ou talvez ao body */
+
+.loja-main, .win-area {
+  position: relative;
+}
+
+/* janela (.win-window) tira a janela do fluxo normal do documento q empilha elementos e permite q ela fique flutuando em qualquer posicao bem semelhante a janela do windows mesmo */
+
+.win-window {
+  position: absolute;
+}
+
+/* barra de titulo, o cursor move vai avisar visualmente que aquela area é arrastavel, o user select none evita que se arrastar rapido o texto do titulo seja selecionado  */
+.win-titlebar {
+  cursor: move;
+  user-select: none;
+}
+
+/* dock sao as barras de janelas minimizadas, barra de tarefas mais ou menos, elas nao se movem e ficam visiveis sempre e por isso sao fixed */
+.win-dock {
+  position: fixed;
+  bottom: 50px;
+  left: 20px;
+  display: flex;       /* itens um do lado do outro */
+  gap: 6px;             /* espacinho entre eles */
+  z-index: 500;         /* fica acima de quase tudo */
+}
+
+/* cada item dentro do dock uma janela minimizada */
+.win-dock-item {
+  background: var(--win-bg);
+  border: 1px solid #fff;
+  border-right-color: #444;
+  border-bottom-color: #444;
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}

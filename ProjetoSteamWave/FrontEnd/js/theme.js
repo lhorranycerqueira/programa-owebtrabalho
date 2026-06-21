@@ -1,6 +1,6 @@
 // ======================================
 // STEAMWAVE THEME CONTROLLER
-// Backend version
+// Backend + Config Select
 // ======================================
 
 
@@ -8,10 +8,12 @@ const body = document.body;
 
 
 
-// limpa temas anteriores
+// ======================================
+// Limpar temas alternativos
+// ======================================
 
-function clearThemes(){
 
+function clearThemes() {
 
     body.classList.remove(
 
@@ -27,16 +29,41 @@ function clearThemes(){
 
 
 
-// aplica tema recebido
+// ======================================
+// Aplicar tema na interface
+// ======================================
 
-function applyTheme(theme){
+
+function applyTheme(theme) {
 
 
     clearThemes();
 
 
 
-    if(theme === "light"){
+    // Atualiza o select da página
+    // de configurações
+
+    const selector =
+    document.getElementById(
+        "theme-selector"
+    );
+
+
+    if(selector){
+
+        selector.value = theme;
+
+    }
+
+
+
+
+    // Dark é o padrão
+    // então não adiciona classe
+
+
+    if(theme === "light") {
 
 
         body.classList.add(
@@ -48,7 +75,7 @@ function applyTheme(theme){
 
 
 
-    if(theme === "sensitive"){
+    if(theme === "sensitive") {
 
 
         body.classList.add(
@@ -59,10 +86,6 @@ function applyTheme(theme){
     }
 
 
-
-    // dark é o padrão
-    // então não precisa adicionar classe
-
 }
 
 
@@ -70,15 +93,17 @@ function applyTheme(theme){
 
 
 // ======================================
-// Buscar usuário logado
+// Buscar tema salvo no usuário
 // ======================================
 
 
-async function loadUserTheme(){
+async function loadUserTheme() {
 
 
     const token =
-    localStorage.getItem("token");
+    localStorage.getItem(
+        "token"
+    );
 
 
 
@@ -90,7 +115,8 @@ async function loadUserTheme(){
 
 
 
-    try{
+
+    try {
 
 
         const response =
@@ -98,21 +124,23 @@ async function loadUserTheme(){
             "http://localhost:8080/me",
             {
 
-
-            method:"GET",
-
-
-            headers:{
+                method:"GET",
 
 
-                "Authorization":
-                "Bearer " + token
+                headers:{
+
+
+                    "Authorization":
+
+                    "Bearer " + token
+
+
+                }
 
 
             }
 
-
-        });
+        );
 
 
 
@@ -140,13 +168,14 @@ async function loadUserTheme(){
 
     catch(error){
 
+
         console.log(
-            "Erro ao buscar tema:",
+            "Erro ao carregar tema:",
             error
         );
 
-    }
 
+    }
 
 
 }
@@ -156,16 +185,18 @@ async function loadUserTheme(){
 
 
 // ======================================
-// Alterar tema
+// Alterar tema pelo SELECT
 // ======================================
 
 
-async function changeTheme(theme){
+async function changeTheme(theme) {
 
 
 
     const token =
-    localStorage.getItem("token");
+    localStorage.getItem(
+        "token"
+    );
 
 
 
@@ -178,44 +209,57 @@ async function changeTheme(theme){
 
 
 
-    try{
+
+    try {
 
 
+        const response =
         await fetch(
             "http://localhost:8080/theme",
             {
 
 
-            method:"PUT",
+                method:"PUT",
 
 
-            headers:{
+                headers:{
 
 
-                "Authorization":
-                "Bearer " + token,
+                    "Authorization":
+
+                    "Bearer " + token,
 
 
-                "Content-Type":
-                "application/json"
+                    "Content-Type":
+
+                    "application/json"
 
 
-            },
-
-
-            body:JSON.stringify({
-
-                theme: theme
-
-            })
-
-
-        });
+                },
 
 
 
-        // aplica imediatamente
-        applyTheme(theme);
+                body:JSON.stringify({
+
+                    theme: theme
+
+                })
+
+
+            }
+
+        );
+
+
+
+        if(response.ok){
+
+
+            // aplica imediatamente
+            applyTheme(theme);
+
+
+        }
 
 
 
@@ -234,7 +278,6 @@ async function changeTheme(theme){
     }
 
 
-
 }
 
 
@@ -242,20 +285,20 @@ async function changeTheme(theme){
 
 
 // ======================================
-// Carregar ao abrir qualquer página
+// Carregar automaticamente em todas páginas
 // ======================================
 
 
 window.addEventListener(
 
-"DOMContentLoaded",
+    "DOMContentLoaded",
 
-()=>{
-
-
-    loadUserTheme();
+    ()=>{
 
 
-}
+        loadUserTheme();
+
+
+    }
 
 );

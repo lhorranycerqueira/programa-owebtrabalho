@@ -1,13 +1,24 @@
-//Verifica o token
+function tokenValido(token) {
+    try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        if (!payload.exp) return false;
+        return Date.now() < payload.exp * 1000;
+    } catch {
+        return false;
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     const token = localStorage.getItem("steamWaveToken");
     const email = localStorage.getItem("steamUserEmail");
     
-    if (!token || !email) {
-        showToast("Faça login para acessar as configurações!");
+    if (!token || !email || !tokenValido(token)) {
+        localStorage.removeItem("steamWaveToken");
+        localStorage.removeItem("steamUserEmail");
+        showToast("Token expirada. Faça login novamente!");
         setTimeout(() => {
             window.location.href = "login.html";
-        }, 1500);
+        }, 3000);
         return;
     }
 });
@@ -74,6 +85,31 @@ async function salvarConfiguracoes() {
   };
 
   localStorage.setItem("steamConfig", JSON.stringify(configData));
+
+  //Para alterar o tema no banco de dados
+  const email = localStorage.getItem("steamUserEmail");
+
+  if (email) {
+    try {
+      const themeResponse = await fetch("http://localhost:8080/UpdateTheme", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          theme: configData.theme,
+        }),
+      });
+
+      if (!themeResponse.ok) {
+        const themeResult = await themeResponse.json();
+        console.error("Erro ao salvar tema:", themeResult.message);
+      }
+    } catch (error) {
+      console.error("Erro ao salvar tema:", error);
+    }
+  }
 
   if (password !== "") {
     if (currentPassword === "") {

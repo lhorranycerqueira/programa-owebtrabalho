@@ -1,0 +1,145 @@
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"os"
+	"strings"
+	"time"
+
+	"github.com/golang-jwt/jwt/v5"
+	"go.mongodb.org/mongo-driver/bson"
+)
+
+// HandleMe é quem responde "quem é o usuário logado?"
+// O frontend chama esse endpoint quando o usuário abre o site já com o token salvo
+// Assim conseguimos buscar os dados atualizados do banco sem pedir login de novo
+func HandleMe(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+	w.Header().Add("Content-Type", "application/json")
+
+	if r.Method != "GET" {
+		json.NewEncoder(w).Encode(Error{
+			Message: "Metodo bloqueado",
+			Status:  405,
+		})
+		return
+	}
+
+	//Pego o header "Authorization" da requisição
+	//O frontend manda assim: "Authorization: Bearer <token>"
+	authHeader := r.Header.Get("Authorization")
+	if authHeader == "" {
+		//Se não mandou o header, já bloqueio com 401 (Não autorizado)
+		w.WriteHeader(401)
+		json.NewEncoder(w).Encode(Error{
+			Message: "Token não fornecido",
+			Status:  401,
+		})
+		return
+	}
+
+	//Removo o prefixo "Bearer " pra sobrar só o token
+	//Ex: "Bearer chaveSuperrrrrrrrrrrGrande" vira "chaveSuperrrrrrrrrrrGrande"
+	tokenString := strings.TrimPrefix(authHeader, "Bearer ")
+	if tokenString == authHeader {
+		//Se o TrimPrefix não mudou nada, é porque não tinha "Bearer " no começo
+		//Ou seja, o frontend mandou o header no formato errado
+		w.WriteHeader(401)
+		json.NewEncoder(w).Encode(Error{
+			Message: "Formato de token inválido",
+			Status:  401,
+		})
+		return
+	}
+
+	secretKey := os.Getenv("JWT_SECRET") //Busco a chave secreta que usei pra assinar o token na .env
+	if secretKey == "" {
+		//Se a chave tiver vazia é culpa do servido
+		w.WriteHeader(500)
+		json.NewEncoder(w).Encode(Error{
+			Message: "JWT_SECRET não definido",
+			Status:  500,
+		})
+		return
+	}
+
+	//jwt.Parse faz tudo de uma vez, ela decodifica o token, valida a assinatura e vê a expiração
+	//A função que passo como parâmetro serve pra devolver a chave que o Parse vai usar pra validar
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		//Aqui eu garanto que o algoritmo de assinatura é HS256
+		//Isso evita ataques de hackers
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("método de assinatura inesperado: %v", token.Header["alg"])
+		}
+		return []byte(secretKey), nil
+	})
+
+	if err != nil || !token.Valid {
+		w.WriteHeader(401)
+		json.NewEncoder(w).Encode(Error{
+			Message: "Token inválido ou expirado",
+			Status:  401,
+		})
+		return
+	}
+
+	//Depois de validar, vejo oq tem nas claims
+	//O MapClaims é um map[string]interface{} que o jwt entende
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		w.WriteHeader(401)
+		json.NewEncoder(w).Encode(Error{
+			Message: "Claims inválidas",
+			Status:  401,
+		})
+		return
+	}
+
+	//Pego o email que foi salvo dentro do token na hora do login
+	email, ok := claims["email"].(string)
+	if !ok || email == "" {
+		w.WriteHeader(401)
+		json.NewEncoder(w).Encode(Error{
+			Message: "Email não encontrado no token",
+			Status:  401,
+		})
+		return
+	}
+
+	//Context com timeout de 5 segundos, igual nos outros handlers
+	//Serve pra operação não ficar presa caso o MongoDB esteja fora
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	//Busco o usuário no MongoDB pelo email que tirei do token
+	var user Users
+	err = collection.FindOne(ctx, bson.M{"email": email}).Decode(&user)
+	if err != nil {
+		w.WriteHeader(404)
+		json.NewEncoder(w).Encode(Error{
+			Message: "Usuário não encontrado",
+			Status:  404,
+		})
+		return
+	}
+
+	fmt.Printf("Me Dados retornados para: %s\n", user.Email)
+
+	//Retorno só email e theme
+	//A senha tem hash bcrypt e mesmo assim não faz sentido mandar pro front
+	w.WriteHeader(200)
+	json.NewEncoder(w).Encode(map[string]string{
+		"email": user.Email,
+		"theme": user.Theme,
+	})
+}

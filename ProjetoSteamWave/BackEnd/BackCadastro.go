@@ -14,16 +14,16 @@ import (
 
 func HandleCadastro(w http.ResponseWriter, r *http.Request) {
 	//Aqui ta o CORS, sem ele o navegador vai bloquear tudo que o front tentar mandar para aqui
-	// Access-Control-Allow-Origin: "*" permite que QUALQUER domínio faça requisições
-	// Em produção, o ideal seria colocar apenas o domínio do frontend por segurança
+	//Access-Control-Allow-Origin: "*" permite que QUALQUER domínio faça requisições
+	//Em produção, o ideal seria colocar apenas o domínio do frontend por segurança
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
-	// Access-Control-Allow-Methods: define quais métodos HTTP são permitidos
-	// POST é o método do cadastro, OPTIONS é o "preflight request" (ver abaixo)
+	//Access-Control-Allow-Methods: define quais métodos HTTP são permitidos
+	//POST é o método do cadastro, OPTIONS é o "preflight request"
 	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 
-	// Access-Control-Allow-Headers: define quais headers o cliente pode enviar
-	// "Content-Type" é necessário porque o frontend envia "Content-Type: application/json"
+	//Access-Control-Allow-Headers: define quais headers o cliente pode enviar
+	//"Content-Type" é necessário porque o frontend envia "Content-Type: application/json"
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	//O navegador manda uma requisição, o navegador meio que pergunta se pode mandar uma requisição
@@ -31,8 +31,8 @@ func HandleCadastro(w http.ResponseWriter, r *http.Request) {
 	//Se o servidor responder com status 200, o navegador envia a requisição real
 	//Se não, o navegador BLOQUEIA e o frontend recebe um erro de CORS
 	if r.Method == "OPTIONS" {
-		w.WriteHeader(http.StatusOK) // Responde 200 OK para autorizar o preflight
-		return                       // Encerra a função aqui, não precisa processar mais nada
+		w.WriteHeader(http.StatusOK)
+		return
 	}
 
 	// Define que a resposta desta função será no formato JSON
@@ -41,14 +41,13 @@ func HandleCadastro(w http.ResponseWriter, r *http.Request) {
 
 	//Se a requisição não for POST pelo usuario nos já bloqueamos
 	if r.Method != "POST" {
-		//Mandamos um JSON com a mensagem de erro e o status 405
+		//Mandamos um JSON com a mensagem de erro
 		json.NewEncoder(w).Encode(Error{
 			Message: "Metodo bloqueado",
 			Status:  405,
 		})
 		return
 	}
-	fmt.Printf("[Cadastro] Método recebido: %s\n", r.Method)
 	//Declarei uma variável que vai recebr a struct do Users(Ela que pega o gmail e senha do usuario)
 	var user Users
 
@@ -70,7 +69,7 @@ func HandleCadastro(w http.ResponseWriter, r *http.Request) {
 
 	//Aqui entra a parte de segurança para o nosso BD
 	//Criamos um hash com um salt, que criptografa a senha do usuário antes de salvar
-	//Nunca devemos salvar a senha do usuário em texto limpo(forma literal como ele escreveu)
+	//Nunca devemos salvar a senha do usuário em texto puro
 	//Por isso, usamos o Hash mais o Salt para garantir a segurança dos dados
 	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -85,7 +84,8 @@ func HandleCadastro(w http.ResponseWriter, r *http.Request) {
 	// Substitui a senha em texto plano pelo hash gerado.
 	// Agora a struct "user" contém o hash, não a senha original.
 	user.Password = string(hash)
-	fmt.Printf("[Cadastro] Senha hasheada para: %s\n", user.Email)
+	user.Theme = "neon-classic"
+	fmt.Printf("Cadastro Senha com Hash para: %s\n", user.Email)
 
 	//context.WithTimeout cria um contexto que será cancelado automaticamente
 	//após 5 segundos. Isso é uma proteção para evitar que a operação fique presa indefinidamente caso o MongoDB esteja fora do ar.

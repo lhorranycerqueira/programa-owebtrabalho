@@ -37,7 +37,9 @@ func main() {
 
 	http.HandleFunc("/Login", HandleLogin)
 	http.HandleFunc("/Users", HandleCadastro)
-	http.HandleFunc("/UpdatePassword", HandleUpdatePassword)
+	http.HandleFunc("/UpdatePassword", HandleUpdatePassword) //Esta nas configurações
+	http.HandleFunc("/UpdateTheme", HandleUpdateTheme)
+	http.HandleFunc("/Me", HandleMe)
 	http.ListenAndServe(":8080", nil)
 
 }

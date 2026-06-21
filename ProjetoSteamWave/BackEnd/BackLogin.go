@@ -18,7 +18,7 @@ import (
 // gerarTokenJWT cria um token JWT assinado para o usuário, eba para minha infelicidade
 func gerarTokenJWT(email string) (string, error) {
 	claims := jwt.MapClaims{
-		"email": email, // Email do usuário autenticado
+		"email": email,
 		"exp":   time.Now().Add(1 * time.Hour).Unix(),
 		"iat":   time.Now().Unix(),
 	}
@@ -104,7 +104,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Printf("Login bem-sucedido para: %s\n", login.Email)
+	fmt.Printf("Login feito para: %s\n", login.Email)
 
 	//Após validar email e senha, geramos um token JWT para o usuário.
 	tokenString, err := gerarTokenJWT(user.Email)

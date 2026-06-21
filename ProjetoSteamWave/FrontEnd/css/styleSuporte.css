@@ -164,8 +164,8 @@ FUNCIONOU NO MEU OPERA*/
 }
 
 
-/* ===== PAGE 8: SUPORTE =====
-container principal da pag de sup e vai centralizar o conteudo de forma vertical e horizontal */
+
+/* container principal da pag de sup e vai centralizar o conteudo de forma vertical e horizontal */
 #page-suporte {
   flex-direction: column;
   align-items: center;

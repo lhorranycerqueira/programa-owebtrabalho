@@ -1,0 +1,209 @@
+/* =========================================
+   STEAMWAVE - TEMAS ALTERNATIVOS
+   Light Mode + Fotossensibilidade
+========================================= */
+
+
+/* =========================================
+   LIGHT MODE - VAPORWAVE PASTEL
+========================================= */
+
+
+.light-mode {
+
+
+    /* Fundo */
+
+    --dark-bg:
+    #f4efff;
+
+
+    --bg-main:
+    #f4efff;
+
+
+    --bg-secondary:
+    #eee3ff;
+
+
+    --card-bg:
+    #fff8ff;
+
+
+
+    /* Textos */
+
+    --text:
+    #241433;
+
+
+    --text-primary:
+    #241433;
+
+
+    --text-secondary:
+    #67547c;
+
+
+
+    /* Neon */
+
+    --neon-pink:
+    #ff4fd8;
+
+
+    --neon-purple:
+    #9b5cff;
+
+
+    --neon-cyan:
+    #00bfd8;
+
+
+
+    /* Janelas estilo retrô */
+
+    --win-bg:
+    #eeeaf5;
+
+
+    --win-title:
+    linear-gradient(
+        90deg,
+        #9b5cff,
+        #ff4fd8
+    );
+
+
+
+    /* Bordas e sombras */
+
+    --border-color:
+    rgba(
+        155,
+        92,
+        255,
+        0.35
+    );
+
+
+    --shadow-color:
+    rgba(
+        255,
+        79,
+        216,
+        0.20
+    );
+
+}
+
+
+
+/* =========================================
+   MODO FOTOSSENSIBILIDADE
+   Menos contraste e menos brilho
+========================================= */
+
+
+.low-sensitivity {
+
+
+    /* Fundo */
+
+    --dark-bg:
+    #f2eee8;
+
+
+    --bg-main:
+    #f2eee8;
+
+
+    --bg-secondary:
+    #e8e1d7;
+
+
+    --card-bg:
+    #faf7f2;
+
+
+
+    /* Texto */
+
+    --text:
+    #3b3640;
+
+
+    --text-primary:
+    #3b3640;
+
+
+    --text-secondary:
+    #625c68;
+
+
+
+    /* Cores suaves */
+
+    --neon-pink:
+    #c985b5;
+
+
+    --neon-purple:
+    #9581c9;
+
+
+    --neon-cyan:
+    #78bfc8;
+
+
+
+    /* Janelas */
+
+    --win-bg:
+    #e6dfd6;
+
+
+    --win-title:
+    linear-gradient(
+        90deg,
+        #9581c9,
+        #c985b5
+    );
+
+
+
+    /* Reduz brilho */
+
+    --border-color:
+    rgba(
+        120,
+        100,
+        150,
+        0.25
+    );
+
+
+    --shadow-color:
+    rgba(
+        80,
+        70,
+        100,
+        0.12
+    );
+
+}
+
+
+
+/* =========================================
+   Transição suave entre temas
+========================================= */
+
+
+body {
+
+    transition:
+    background-color .3s ease,
+    color .3s ease;
+
+}

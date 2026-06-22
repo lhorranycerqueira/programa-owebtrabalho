@@ -120,3 +120,9 @@ para utilizar a padronização do arquivo, so colocar txt-title dentro da classe
 - **Endpoint `/Me`**: Atualizei o `BackMe.go` para retornar `nickname` e `birthdate` junto com `email` e `theme`.
 - **Arquivo `BackPerfil.go`**: Criei o arquivo com a estrutura inicial do endpoint `POST /UpdateProfile` — por enquanto só com CORS e validação de método. A lógica de atualização de nickname e data de nascimento será implementada quando o frontend da página de perfil estiver pronto.
 - **Rota no `Main.go`**: Coloquei a rota `/UpdateProfile`.
+
+## Atualizações Rodrigo | 21/06
+- Comecei a refazer a aba de perfil, com inspirações no layout de customização de perfil do discord e steam, com também um pouco de inspiração no layout da loja do brawl stars
+- Fiz as bases da pagina, só precisando agora desenvolver os containers individualmente
+- Fiz um menu hamburguer com animações
+- Ainda falta integrar essas alterações com o projeto, já que agora a pagina perfil está em uma nova pasta

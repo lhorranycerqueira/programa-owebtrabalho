@@ -142,8 +142,10 @@ func HandleMe(w http.ResponseWriter, r *http.Request) {
 	//Retorno só email e theme
 	//A senha tem hash bcrypt e mesmo assim não faz sentido mandar pro front
 	w.WriteHeader(200)
-	json.NewEncoder(w).Encode(map[string]string{
-		"email": user.Email,
-		"theme": user.Theme,
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"email":     user.Email,
+		"theme":     user.Theme,
+		"nickname":  user.Nickname,
+		"birthdate": user.BirthDate,
 	})
 }

@@ -108,10 +108,15 @@ ps: bahia pfv faz um tutorial de como abrir o BD mais intuitivo pfv to mematano 
 - **Comentários**: Adicionei comentários explicativos no `BackMe.go` e `BackConfiguracoes.go`.
 - **Frontend (Configurações)**: A função `salvarConfiguracoes()` agora chama `POST /UpdateTheme` para persistir o tema no MongoDB ao clicar em salvar, mantendo também o salvamento no `localStorage`.   
 
-
 ## atualizacoes lui | 21/06
 - padronizei as fontes e os tamanhos nas páginas utilizando o stylesheet de tema pra base
 para utilizar a padronização do arquivo, so colocar txt-title dentro da classe;
 - arrumei a barra de pesquisa da loja e agora está mais intuitiva;
 - arrumei o problema das janelas fechando;
 - adicionei janelas arrastaveis utilizando o gerenciadorJanelas.js linkado ao html e que ao fechar a janela, ela fica minimizada.
+
+## Atualizações Rickelmy | 21/06
+- **Struct `Users`**: Adicionei os campos `Nickname` e `BirthDate` na `Struct.go`. Usei a tag `omitempty` nos dois campos para só serem usados quando eu chamar eles.
+- **Endpoint `/Me`**: Atualizei o `BackMe.go` para retornar `nickname` e `birthdate` junto com `email` e `theme`.
+- **Arquivo `BackPerfil.go`**: Criei o arquivo com a estrutura inicial do endpoint `POST /UpdateProfile` — por enquanto só com CORS e validação de método. A lógica de atualização de nickname e data de nascimento será implementada quando o frontend da página de perfil estiver pronto.
+- **Rota no `Main.go`**: Coloquei a rota `/UpdateProfile`.

@@ -40,6 +40,7 @@ func main() {
 	http.HandleFunc("/UpdatePassword", HandleUpdatePassword) //Esta nas configurações
 	http.HandleFunc("/UpdateTheme", HandleUpdateTheme)
 	http.HandleFunc("/Me", HandleMe)
+	http.HandleFunc("/UpdateProfile", HandleUpdateProfile) //No BackPerfil.go
 	http.ListenAndServe(":8080", nil)
 
 }

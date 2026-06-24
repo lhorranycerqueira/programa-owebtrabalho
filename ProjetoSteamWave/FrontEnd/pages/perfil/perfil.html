@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SteamWave - Perfil</title>
+  
+  <!-- 1. IMPORTAÇÃO DA FONTE RETRÔ DO GOOGLE (Usada no projeto de vocês) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <!-- 2. IMPORTAÇÃO DOS ESTILOS GLOBAIS (Subindo duas pastas com '../..') -->
+  <link rel="stylesheet" href="../../css/root.css">
+  <link rel="stylesheet" href="../../css/tema.css">
+  
+  <!-- 3. SEU ESTILO ESPECÍFICO DO PERFIL -->
+  <link rel="stylesheet" href="../../css/perfil/stylePerfil.css">
+</head>
+<body>
+
+    <!-- BOTÃO HAMBÚRGUER PARA ABRIR/FECHAR A SIDEBAR -->
+<button class="hamburger-menu" onclick="toggleSidebar()">☰</button>
+
+<!-- BARRA LATERAL ESTILO BRAWL STARS -->
+<aside class="brawl-sidebar" id="brawlSidebar">
+  <button class="brawl-btn btn-pink active" onclick="window.location.href='perfil.html'">
+    <span class="brawl-btn-content">👤 PERFIL</span>
+  </button>
+
+  <button class="brawl-btn btn-blue">
+    <span class="brawl-btn-content">ℹ️ CONTA</span>
+  </button>
+
+  <button class="brawl-btn btn-purple">
+    <span class="brawl-btn-content">📜 COMPRAS</span>
+  </button>
+
+  <button class="brawl-btn btn-mint" onclick="window.location.href='../biblioteca.html'">
+    <span class="brawl-btn-content">📚 BIBLIOTECA</span>
+  </button>
+</aside>
+  <div class="profile-container">
+    
+    <div class="profile-banner" id="user-banner">
+      <span class="status-badge" id="user-status">CARREGANDO...</span>
+    </div>
+
+    <div class="profile-header-content">
+      <div class="avatar-holder">
+        <img src="../../assent/avatarGenerico.png" id="user-avatar" alt="Avatar do Usuário">
+      </div>
+      
+      <div class="user-info-text">
+        <h1 id="user-display-name">Carregando...</h1>
+        <p class="user-tag" id="user-username">@username</p>
+        
+        <div class="user-bio" id="user-bio">
+          Logue na sua conta para carregar sua biografia...
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-content-grid">
+      <div class="profile-left-column">
+        <div class="profile-card">
+          <h3>Conexões</h3>
+          <ul id="user-connections">
+            </ul>
+        </div>
+      </div>
+
+      <div class="profile-right-column">
+        <div class="profile-card">
+          <h3>Jogo Favorito</h3>
+          <div class="favorite-game-showcase" id="favorite-game">
+            </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<!-- MENU DE NAVEGAÇÃO GLOBAL INFERIOR -->
+      <div class="global-nav">
+        <button class="gnav-btn" onclick="window.location.href='../homepage.html'">🏠 Home</button>
+        <div class="gnav-separator"></div>
+        <button class="gnav-btn" onclick="window.location.href='../loja.html'">🛒 Loja</button>
+        <div class="gnav-separator"></div>
+        <button class="gnav-btn" onclick="window.location.href='../biblioteca.html'">📚 Biblioteca</button>
+        <div class="gnav-separator"></div>
+        <!-- Como já estamos dentro da pasta perfil, chamamos a página direto sem '../' -->
+        <button class="gnav-btn active" onclick="window.location.href='perfil.html'">👤 Perfil</button>
+        <div class="gnav-separator"></div>
+        <button class="gnav-btn" onclick="window.location.href='../Configuração.html'">⚙️ Config</button>
+        <div class="gnav-separator"></div>
+        <button class="gnav-btn" onclick="window.location.href='../suporte.html'">❓ Suporte</button>
+      </div>
+
+  <script src="../../js/gerenciadorJanelas.js"></script>
+  <script src="../../js/perfil/scriptPerfil.js"></script>
+</body>
+</html>

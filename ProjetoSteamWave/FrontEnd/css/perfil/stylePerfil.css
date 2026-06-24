@@ -1,0 +1,382 @@
+/* --- ESTILO GERAL DO PERFIL (VAPORWAVE MODERN DARK) --- */
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0a0612;
+  
+  /* FUNDO QUADRICULADO (GRID) */
+  background-image: 
+    linear-gradient(rgba(255, 110, 199, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 110, 199, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px; 
+  background-attachment: fixed; 
+  background-position: center;
+  
+  /* --- SOLUÇÃO: FORÇA O CONTEÚDO A VOLTAR PARA O CENTRO --- */
+  display: flex;
+  justify-content: center; /* Centraliza na horizontal */
+  align-items: center;     /* Centraliza na vertical se necessário */
+  min-height: 100vh;       /* Garante que o corpo use a altura toda da tela */
+  
+  font-family: Arial, sans-serif; 
+  color: #e8d5f5;
+  overflow-x: hidden;
+}
+
+/* --- BOTÃO HAMBÚRGUER --- */
+.hamburger-menu {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: #120a1e; /* Fundo cards */
+  border: 1px solid #4dc9ff; /* Borda Ciano oficial */
+  color: #e8d5f5; /* Texto principal */
+  font-size: 16px;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  z-index: 1000; /* No topo de tudo */
+  box-shadow: 2px 2px 0px #000;
+  font-family: var(--pixel-font), monospace;
+  transition: all 0.2s;
+}
+
+.hamburger-menu:hover {
+  background: #ff6ec730; /* Destaque neon rosa oficial */
+  border-color: #ffff10; /* Borda amarela oficial do destaque */
+}
+
+/* --- BARRA LATERAL MEIO DIAGONAL (ALTURA E CORES OFICIAIS) --- */
+/* --- BARRA LATERAL DIAGONAL SUAVE --- */
+/* --- BARRA LATERAL DIAGONAL SUAVE (ANIMAÇÃO MAXIMIZADA) --- */
+.brawl-sidebar {
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 175px; 
+  height: calc(100vh - 44px); 
+  background: rgba(10, 6, 18, 0.96); /* #0a0612 oficial */
+  border-right: 3px solid #ff6ec7; /* Borda Neon Rosa oficial */
+  padding: 90px 12px 20px 18px; 
+  display: flex;
+  flex-direction: column;
+  gap: 15px; 
+  z-index: 150;
+  backdrop-filter: blur(8px);
+  box-sizing: border-box;
+
+  /* MUDANÇA AQUI: Joga a barra totalmente para fora da tela no topo (-100vh) */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-100vh) skewX(-3.5deg);
+  transform-origin: top left; 
+  
+  /* Curva de transição ligeiramente mais rápida e estilizada para dar impacto */
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity 0.3s ease, 
+              visibility 0.4s; 
+}
+
+/* Quando aberta: Desce cortando a tela até a posição original */
+.brawl-sidebar.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) skewX(-3.5deg);
+}
+
+/* --- BOTÕES ESTILO PASTA COM CASCATA DE DESCIDA --- */
+.brawl-btn {
+  position: relative;
+  margin-top: 12px; 
+  border: 2px solid #000;
+  padding: 8px 10px; 
+  width: 135px; 
+  cursor: pointer;
+  background: #120a1e; /* Fundo cards oficial */
+  display: flex;
+  align-items: center;
+  border-radius: 0px 4px 4px 4px; 
+  box-sizing: border-box;
+  box-shadow: 3px 3px 0px #000; 
+
+  /* Os botões começam deslocados um pouco mais para cima para dar o efeito de chicote na descida */
+  transform: skewX(3.5deg) translateY(-30px); 
+  opacity: 0;
+  
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity 0.35s ease, 
+              background 0.1s ease, 
+              box-shadow 0.1s ease;
+}
+
+/* Quando a barra abre: Os botões são puxados para a posição final */
+.brawl-sidebar.open .brawl-btn {
+  opacity: 1;
+  transform: skewX(3.5deg) translateY(0);
+}
+
+/* --- DELAY DA CASCATA (Mantido para o efeito sequencial) --- */
+.brawl-sidebar .brawl-btn:nth-child(1) { transition-delay: 0.08s; }
+.brawl-sidebar .brawl-btn:nth-child(2) { transition-delay: 0.14s; }
+.brawl-sidebar .brawl-btn:nth-child(3) { transition-delay: 0.20s; }
+.brawl-sidebar .brawl-btn:nth-child(4) { transition-delay: 0.26s; }
+
+/* Quando fecha, tudo sobe junto instantaneamente */
+.brawl-sidebar:not(.open) .brawl-btn {
+  transition-delay: 0s;
+  transform: skewX(3.5deg) translateY(-40px);
+}
+
+
+/* --- COMPORTAMENTO DE CLIQUE E ESTILOS GERAIS (Inalterados) --- */
+.brawl-sidebar.open .brawl-btn:active, 
+.brawl-sidebar.open .brawl-btn.active {
+  transform: skewX(3.5deg) translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0px #000;
+}
+.brawl-btn::before {
+  content: "";
+  position: absolute;
+  top: -11px; left: -2px;  
+  height: 9px; width: 40px; 
+  background: #120a1e; 
+  border: 2px solid #000;
+  border-bottom: none; 
+  border-radius: 4px 8px 0px 0px; 
+}
+.brawl-btn-content {
+  display: block;
+  font-family: var(--pixel-font), monospace;
+  font-size: 7px;
+  color: #e8d5f5; 
+  text-shadow: 1px 1px 0 #000;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.brawl-btn:hover, .brawl-btn:hover::before { background: #1e0f35; }
+.btn-pink { border-color: #ff6ec7; } .btn-pink::before { border-color: #ff6ec7; }
+.btn-blue { border-color: #4dc9ff; } .btn-blue::before { border-color: #4dc9ff; }
+.btn-purple { border-color: #b87fff; } .btn-purple::before { border-color: #b87fff; }
+.btn-mint { border-color: #00f5d4; } .btn-mint::before { border-color: #00f5d4; }
+
+/* CONTAINER DO PERFIL */
+.profile-container {
+  width: 100%;
+  max-width: 950px;
+  background: rgba(23, 12, 36, 0.6); /* Efeito translúcido */
+  border: 1px solid rgba(255, 0, 127, 0.25); /* Borda rosa neon bem discreta */
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+}
+
+/* Banner de Fundo Superior */
+.profile-banner {
+  height: 180px;
+  background: linear-gradient(135deg, #1f0837 0%, #4a0e4e 50%, #0d041a 100%);
+  position: relative;
+  border-bottom: 2px solid #ff007f; /* Linha neon dividindo o banner */
+}
+
+/* Emblema de Status (Online, Ausente) no topo direito */
+.status-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #00ff66;
+  color: #000;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+  letter-spacing: 0.5px;
+}
+
+/* Bloco principal de informações (Avatar + Textos) */
+.profile-header-content {
+  display: flex;
+  padding: 0 30px 25px 30px;
+  margin-top: -45px; /* Sobe o avatar para sobrepor o banner */
+  gap: 25px;
+  align-items: flex-end;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+/* Foto de Perfil */
+.avatar-holder img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 4px solid #170c24; /* Casca escura em volta da foto */
+  background: #25163a;
+  box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+  object-fit: cover;
+}
+
+/* Textos do Usuário */
+.user-info-text {
+  flex: 1;
+  padding-bottom: 5px;
+}
+
+.user-info-text h1 {
+  font-size: 26px;
+  color: #ffffff;
+  margin: 0 0 2px 0;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.user-tag {
+  font-size: 13px;
+  color: #00ffff; /* Ciano Neon */
+  margin: 0 0 12px 0;
+  font-weight: 600;
+}
+
+/* Caixa de Biografia */
+.user-bio {
+  background: rgba(10, 4, 18, 0.5);
+  border-left: 3px solid #ff007f; /* Detalhe rosa na lateral esquerda da bio */
+  padding: 12px 16px;
+  border-radius: 0 6px 6px 0;
+  font-size: 14px;
+  color: #c9bacc;
+  line-height: 1.5;
+}
+
+/* --- GRID DE CONTEÚDO INFERIOR --- */
+.profile-content-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr; /* Coluna esquerda menor, direita maior */
+  gap: 20px;
+  padding: 25px 30px;
+}
+
+/* Cards Genéricos */
+.profile-card {
+  background: rgba(15, 7, 24, 0.8);
+  border: 1px solid rgba(0, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.profile-card h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #00ffff; /* Títulos das seções em Ciano */
+  margin-top: 0;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.05);
+  padding-bottom: 6px;
+}
+
+/* Conexões (Redes Sociais, Links) */
+#user-connections {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+  color: #a694b3;
+}
+
+/* Seção do Jogo Favorito */
+.favorite-game-showcase {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  border: 1px dashed rgba(255, 0, 127, 0.2);
+  color: #746185;
+  font-size: 13px;
+}
+
+/* Linha editável padrão */
+.editable-field-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  background: transparent;
+}
+
+/* Efeito idêntico ao do Discord ao dar Hover */
+.editable-field-row:hover {
+  background: rgba(0, 0, 0, 0.4); /* Escurece o fundo da linha */
+}
+
+/* O lápis começa invisível e aparece no hover */
+.edit-pencil-icon {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  font-size: 12px;
+}
+
+.editable-field-row:hover .edit-pencil-icon {
+  opacity: 1; /* Revela o lápis do lado direito */
+}
+
+/* Estilo do texto enquanto puxa do banco */
+.loading-placeholder {
+  color: #7d6b91;
+  font-style: italic;
+}
+
+/* ===================================================
+   CÓPIA FIEL DA GLOBAL NAV BAR EXTRAÍDA DA OUTRA PÁGINA
+   =================================================== */
+.global-nav {
+  position: fixed; 
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: rgba(10, 0, 20, 0.8);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(155, 48, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 0;
+  height: 44px;
+}
+
+.gnav-btn {
+  padding: 6px 16px;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--pixel-font), monospace; /* Puxa o padrão do root.css de vocês */
+  font-size: 7px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+  background: none;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+
+.gnav-btn:hover {
+  color: white;
+  background: rgba(155, 48, 255, 0.3);
+}
+
+.gnav-btn.active {
+  color: var(--neon-cyan, #00eaff); /* Usa o ciano padrão ou o fallback */
+  background: rgba(0, 234, 255, 0.1);
+  border-bottom: 2px solid var(--neon-cyan, #00eaff);
+}
+
+.gnav-separator {
+  width: 1px;
+  height: 20px;
+  background: rgba(155, 48, 255, 0.3);
+}

@@ -1,9 +1,13 @@
 package main
 
+import "time"
+
 type Users struct {
-	Email    string `json:"email" bson:"email"`
-	Password string `json:"password" bson:"password"`
-	Theme    string `json:"theme" bson:"theme"`
+	Email     string `json:"email" bson:"email"`
+	Password  string `json:"password" bson:"password"`
+	Theme     string `json:"theme" bson:"theme"`
+	Nickname  string `json:"nickname" bson:"nickname,omitempty"`
+	BirthDate time.Time `json:"birthdate" bson:"birthdate,omitempty"`
 }
 
 type Error struct {

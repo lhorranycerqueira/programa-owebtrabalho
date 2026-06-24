@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // procura se já existe um dock na página e se nao existir cria um novo div win dock e adiciona no final do body
   // util pra nao precisar por essa div manualmente em cada htmlL.
   let dock = document.querySelector(".win-dock");
+  
   if (!dock) {
     dock = document.createElement("div");
     dock.className = "win-dock";
@@ -27,8 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
     //20,20 e a janela 1 em 50,50.. isso evita q todas nascam exatamente empilhadas umas sobre as outras
     // é a posicao inicial
     if (!win.style.left) {
-      win.style.left = 20 + i * 30 + "px";
-      win.style.top = 20 + i * 30 + "px";
+      win.style.left = 40 + i * 30 + "px";
+      win.style.top = 40 + i * 30 + "px";
     }
     // define a ordem de empilhamento inicial
     win.style.zIndex = topZ;
@@ -61,8 +62,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.target.classList.contains("win-btn")) return;
 
       dragging = true;
-      offsetX = e.clientX - win.offsetLeft;
-      offsetY = e.clientY - win.offsetTop;
+      
+      // Pega a posição do clique relativa às bordas da janela
+      const rect = win.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
     });
 
   // fica no document porque o mouse pode mover rapido e escapar da area da titlebar, ouvindo no document o arrasto funciona melhor
@@ -95,9 +99,13 @@ document.addEventListener("DOMContentLoaded", () => {
           win.style.zIndex = topZ;     // vem pra frente de tudo
           dockItem.remove();           // remove o proprio botao do dock
         };
-
         dock.appendChild(dockItem);
       };
+    }
+    
+    // Vinculando a mesma ação ao botão de minimizar se ele existir
+    if (minBtn && closeBtn) {
+      minBtn.onclick = () => closeBtn.click();
     }
   });
 });

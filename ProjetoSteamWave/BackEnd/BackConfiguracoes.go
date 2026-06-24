@@ -40,8 +40,6 @@ func HandleUpdatePassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//A struct UpdatePasswordRequest ta no Struct.go
-	//Ela tem Email, CurrentPassword e NewPassword
 	var req UpdatePasswordRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
@@ -53,7 +51,7 @@ func HandleUpdatePassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	req.Email = strings.TrimSpace(req.Email)
-	fmt.Printf("[UpdatePassword] Requisição recebida de: %s\n", req.Email)
+	fmt.Printf("UpdatePassword Requisição recebida de: %s\n", req.Email)
 
 	//Se qualquer um dos 3 campos ta vazio, já não posso continuar
 	if req.Email == "" || req.CurrentPassword == "" || req.NewPassword == "" {
@@ -76,7 +74,7 @@ func HandleUpdatePassword(w http.ResponseWriter, r *http.Request) {
 	}).Decode(&user)
 
 	if err != nil {
-		fmt.Printf("[UpdatePassword] Usuário não encontrado: %s\n", req.Email)
+		fmt.Printf("UpdatePassword Usuário não encontrado: %s\n", req.Email)
 		w.WriteHeader(404)
 		json.NewEncoder(w).Encode(Error{
 			Message: "Usuário não encontrado",
@@ -84,14 +82,14 @@ func HandleUpdatePassword(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	fmt.Printf("[UpdatePassword] Usuário encontrado: %s — verificando senha atual\n", req.Email)
+	fmt.Printf("UpdatePassword Usuário encontrado: %s — verificando senha atual\n", req.Email)
 
 	//bcrypt.CompareHashAndPassword compara a senha que o usuário mandou
 	//com o hash que ta salvo no banco
 	//Se a senha atual não bater, não posso continuar (é uma camada de segurança)
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.CurrentPassword))
 	if err != nil {
-		fmt.Printf("[UpdatePassword] Senha atual incorreta para: %s\n", req.Email)
+		fmt.Printf("UpdatePassword Senha atual incorreta para: %s\n", req.Email)
 		w.WriteHeader(401)
 		json.NewEncoder(w).Encode(Error{
 			Message: "Senha atual incorreta",
@@ -99,13 +97,13 @@ func HandleUpdatePassword(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	fmt.Printf("[UpdatePassword] Senha atual verificada com sucesso para: %s\n", req.Email)
+	fmt.Printf("UpdatePassword Senha atual verificada com sucesso para: %s\n", req.Email)
 
 	//Agora gero o hash da NOVA senha com bcrypt
 	//DefaultCost é o custo padrão (10), é um bom equilíbrio entre segurança e velocidade
 	hash, err := bcrypt.GenerateFromPassword([]byte(req.NewPassword), bcrypt.DefaultCost)
 	if err != nil {
-		fmt.Printf("[UpdatePassword] Erro ao gerar hash: %v\n", err)
+		fmt.Printf("UpdatePassword Erro ao gerar hash: %v\n", err)
 		w.WriteHeader(500)
 		json.NewEncoder(w).Encode(Error{
 			Message: "Erro ao processar senha",

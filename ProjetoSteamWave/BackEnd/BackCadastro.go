@@ -71,7 +71,7 @@ func HandleCadastro(w http.ResponseWriter, r *http.Request) {
 	//Criamos um hash com um salt, que criptografa a senha do usuário antes de salvar
 	//Nunca devemos salvar a senha do usuário em texto puro
 	//Por isso, usamos o Hash mais o Salt para garantir a segurança dos dados
-	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14) //Mudei para 14 pq na documentação fala que fica mais seguro
 	if err != nil {
 		fmt.Printf("Cadastro Erro ao gerar hash: %v\n", err)
 		w.WriteHeader(500) //Problema interno no servidor

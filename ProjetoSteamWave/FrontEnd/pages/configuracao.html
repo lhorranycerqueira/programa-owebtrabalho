@@ -1,221 +1,139 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="../css/styleConfig.css">
-<<<<<<< HEAD
-    <link rel="stylesheet" href="../css/fontes.css">
-=======
-    <link rel="stylesheet" href="../css/tema.css">
-    <link rel="stylesheet" href="../css/theme.css">
-
->>>>>>> 39a317e122e12652e9d1d2733899ab5e6501790b
-    <link href="https://fonts.cdnfonts.com/css/motiva-sans" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styleConfig.css" />
+    <link rel="stylesheet" href="../css/styleConfig.css" />
+    <link rel="stylesheet" href="../css/fontes.css" />
+    <link rel="stylesheet" href="../css/tema.css" />
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link href="https://fonts.cdnfonts.com/css/motiva-sans" rel="stylesheet" />
 
     <title>Configurações</title>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <div class="config-wrapper">
+      <main class="config-panel">
+        <div class="panel-header">
+          <div class="panel-title-bar">
+            <span class="panel-icon">⚙</span>
 
-        <main class="config-panel">
+            <h1>Configurações</h1>
+          </div>
+        </div>
 
-            <div class="panel-header">
+        <div class="panel-body">
+          <fieldset>
+            <legend>Privacidade</legend>
 
-                <div class="panel-title-bar">
+            <div class="config-row">
+              <label for="profile-status"> Perfil público: </label>
 
-                    <span class="panel-icon">⚙</span>
+              <select id="profile-status">
+                <option value="public">Público</option>
 
-                    <h1>Configurações</h1>
-
-                </div>
-
+                <option value="private">Privado</option>
+              </select>
             </div>
 
+            <div class="config-row">
+              <label for="online-status"> Mostrar status online </label>
 
-            <div class="panel-body">
+              <label class="switch">
+                <input type="checkbox" id="online-status" />
 
-                <fieldset>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </fieldset>
 
-                    <legend>Privacidade</legend>
+          <fieldset>
+            <legend>Conta</legend>
 
-                    <div class="config-row">
+            <div class="config-row">
+              <label for="current-password"> Senha Atual: </label>
 
-                        <label for="profile-status">
-                            Perfil público:
-                        </label>
-
-
-                        <select id="profile-status">
-
-                            <option value="public">
-                                Público
-                            </option>
-
-
-                            <option value="private">
-                                Privado
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="config-row">
-
-                        <label for="online-status">
-                            Mostrar status online
-                        </label>
-
-
-                        <label class="switch">
-
-                            <input type="checkbox" id="online-status">
-
-                            <span class="slider"></span>
-
-                        </label>
-
-                    </div>
-
-                </fieldset>
-
-
-                <fieldset>
-
-                    <legend>Conta</legend>
-
-
-                    <div class="config-row">
-
-                        <label for="current-password">
-                            Senha Atual:
-                        </label>
-
-
-                        <div class="password-wrapper">
-                            <input
-                                type="password"
-                                id="current-password"
-                                placeholder="Digite sua senha atual">
-                            <button type="button" class="password-toggle" onclick="togglePassword('current-password', this)">👁</button>
-                        </div>
-
-                    </div>
-
-
-                    <div class="config-row">
-
-                        <label for="id-password">
-                            Nova Senha:
-                        </label>
-
-
-                        <div class="password-wrapper">
-                            <input
-                                type="password"
-                                id="id-password"
-                                placeholder="Digite sua nova senha">
-                            <button type="button" class="password-toggle" onclick="togglePassword('id-password', this)">👁</button>
-                        </div>
-
-                    </div>
-
-                </fieldset>
-
-
-                <fieldset>
-
-                    <legend>Preferências Visuais</legend>
-
-
-                    <div class="config-row">
-
-                        <label for="theme-selector">
-                            Escolher Tema:
-                        </label>
-
-
-                        <select 
-                            id="theme-selector"
-                            onchange="changeTheme(this.value)">
-
-
-                            <option value="dark" selected>
-                                🌙 Dark Vaporwave (Padrão)
-                            </option>
-
-
-                            <option value="light">
-                                ☀️ Light Vaporwave
-                            </option>
-
-
-                            <option value="sensitive">
-                                👁️ Modo Fotossensibilidade
-                            </option>
-
-
-                        </select>
-
-                    </div>
-
-                </fieldset>
-
-
-                <button type="button" class="btn-alteracoes">
-
-                    <span class="btn-glow"></span>
-
-                    <strong>
-                        SALVAR ALTERAÇÕES
-                    </strong>
-
+              <div class="password-wrapper">
+                <input
+                  type="password"
+                  id="current-password"
+                  placeholder="Digite sua senha atual"
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  onclick="togglePassword('current-password', this)"
+                >
+                  👁
                 </button>
-
-
+              </div>
             </div>
 
+            <div class="config-row">
+              <label for="id-password"> Nova Senha: </label>
 
-            <div class="toast" id="toast"></div>
+              <div class="password-wrapper">
+                <input
+                  type="password"
+                  id="id-password"
+                  placeholder="Digite sua nova senha"
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  onclick="togglePassword('id-password', this)"
+                >
+                  👁
+                </button>
+              </div>
+            </div>
+          </fieldset>
 
+          <fieldset>
+            <legend>Preferências Visuais</legend>
 
-        </main>
+            <div class="config-row">
+              <label for="theme-selector"> Escolher Tema: </label>
 
+              <select id="theme-selector" onchange="changeTheme(this.value)">
+                <option value="dark" selected>
+                  🌙 Dark Vaporwave (Padrão)
+                </option>
 
-        <section class="nav-footer">
+                <option value="light">☀️ Light Vaporwave</option>
 
+                <option value="sensitive">👁️ Modo Fotossensibilidade</option>
+              </select>
+            </div>
+          </fieldset>
 
-            <a href="carrossel.html" class="btn-home">
+          <button type="button" class="btn-alteracoes">
+            <span class="btn-glow"></span>
 
-                <span class="btn-home-icon">
-                    ⌂
-                </span>
+            <strong> SALVAR ALTERAÇÕES </strong>
+          </button>
+        </div>
 
-                Voltar para o Menu
+        <div class="toast" id="toast"></div>
+      </main>
 
-            </a>
+      <section class="nav-footer">
+        <a href="carrossel.html" class="btn-home">
+          <span class="btn-home-icon"> ⌂ </span>
 
+          Voltar para o Menu
+        </a>
 
-            <button type="button" class="btn-cancel" id="btn-cancelar">
-
-                Cancelar e Sair
-
-            </button>
-
-
-        </section>
-
-
+        <button type="button" class="btn-cancel" id="btn-cancelar">
+          Cancelar e Sair
+        </button>
+      </section>
     </div>
-
 
     <script src="../js/theme.js"></script>
     <script src="../js/scriptConfiguracoes.js"></script>
-
-</body>
+  </body>
 </html>

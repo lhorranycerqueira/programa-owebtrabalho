@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 	"time"
 
 	"strings"
@@ -18,21 +17,17 @@ import (
 // gerarTokenJWT cria um token JWT assinado para o usuário, eba para minha infelicidade
 func gerarTokenJWT(email string) (string, error) {
 	claims := jwt.MapClaims{
+		"sub":   email, // Subject: identifica o dono do token
 		"email": email,
-		"exp":   time.Now().Add(10 * time.Minute).Unix(),
+		"exp":   time.Now().Add(10 * time.Minute).Unix(), // Token válido por 24 horas
 		"iat":   time.Now().Unix(),
 	}
 
-	//Aqui colocamos a nossa assinatura da JWT
-	secretKey := os.Getenv("JWT_SECRET")
-	if secretKey == "" {
-		return "", fmt.Errorf("JWT_SECRET não definido no .env")
-	}
-	//Criamos um nov token com as claims e o método de assinatura é HS256
+	//Criamos um novo token com as claims e o método de assinatura é HS256
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	//Assinamos o token com a chave secreta e retornamos a string final
-	tokenString, err := token.SignedString([]byte(secretKey))
+	tokenString, err := token.SignedString(jwtSecret)
 	if err != nil {
 		return "", err // Se houver erro ao assinar, retornamos o erro
 	}

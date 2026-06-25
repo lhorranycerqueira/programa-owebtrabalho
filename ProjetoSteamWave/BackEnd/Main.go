@@ -17,9 +17,16 @@ import (
 // Go é meio estranho, mas isso serve para eu conseguir usar essa variavel em qualquer func
 // Se não fosse por causa da documentação do Go eu não ia saber que preciso colocar aqui
 var collection *mongo.Collection
+var jwtSecret []byte
 
 func main() {
 	godotenv.Load()
+
+	secret := os.Getenv("JWT_SECRET")
+	if secret == "" {
+		log.Fatal("JWT_SECRET não definido no .env")
+	}
+	jwtSecret = []byte(secret)
 
 	uri := os.Getenv("MONGO_URI")
 
@@ -36,6 +43,8 @@ func main() {
 	//Isso é para eu saber se deu certo a conecção
 	fmt.Println("Conectou")
 
+	captcha.SetCustomStore(captcha.NewMemoryStore(captcha.CollectNum, 5*time.Minute))
+
 	http.HandleFunc("/Login", HandleLogin)
 	http.HandleFunc("/Users", HandleCadastro)
 	http.HandleFunc("/UpdatePassword", HandleUpdatePassword) //Esta nas configurações
@@ -43,7 +52,7 @@ func main() {
 	http.HandleFunc("/Me", HandleMe)
 	http.HandleFunc("/UpdateProfile", HandleUpdateProfile) //No BackPerfil.go
 	http.HandleFunc("/CaptchaNew", HandleCaptchaNew)
-	http.Handle("/Captcha/", captcha.Server(240, 80)) //Servidor de imagens da biblioteca do Captcha
+	http.Handle("/Captcha/", captcha.Server(captcha.StdWidth, captcha.StdHeight)) //Servidor de imagens da biblioteca do Captcha
 	http.ListenAndServe(":8080", nil)
 
 }

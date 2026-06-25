@@ -1,6 +1,5 @@
 // ======================================
 // STEAMWAVE THEME CONTROLLER
-// Backend + Config Select
 // ======================================
 
 const body = document.body;
@@ -20,18 +19,13 @@ function clearThemes() {
 function applyTheme(theme) {
     clearThemes();
 
-    // Atualiza o select da página
-    // de configurações
-
+    // Atualiza o select da página de configurações (se existir)
     const selector = document.getElementById("theme-selector");
-
     if (selector) {
         selector.value = theme;
     }
 
-    // Dark é o padrão
-    // então não adiciona classe
-
+    // Dark é o padrão, não adiciona classe
     if (theme === "light") {
         body.classList.add("light-mode");
     }
@@ -39,35 +33,34 @@ function applyTheme(theme) {
     if (theme === "sensitive") {
         body.classList.add("low-sensitivity");
     }
+
+    // Salva localmente para aplicar rápido nas próximas páginas
+    localStorage.setItem("temaSteam", theme);
 }
 
 // ======================================
-// Buscar tema salvo no usuário
+// Buscar tema salvo no backend
 // ======================================
 
 async function loadUserTheme() {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-        return;
+    // Aplica o tema local imediatamente para não piscar
+    const temaLocal = localStorage.getItem("temaSteam");
+    if (temaLocal) {
+        applyTheme(temaLocal);
     }
 
+    // Depois busca o tema atualizado do backend
     try {
-        const response = await fetch("http://localhost:8080/me", {
+        const response = await Auth.fetchAutenticado("http://localhost:8080/Me", {
             method: "GET",
-
-            headers: {
-                Authorization: "Bearer " + token,
-            },
         });
 
-        if (!response.ok) {
-            return;
-        }
+        if (!response || !response.ok) return;
 
         const user = await response.json();
-
-        applyTheme(user.theme);
+        if (user.theme) {
+            applyTheme(user.theme);
+        }
     } catch (error) {
         console.log("Erro ao carregar tema:", error);
     }
@@ -78,28 +71,17 @@ async function loadUserTheme() {
 // ======================================
 
 async function changeTheme(theme) {
-    const token = localStorage.getItem("token");
-
-    // Aplica imediatamente
-    // sem esperar o backend
-
+    // Aplica imediatamente sem esperar o backend
     applyTheme(theme);
 
-    if (!token) {
-        return;
-    }
+    const email = localStorage.getItem("steamUserEmail");
+    if (!email) return;
 
     try {
-        await fetch("http://localhost:8080/theme", {
-            method: "PUT",
-
-            headers: {
-                Authorization: "Bearer " + token,
-
-                "Content-Type": "application/json",
-            },
-
+        await Auth.fetchAutenticado("http://localhost:8080/UpdateTheme", {
+            method: "POST",
             body: JSON.stringify({
+                email: email,
                 theme: theme,
             }),
         });
@@ -109,13 +91,9 @@ async function changeTheme(theme) {
 }
 
 // ======================================
-// Carregar automaticamente em todas páginas
+// Carregar automaticamente em todas as páginas
 // ======================================
 
-window.addEventListener(
-    "DOMContentLoaded",
-
-    () => {
-        loadUserTheme();
-    },
-);
+window.addEventListener("DOMContentLoaded", () => {
+    loadUserTheme();    
+});

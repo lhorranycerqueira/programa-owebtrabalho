@@ -45,6 +45,17 @@ function mudarTema() {
   localStorage.setItem("temaSteam", chosenTheme);
 }
 //Adicionei um toast para ficar mais bonito os avisos
+function togglePassword(inputId, button) {
+    const input = document.getElementById(inputId);
+    if (input.type === "password") {
+        input.type = "text";
+        button.textContent = "👁‍🗨";
+    } else {
+        input.type = "password";
+        button.textContent = "👁";
+    }
+}
+
 function showToast(mensagem) {
   const toast = document.getElementById("toast");
   if (!toast) {

@@ -237,6 +237,38 @@ input[type="password"]:focus {
   box-shadow: var(--glow-pink);
 }
 
+.password-wrapper {
+  position: relative;
+  width: 200px;
+}
+
+.password-wrapper input[type="password"],
+.password-wrapper input[type="text"] {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  opacity: 0.7;
+  transition: var(--transition-fast);
+}
+
+.password-toggle:hover {
+  opacity: 1;
+  color: var(--neon-cyan);
+  transform: translateY(-50%) scale(1.1);
+}
+
 select option {
   background: var(--dark-bg);
   color: var(--text-color);

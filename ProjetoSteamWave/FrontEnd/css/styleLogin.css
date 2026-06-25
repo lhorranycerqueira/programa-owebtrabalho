@@ -183,6 +183,36 @@ body {
   border-color: var(--neon-cyan);
 }
 
+.password-wrapper {
+  position: relative;
+  width: 280px;
+}
+
+.password-wrapper .login-input {
+  width: 100%;
+  padding-right: 45px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  opacity: 0.7;
+  transition: 0.2s;
+}
+
+.password-toggle:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+
 .login-btn {
   width: 280px;
   padding: 12px;
@@ -198,6 +228,108 @@ body {
 .login-btn:hover {
   filter: brightness(1.2);
   transform: translateY(-2px);
+}
+
+.captcha-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+}
+
+.captcha-modal.active {
+  display: flex;
+}
+
+.captcha-modal-box {
+  background: rgba(30, 0, 60, 0.95);
+  border: 1px solid var(--neon-purple);
+  border-radius: 12px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: 360px;
+  width: 90%;
+  position: relative;
+  animation: cardRise 0.4s ease-out;
+}
+
+@keyframes cardRise {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.captcha-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--neon-purple);
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.captcha-modal-close:hover {
+  color: var(--neon-pink);
+  transform: scale(1.2);
+}
+
+.captcha-modal-title {
+  font-family: var(--pixel-font);
+  font-size: 12px;
+  color: var(--neon-purple);
+  text-shadow: 0 0 12px var(--neon-purple);
+  letter-spacing: 3px;
+}
+
+.captcha-modal-desc {
+  font-family: var(--vt-font);
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.captcha-modal-box .captcha-img {
+  height: 70px;
+  border-radius: 8px;
+  border: 1px solid var(--neon-purple);
+  box-shadow: 0 0 10px rgba(155, 48, 255, 0.3);
+}
+
+.captcha-modal-box .captcha-refresh {
+  background: rgba(80, 0, 160, 0.7);
+  border: 1px solid var(--neon-purple);
+  border-radius: 20px;
+  padding: 6px 14px;
+  color: white;
+  font-family: var(--vt-font);
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.captcha-modal-box .captcha-refresh:hover {
+  filter: brightness(1.3);
+  border-color: var(--neon-pink);
+}
+
+.captcha-modal-input {
+  width: 100%;
+  max-width: 280px;
+  text-align: center;
+  font-size: 18px !important;
+  letter-spacing: 8px !important;
+}
+
+.captcha-modal-btn {
+  max-width: 280px;
 }
 
 .register-link span:hover {

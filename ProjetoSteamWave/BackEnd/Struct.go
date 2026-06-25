@@ -16,8 +16,17 @@ type Error struct {
 }
 
 type LoginRequest struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Email        string `json:"email"`
+	Password     string `json:"password"`
+	CaptchaID    string `json:"captchaId"`
+	CaptchaAnswer string `json:"captchaAnswer"`
+}
+
+type CadastroRequest struct {
+	Email         string `json:"email"`
+	Password      string `json:"password"`
+	CaptchaID     string `json:"captchaId"`
+	CaptchaAnswer string `json:"captchaAnswer"`
 }
 
 // Das configurações para atualizar a senha do usuário

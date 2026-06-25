@@ -8,6 +8,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/dchest/captcha"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -41,6 +42,8 @@ func main() {
 	http.HandleFunc("/UpdateTheme", HandleUpdateTheme)
 	http.HandleFunc("/Me", HandleMe)
 	http.HandleFunc("/UpdateProfile", HandleUpdateProfile) //No BackPerfil.go
+	http.HandleFunc("/CaptchaNew", HandleCaptchaNew)
+	http.Handle("/Captcha/", captcha.Server(240, 80)) //Servidor de imagens da biblioteca do Captcha
 	http.ListenAndServe(":8080", nil)
 
 }

@@ -19,7 +19,7 @@ import (
 func gerarTokenJWT(email string) (string, error) {
 	claims := jwt.MapClaims{
 		"email": email,
-		"exp":   time.Now().Add(1 * time.Hour).Unix(),
+		"exp":   time.Now().Add(10 * time.Minute).Unix(),
 		"iat":   time.Now().Unix(),
 	}
 
@@ -73,6 +73,15 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	//Remove o espaço que o usuario pode colocar no cadastro e vir colocar no login
 	//Aprendi da pior forma
 	login.Email = strings.TrimSpace(login.Email)
+
+	if !validarCaptcha(login.CaptchaID, login.CaptchaAnswer) {
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(Error{
+			Message: "Captcha incorreto ou expirado",
+			Status:  400,
+		})
+		return
+	}
 
 	//Criamos a conecção com o MongoDB
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)

@@ -126,3 +126,7 @@ para utilizar a padronização do arquivo, so colocar txt-title dentro da classe
 - Fiz as bases da pagina, só precisando agora desenvolver os containers individualmente
 - Fiz um menu hamburguer com animações
 - Ainda falta integrar essas alterações com o projeto, já que agora a pagina perfil está em uma nova pasta
+
+# Atualizações Rickelmy 25/06
+- Coloquei um Captcha usando a bibliotecas `dchest/captcha` para as pessoas não encherem nosso site
+com informações inúeis.

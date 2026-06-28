@@ -14,30 +14,32 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// gerarTokenJWT cria um token JWT assinado para o usuário, eba para minha infelicidade
-func gerarTokenJWT(email string) (string, error) {
+func gerarAccessToken(email string) (string, error) {
 	claims := jwt.MapClaims{
-		"sub":   email, // Subject: identifica o dono do token
+		"sub":   email,
 		"email": email,
-		"exp":   time.Now().Add(10 * time.Minute).Unix(), // Token válido por 24 horas
+		"exp":   time.Now().Add(15 * time.Minute).Unix(),
 		"iat":   time.Now().Unix(),
+		"type":  "access",
 	}
-
-	//Criamos um novo token com as claims e o método de assinatura é HS256
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString(jwtSecret)
+}
 
-	//Assinamos o token com a chave secreta e retornamos a string final
-	tokenString, err := token.SignedString(jwtSecret)
-	if err != nil {
-		return "", err // Se houver erro ao assinar, retornamos o erro
+func gerarRefreshToken(email string) (string, error) {
+	claims := jwt.MapClaims{
+		"sub":   email,
+		"email": email,
+		"exp":   time.Now().Add(7 * 24 * time.Hour).Unix(),
+		"iat":   time.Now().Unix(),
+		"type":  "refresh",
 	}
-
-	//Se nada der errado vai retorna nosso Token pra o front
-	return tokenString, nil
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString(jwtSecret)
 }
 
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	setCORS(w, r)
 	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
@@ -110,10 +112,9 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("Login feito para: %s\n", login.Email)
 
-	//Após validar email e senha, geramos um token JWT para o usuário.
-	tokenString, err := gerarTokenJWT(user.Email)
+	accessToken, err := gerarAccessToken(user.Email)
 	if err != nil {
-		fmt.Printf("Login Erro ao gerar token JWT %s | %v\n", user.Email, err)
+		fmt.Printf("Login Erro ao gerar access token %s | %v\n", user.Email, err)
 		w.WriteHeader(500)
 		json.NewEncoder(w).Encode(Error{
 			Message: "Erro ao gerar token",
@@ -122,11 +123,28 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//Retornamos o token JWT junto com a mensagem de sucesso
-	//O frontend vai salvar esse token no localStorage para usar em requisições futuras
+	refreshToken, err := gerarRefreshToken(user.Email)
+	if err != nil {
+		fmt.Printf("Login Erro ao gerar refresh token %s | %v\n", user.Email, err)
+		w.WriteHeader(500)
+		json.NewEncoder(w).Encode(Error{
+			Message: "Erro ao gerar token",
+			Status:  500,
+		})
+		return
+	}
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     "refresh_token",
+		Value:    refreshToken,
+		HttpOnly: true,
+		SameSite: http.SameSiteLaxMode,
+		Path:     "/",
+		MaxAge:   7 * 24 * 60 * 60,
+	})
+
 	json.NewEncoder(w).Encode(map[string]string{
-		"message": "Login realizado com sucesso",
-		"token":   tokenString,
-		"email":   user.Email,
+		"accessToken": accessToken,
+		"email":       user.Email,
 	})
 }

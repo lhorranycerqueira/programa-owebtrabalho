@@ -83,16 +83,14 @@ async function enviarLogin() {
             headers: {
                 "Content-Type": "application/json"
             },
+            credentials: "include",
             body: JSON.stringify(dados)
         });
 
         if (response.status == 200) {
             const resultado = await response.json();
             localStorage.setItem("steamUserEmail", resultado.email);
-
-            if (resultado.token) {
-                localStorage.setItem("steamWaveToken", resultado.token);
-            }
+            Auth.setAccessToken(resultado.accessToken);
 
             fecharCaptchaModal();
             showToast("Login realizado");
@@ -128,7 +126,7 @@ function togglePassword(inputId, button) {
         button.textContent = "👁‍🗨";
     } else {
         input.type = "password";
-        button.textContent = "👁";
+        button.textContent = "👁️";
     }
 }
 

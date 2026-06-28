@@ -18,7 +18,7 @@ import (
 func HandleUpdatePassword(w http.ResponseWriter, r *http.Request) {
 	//CORS, igual no BackCadastro e no BackLogin
 	//Sem isso o navegador bloqueia a requisição do front
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	setCORS(w, r)
 	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
@@ -140,7 +140,7 @@ func HandleUpdatePassword(w http.ResponseWriter, r *http.Request) {
 // O front manda email + nome do tema escolhido e a gente salva no MongoDB
 // Assim no próximo login o BackLogin já devolve o tema correto pro front
 func HandleUpdateTheme(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	setCORS(w, r)
 	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 

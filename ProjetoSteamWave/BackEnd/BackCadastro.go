@@ -15,9 +15,7 @@ import (
 
 func HandleCadastro(w http.ResponseWriter, r *http.Request) {
 	//Aqui ta o CORS, sem ele o navegador vai bloquear tudo que o front tentar mandar para aqui
-	//Access-Control-Allow-Origin: "*" permite que QUALQUER domínio faça requisições
-	//Em produção, o ideal seria colocar apenas o domínio do frontend por segurança
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	setCORS(w, r)
 
 	//Access-Control-Allow-Methods: define quais métodos HTTP são permitidos
 	//POST é o método do cadastro, OPTIONS é o "preflight request"
@@ -115,7 +113,7 @@ func HandleCadastro(w http.ResponseWriter, r *http.Request) {
 	// Substitui a senha em texto plano pelo hash gerado.
 	// Agora a struct "user" contém o hash, não a senha original.
 	user.Password = string(hash)
-	user.Theme = "neon-classic"
+	user.Theme = "dark"
 	fmt.Printf("Cadastro Senha com Hash para: %s\n", user.Email)
 
 	//context.WithTimeout cria um contexto que será cancelado automaticamente

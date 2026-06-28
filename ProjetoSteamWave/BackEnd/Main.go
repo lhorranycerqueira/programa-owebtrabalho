@@ -53,6 +53,7 @@ func main() {
 	http.HandleFunc("/UpdateProfile", HandleUpdateProfile) //No BackPerfil.go
 	http.HandleFunc("/CaptchaNew", HandleCaptchaNew)
 	http.Handle("/Captcha/", captcha.Server(captcha.StdWidth, captcha.StdHeight)) //Servidor de imagens da biblioteca do Captcha
+	http.HandleFunc("/Refresh", HandleRefresh)
+	http.HandleFunc("/Logout", HandleLogout)
 	http.ListenAndServe(":8080", nil)
-
 }

@@ -43,26 +43,9 @@ function applyTheme(theme) {
 // ======================================
 
 async function loadUserTheme() {
-    // Aplica o tema local imediatamente para não piscar
     const temaLocal = localStorage.getItem("temaSteam");
     if (temaLocal) {
         applyTheme(temaLocal);
-    }
-
-    // Depois busca o tema atualizado do backend
-    try {
-        const response = await Auth.fetchAutenticado("http://localhost:8080/Me", {
-            method: "GET",
-        });
-
-        if (!response || !response.ok) return;
-
-        const user = await response.json();
-        if (user.theme) {
-            applyTheme(user.theme);
-        }
-    } catch (error) {
-        console.log("Erro ao carregar tema:", error);
     }
 }
 
@@ -71,15 +54,15 @@ async function loadUserTheme() {
 // ======================================
 
 async function changeTheme(theme) {
-    // Aplica imediatamente sem esperar o backend
     applyTheme(theme);
 
     const email = localStorage.getItem("steamUserEmail");
     if (!email) return;
 
     try {
-        await Auth.fetchAutenticado("http://localhost:8080/UpdateTheme", {
+        await fetch("http://localhost:8080/UpdateTheme", {
             method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 email: email,
                 theme: theme,
@@ -95,5 +78,5 @@ async function changeTheme(theme) {
 // ======================================
 
 window.addEventListener("DOMContentLoaded", () => {
-    loadUserTheme();    
+    loadUserTheme();
 });

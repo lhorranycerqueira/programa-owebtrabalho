@@ -1,27 +1,4 @@
-function tokenValido(token) {
-    try {
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        if (!payload.exp) return false;
-        return Date.now() < payload.exp * 1000;
-    } catch {
-        return false;
-    }
-}
-
 document.addEventListener("DOMContentLoaded", async function () {
-    // Verifica autenticação ao carregar a página
-    const token = localStorage.getItem("steamWaveToken");
-    const email = localStorage.getItem("steamUserEmail");
-
-    if (!token || !email || !tokenValido(token)) {
-        localStorage.removeItem("steamWaveToken");
-        localStorage.removeItem("steamUserEmail");
-        showToast("Token expirada. Faça login novamente!");
-        setTimeout(() => { window.location.href = "login.html"; }, 3000);
-        return;
-    }
-
-    // Carrega configurações salvas localmente
     const savedData = JSON.parse(localStorage.getItem("steamConfig"));
     const savedTheme = localStorage.getItem("temaSteam");
 
@@ -38,13 +15,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         changeTheme(savedTheme);
     }
 
-    // Botão salvar
     const btnSave = document.querySelector(".btn-alteracoes");
     if (btnSave) {
         btnSave.addEventListener("click", salvarConfiguracoes);
     }
 
-    // Botão cancelar - volta para a página anterior
     const btnCancel = document.getElementById("btn-cancelar");
     if (btnCancel) {
         btnCancel.addEventListener("click", function () {
@@ -77,12 +52,11 @@ async function salvarConfiguracoes() {
     };
     localStorage.setItem("steamConfig", JSON.stringify(configData));
 
-    // Salva o tema no backend
     const email = localStorage.getItem("steamUserEmail");
 
     if (email) {
         try {
-            const themeResponse = await fetch("http://localhost:8080/UpdateTheme", {
+            await fetch("http://localhost:8080/UpdateTheme", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -90,17 +64,11 @@ async function salvarConfiguracoes() {
                     theme: configData.theme,
                 }),
             });
-
-            if (!themeResponse.ok) {
-                const themeResult = await themeResponse.json();
-                console.error("Erro ao salvar tema:", themeResult.message);
-            }
         } catch (error) {
             console.error("Erro ao salvar tema:", error);
         }
     }
 
-    // Troca de senha (só se o usuário preencheu)
     if (password !== "") {
         if (currentPassword === "") {
             showToast("Digite sua senha atual para confirmar a alteração!");
@@ -134,7 +102,7 @@ async function salvarConfiguracoes() {
                 showToast("Erro: " + resultado.message);
             }
         } catch (error) {
-            console.error("[Configuracoes] Erro na requisição:", error);
+            console.error("Configuracoes Erro na requisição:", error);
             showToast("Não foi possível falar com o servidor. Verifique se o Go está rodando!");
         }
     } else {

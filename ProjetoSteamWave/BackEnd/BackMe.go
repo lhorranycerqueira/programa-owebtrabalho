@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 
@@ -17,7 +16,7 @@ import (
 // O frontend chama esse endpoint quando o usuário abre o site já com o token salvo
 // Assim conseguimos buscar os dados atualizados do banco sem pedir login de novo
 func HandleMe(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	setCORS(w, r)
 	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
@@ -62,19 +61,9 @@ func HandleMe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	secretKey := os.Getenv("JWT_SECRET") //Busco a chave secreta que usei pra assinar o token na .env
-	if secretKey == "" {
-		//Se a chave tiver vazia é culpa do servido
-		w.WriteHeader(500)
-		json.NewEncoder(w).Encode(Error{
-			Message: "JWT_SECRET não definido",
-			Status:  500,
-		})
-		return
-	}
-
 	//jwt.Parse faz tudo de uma vez, ela decodifica o token, valida a assinatura e vê a expiração
 	//A função que passo como parâmetro serve pra devolver a chave que o Parse vai usar pra validar
+	//jwtSecret é a variável global definida no Main.go, lida uma única vez na inicialização
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		//Aqui eu garanto que o algoritmo de assinatura é HMAC(HS256), e só aceitara HMAC
 		//Isso evita ataques de hackers
@@ -83,7 +72,7 @@ func HandleMe(w http.ResponseWriter, r *http.Request) {
 			//Aqui verificamos se o token tem o algoritmo HMAC; no Header do token está o ["alg"].
 			//Se o alg for alterado para qualquer outro algoritmo ou for none, ele já será inválido
 		}
-		return []byte(secretKey), nil
+		return jwtSecret, nil
 	})
 
 	if err != nil || !token.Valid {

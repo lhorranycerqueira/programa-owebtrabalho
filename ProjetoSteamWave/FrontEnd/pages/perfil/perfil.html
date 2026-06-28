@@ -12,7 +12,7 @@
 
   <!-- 2. IMPORTAÇÃO DOS ESTILOS GLOBAIS -->
   <link rel="stylesheet" href="../../css/root.css">
-  <link rel="stylesheet" href="../../css/tema.css">
+  <link rel="stylesheet" href="../../css/fontes.css">
   
   <!-- 3. SEU ESTILO ESPECÍFICO DO PERFIL -->
   <link rel="stylesheet" href="../../css/perfil/stylePerfil.css">
@@ -44,19 +44,33 @@
   <!-- CONTAINER DE GRUPO PARA CENTRALIZAR AMBAS AS JANELAS LADO A LADO -->
   <main class="main-layout-flex">
 
-    <!-- 1. JANELA DO PERFIL (PERFIL.EXE) -->
-    <div class="profile-container">
-      
-      <!-- ORELHINHA EDITÁVEL -->
-      <div class="profile-tab-row">
-        <div class="profile-tab" title="Clique para editar o título da aba">
-          <span id="profile-tab-title" contenteditable="true" spellcheck="false">PERFIL.EXE</span>
-          <span class="edit-hint-icon-tab">✏️</span>
-        </div>
-      </div>
+<!-- ==========================================
+     JANELA DO PERFIL
+========================================== -->
+<div class="profile-container sw-window">
 
-      <!-- CORPO DA JANELA -->
-      <div class="profile-window-body">
+    <!-- Orelhinha -->
+    <div class="profile-tab-row sw-window-header sw-draggable">
+
+        <div class="profile-tab" title="Clique para editar o título da aba">
+
+            <span
+                id="profile-tab-title"
+                contenteditable="true"
+                spellcheck="false">
+
+                PERFIL.EXE
+
+            </span>
+
+            <span class="edit-hint-icon-tab">✏️</span>
+
+        </div>
+
+    </div>
+
+    <!-- Corpo -->
+    <div class="profile-window-body sw-window-body">
         <!-- Efeito visual animado por cima do perfil -->
         <div id="profile-effect" class="profile-effect-overlay"></div>
         
@@ -118,14 +132,17 @@
 
         <!-- BASE INFERIOR SÓLIDA -->
         <div class="profile-base"></div>
+
+        <div class="sw-resize-handle"></div>
+      </div>
       </div>
     </div>
 
     <!-- 2. JANELA DE CONFIGURAÇÕES (CONFIG.EXE) -->
-    <div class="window-wrapper">
+    <div class="window-wrapper sw-window">
       
       <!-- ORELHINHA DA JANELA CONFIG -->
-      <div class="profile-tab-row">
+    <div class="profile-tab-row sw-window-header sw-draggable">
         <div class="profile-tab config-tab">
           <span>CONFIG.EXE</span>
         </div>
@@ -259,6 +276,9 @@
   </div>
 
   <script src="../../js/gerenciadorJanelas.js"></script>
+
+  <script src="../../js/window/windowManager.js"></script>
+
   <script src="../../js/perfil/scriptPerfil.js"></script>
 </body>
 </html>

@@ -181,12 +181,21 @@ flex-direction: column;
 }
 
 /* ORELHINHA DA ABA */
-.profile-tab-row {
-display: flex;
-justify-content: flex-start;
-padding-left: 0;
-}
+.profile-tab-row{
+    display:flex;
 
+    justify-content:flex-start;
+
+    align-items:flex-end;
+
+    width:100%;
+
+    padding:0;
+
+    margin:0;
+
+    flex:none;
+}
 .profile-tab {
 background: var(--retro-accent);
 color: #0a0612;
@@ -867,4 +876,99 @@ border-bottom: 2px solid var(--neon-cyan, #00eaff);
 width: 1px;
 height: 20px;
 background: rgba(155, 48, 255, 0.3);
+}
+
+/* ==========================================================
+   SISTEMA DE JANELAS (SteamWindow)
+========================================================== */
+
+/* A janela inteira possui animações suaves */
+.sw-window{
+
+    transition:
+        transform .18s ease,
+        filter .18s ease;
+
+}
+
+/* Corpo da janela */
+.sw-window .profile-window-body,
+.sw-window .edit-profile-container{
+
+    transition:
+        box-shadow .20s ease,
+        filter .20s ease,
+        transform .20s ease;
+
+}
+
+/* Aba superior */
+.sw-window .profile-tab{
+
+    transition:
+        filter .20s ease,
+        transform .20s ease;
+
+}
+
+
+/* ==========================================================
+   JANELA INATIVA
+========================================================== */
+
+.sw-window{
+
+    filter: brightness(.88);
+
+}
+
+
+/* ==========================================================
+   JANELA ATIVA
+========================================================== */
+
+.sw-window.window-active{
+
+    filter: brightness(1);
+
+}
+
+/* O corpo ganha profundidade */
+.sw-window.window-active .profile-window-body,
+.sw-window.window-active .edit-profile-container{
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 16px 40px rgba(0,0,0,.60);
+
+}
+
+/* A aba também acompanha a ativação */
+.sw-window.window-active .profile-tab{
+
+    filter: brightness(1.18);
+
+    transform: translateY(-1px);
+
+}
+
+/* ===========================================
+   Área arrastável
+=========================================== */
+
+.sw-draggable{
+
+    cursor:grab;
+
+    user-select:none;
+
+    width:fit-content;
+
+}
+
+.sw-draggable:active{
+
+    cursor: grabbing;
+
 }

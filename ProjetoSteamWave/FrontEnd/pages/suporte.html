@@ -24,9 +24,9 @@
     <link rel="stylesheet" href="../css/styleSuporte.css" />
   </head>
 
-  <body>
+<body>
 
-    <!--
+  <!--
          PÁGINA DE SUPORTE
          ID: page-suporte
          a classe .page é a estrutura base das paginas do site, javascript controla a visibilidade alternando a classe .active, ela é oculta por padrão;
@@ -34,16 +34,15 @@
          a torna visível em display:flex.;
          O style inline define justify-content: center
          para centralizar horizontalmente o conteúdo. -->
-    <div id="page-suporte" class="page active" style="justify-content: center">
+  <div id="page-suporte" class="page active" style="justify-content: center">
 
-      <!-- 
+    <!-- 
            FUNDO DA PÁGINA
            .suporte-bg: preenche toda a tela com a cor de azul
            O div interno cria um grid sutil de linhas azuis
            usando repeating-linear-gradient -->
-      <div class="suporte-bg">
-        <div
-          style="
+    <div class="suporte-bg">
+      <div style="
             position: absolute;
             inset: 0;
             background-image:
@@ -59,137 +58,126 @@
                 transparent 1px,
                 transparent 40px
               );
-          "
-        ></div>
-      </div>
+          "></div>
+    </div>
 
-      <!--
+    <!--
            A janela principal no estilo do windows95
            .suporte-window + .win-window: combina os estilos de largura fixa (600px) com a aparência Win95.
            z-index:10 garante que fique acima do fundo. -->
-      <div class="suporte-window win-window" style="z-index: 10">
+    <div class="suporte-window win-window" style="z-index: 10">
 
-        <!--
+      <!--
              barra de título da janela
              .win-titlebar: fundo azul com texto branco
              Lado esquerdo: ícone e título da janela.
              Lado direito: botões de controle da janela. -->
-        <div class="win-titlebar">
-          <span>❓ SUPORTE STEAMWAVE</span>
+      <div class="win-titlebar">
+        <span>❓ SUPORTE STEAMWAVE</span>
 
-          <!-- Botões minimizar, maximizar e fechar -->
-          <div class="win-controls">
-            <div class="win-btn">_</div>  <!-- Minimizar ainda decorativo-->
-            <div class="win-btn">□</div>  <!-- Maximizar mesma coisa -->
+        <!-- Botões minimizar, maximizar e fechar -->
+        <div class="win-controls">
+          <div class="win-btn">_</div> <!-- Minimizar ainda decorativo-->
+          <div class="win-btn">□</div> <!-- Maximizar mesma coisa -->
 
-            <div class="win-btn">✕</div>
-          </div>
+          <div class="win-btn">✕</div>
         </div>
+      </div>
 
-        <!-- forms
+      <!-- forms
              .suporte-form: área branca com campos para o usuário descrever seu problema -->
-        <div class="suporte-form">
+      <div class="suporte-form">
 
-          <!-- label e input do campo assunto -->
-          <p class="suporte-label">Assunto</p>
-          <input
-            class="suporte-input"
-            type="text"
-            placeholder="Descreva o problema em poucas palavras"
-          />
+        <!-- label e input do campo assunto -->
+        <p class="suporte-label">Assunto</p>
+        <input class="suporte-input" type="text" placeholder="Descreva o problema em poucas palavras" />
 
-          <!-- label e textarea do campo mensagem -->
-          <p class="suporte-label">Mensagem</p>
-          <textarea
-            class="suporte-input suporte-textarea"
-            placeholder="Detalhe seu problema aqui..."
-          ></textarea>
+        <!-- label e textarea do campo mensagem -->
+        <p class="suporte-label">Mensagem</p>
+        <textarea class="suporte-input suporte-textarea" placeholder="Detalhe seu problema aqui..."></textarea>
 
-          <!-- botão de envio: chama showToast() com mensagem de confirmação,
+        <!-- botão de envio: chama showToast() com mensagem de confirmação,
             nessa area seria bom fazer um else pra caso nao conseguir enviar ne -->
-          <button
-            class="suporte-submit"
-            onclick="showToast('✅ Enviado com sucesso! Gostaria de Acompanhar sua solitação?')"
-          >
-            ENVIAR TICKET
-          </button>
-        </div>
+        <button class="suporte-submit"
+          onclick="showToast('✅ Enviado com sucesso! Gostaria de Acompanhar sua solitação?')">
+          ENVIAR TICKET
+        </button>
+      </div>
 
-        <!-- faq
+      <!-- faq
              .suporte-faq 
              cada .faq-item contém:
                - .faq-q (pergunta clicável)
                - .faq-a (resposta, oculta por padrão via css)
              o js controla a abertura via toggleFaq(). -->
-        <div class="suporte-faq">
+      <div class="suporte-faq">
 
-          <!-- título da seção faq classe inline  -->
-          <div class="txt-title" style="color: #000080; padding: 12px 0 8px;">
-            PERGUNTAS FREQUENTES
-          </div>
-
-          <!-- faq recuperação de senha -->
-          <div class="faq-item">
-            <!-- .faq-q: clique chama toggleFaq(this) passando o próprio elemento -->
-            <div class="faq-q" onclick="toggleFaq(this)">
-              <span>Como recuperar minha senha?</span>
-              <span>▼</span>  <!-- seta indicadora; trocada para ▲ quando aberto -->
-            </div>
-            <!-- .faq-a: visível apenas quando .open é adicionado pelo JS -->
-            <div class="faq-a">
-              Acesse a tela de login e clique em "Esqueci minha senha". Um
-              e-mail de recuperação será enviado.
-            </div>
-          </div>
-
-          <!-- faq modo offline -->
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              <span>Posso jogar offline?</span>
-              <span>▼</span>
-            </div>
-            <div class="faq-a">
-              Sim! A maioria dos jogos suporta modo offline. Ative no menu de
-              configurações do jogo.
-            </div>
-          </div>
-
-          <!-- faq reembolso -->
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              <span>Como solicitar reembolso?</span>
-              <span>▼</span>
-            </div>
-            <div class="faq-a">
-              Jogos com menos de 2h de jogo e comprados há menos de 14 dias são
-              elegíveis para reembolso automático.
-            </div>
-          </div>
-
-          <!-- faq segurança dos saves -->
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              <span>Meus saves estão seguros?</span>
-              <span>▼</span>
-            </div>
-            <div class="faq-a">
-              Sim! Todos os saves são sincronizados automaticamente na nuvem
-              SteamWave Cloud.
-            </div>
-          </div>
-
+        <!-- título da seção faq classe inline  -->
+        <div class="txt-title" style="color: #000080; padding: 12px 0 8px;">
+          PERGUNTAS FREQUENTES
         </div>
-        <!-- acabou .suporte-faq -->
+
+        <!-- faq recuperação de senha -->
+        <div class="faq-item">
+          <!-- .faq-q: clique chama toggleFaq(this) passando o próprio elemento -->
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Como recuperar minha senha?</span>
+            <span>▼</span> <!-- seta indicadora; trocada para ▲ quando aberto -->
+          </div>
+          <!-- .faq-a: visível apenas quando .open é adicionado pelo JS -->
+          <div class="faq-a">
+            Acesse a tela de login e clique em "Esqueci minha senha". Um
+            e-mail de recuperação será enviado.
+          </div>
+        </div>
+
+        <!-- faq modo offline -->
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Posso jogar offline?</span>
+            <span>▼</span>
+          </div>
+          <div class="faq-a">
+            Sim! A maioria dos jogos suporta modo offline. Ative no menu de
+            configurações do jogo.
+          </div>
+        </div>
+
+        <!-- faq reembolso -->
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Como solicitar reembolso?</span>
+            <span>▼</span>
+          </div>
+          <div class="faq-a">
+            Jogos com menos de 2h de jogo e comprados há menos de 14 dias são
+            elegíveis para reembolso automático.
+          </div>
+        </div>
+
+        <!-- faq segurança dos saves -->
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Meus saves estão seguros?</span>
+            <span>▼</span>
+          </div>
+          <div class="faq-a">
+            Sim! Todos os saves são sincronizados automaticamente na nuvem
+            SteamWave Cloud.
+          </div>
+        </div>
 
       </div>
-      <!-- acabou .suporte-window -->
+      <!-- acabou .suporte-faq -->
+
+    </div>
+    <!-- acabou .suporte-window -->
 
 
-      <!--
+    <!--
            menu que ta la embaixo
            Posicionada na parte inferior da página por meio do position:absolute e bottom:10px. -->
-      <div
-        style="
+    <div style="
           position: absolute;
           bottom: 10px;
           left: 0;
@@ -198,53 +186,42 @@
           justify-content: center;
           gap: 16px;
           z-index: 10;
-        "
-      >
-        <!-- navega para a tela inicial -->
-        <a href="homepage.html">
-        <button
-          class="gnav-btn"
-          onclick="goTo('page-homenav')"
-          style="color: rgba(150, 200, 255, 0.8)"
-        >
+        ">
+      <!-- navega para a tela inicial -->
+      <a href="carrossel.html">
+        <button class="gnav-btn" onclick="goTo('page-homenav')" style="color: rgba(150, 200, 255, 0.8)">
           🏠 Home
         </button>
-        </a>
-        <!-- navega para a Loja -->
-        <a href="loja.html">
-        <button
-          class="gnav-btn"
-          onclick="goTo('page-loja')"
-          style="color: rgba(150, 200, 255, 0.8)"
-        >
+      </a>
+      <!-- navega para a Loja -->
+      <a href="loja.html">
+        <button class="gnav-btn" onclick="goTo('page-loja')" style="color: rgba(150, 200, 255, 0.8)">
           🛒 Loja
         </button>
-        </a>
+      </a>
 
-        <!-- navega para o Perfil -->
-        <a href="">
-        <button
-          class="gnav-btn"
-          onclick="goTo('page-perfil')"
-          style="color: rgba(150, 200, 255, 0.8)"
-        >
+      <!-- navega para o Perfil -->
+      <a href="perfil/perfil.html">
+        <button class="gnav-btn" onclick="goTo('page-perfil')" style="color: rgba(150, 200, 255, 0.8)">
           👤 Perfil
         </button>
-        </a>
-      </div>
-
+      </a>
     </div>
-    <!-- acabou #page-suporte -->
+
+  </div>
+  <!-- acabou #page-suporte -->
 
 
-    <!-- 
+  <!-- 
          TOAST
          elemento oculto por padrão (fora da tela via CSS).
          O js (showToast) injeta o texto e adiciona .show
          para deslizá-lo para dentro da tela por 3 segundos. -->
-    <div class="toast" id="toast"></div>
-    <script src="../js/scriptSuporte.js"></script>
-    <script src="../js/gerenciadorJanelas.js"></script> <!-- mantendo esse aqui mesmo que nao tenha mais outra janela pq
+  <div class="toast" id="toast"></div>
+  <script src="../js/auth.js"></script>
+  <script src="../js/scriptSuporte.js"></script>
+  <script src="../js/gerenciadorJanelas.js"></script> <!-- mantendo esse aqui mesmo que nao tenha mais outra janela pq
     pretendo adicionar o acompanhamento de ticket em breve-->
-  </body>
+</body>
+
 </html>

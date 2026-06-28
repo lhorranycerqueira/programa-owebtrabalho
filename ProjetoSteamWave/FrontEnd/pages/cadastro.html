@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Steam - Autenticação</title>
     <link rel="stylesheet" href="../css/styleCadastro.css">
-    <link rel="stylesheet" href="../css/tema.css">
+    <link rel="stylesheet" href="../css/fontes.css">
 </head>
 <body class="main-container">
 
@@ -33,7 +33,10 @@
 
             <div class="input-group">
                 <label for="reg-pass">SENHA:</label>
-                <input type="password" id="reg-pass" required autocomplete="new-password">
+                <div class="password-wrapper">
+                    <input type="password" id="reg-pass" required autocomplete="new-password">
+                    <button type="button" class="password-toggle" onclick="togglePassword('reg-pass', this)">👁</button>
+                </div>
             </div>
 
             <div class="action-area">
@@ -42,6 +45,19 @@
             </div>
         </div>
 
+    </div>
+
+    <!--PopUp do captcha quando for fazer o cadastro-->
+    <div class="captcha-modal" id="captchaModal">
+        <div class="captcha-modal-box">
+            <button class="captcha-modal-close" onclick="fecharCaptchaModal()">✕</button>
+            <h3 class="captcha-modal-title">VERIFICAÇÃO</h3>
+            <p class="captcha-modal-desc">Digite os números da imagem abaixo</p>
+            <img id="captchaImg" src="" alt="Captcha" class="captcha-img">
+            <button type="button" class="captcha-refresh" onclick="carregarCaptcha()">Novo captcha</button>
+            <input type="text" id="captchaAnswer" placeholder="Digite os números" class="captcha-modal-input">
+            <button class="btn-steam-primary captcha-modal-btn" onclick="enviarCadastro()">CONFIRMAR</button>
+        </div>
     </div>
 
     <div class="toast" id="toast"></div>

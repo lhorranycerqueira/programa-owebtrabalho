@@ -1,113 +1,133 @@
+let captchaIdAtual = "";
+
+async function carregarCaptcha() {
+    try {
+        const response = await fetch("http://localhost:8080/CaptchaNew");
+        const data = await response.json();
+        captchaIdAtual = data.captchaId;
+        document.getElementById("captchaImg").src = data.captchaUrl;
+        document.getElementById("captchaAnswer").value = "";
+    } catch (error) {
+        console.error("Erro ao carregar captcha:", error);
+        showToast("Erro ao carregar captcha");
+    }
+}
+
+function abrirCaptchaModal() {
+    carregarCaptcha();
+    document.getElementById("captchaModal").classList.add("active");
+}
+
+function fecharCaptchaModal() {
+    document.getElementById("captchaModal").classList.remove("active");
+}
+
 // Gerar estrelas dinamicamente no fundo
 function createStar() {
     const container = document.getElementById("loginStars");
     let starCount = 100;
 
-    //O for vai deixar tudo em loop das estrelas no nosso html
     for (let i = 0; i < starCount; i++) {
-        // Ele cria uma div no html para esse loop de estrelas
         const star = document.createElement('div');
-        //Ele cria uma class para podemos usar os comando do CSS, como o style
         star.className = 'star';
 
-        //Posição das estrelas
-        // O Math.random(), gera um número decimal aleatório entre 0 e 1 .
-        const x = Math.random() * 100; // Posição vertical
-        const y = Math.random() * 37; // POsição Horizontal
-        const size = Math.random( ) * 3; //Define o tamnho(Largura que eles vão ter, e a altura tbm)
+        const x = Math.random() * 100;
+        const y = Math.random() * 37;
+        const size = Math.random() * 3;
         const duration = 2 + Math.random() * 3;
         const delay = -(Math.random() * 5);
 
-        
-        // Aplica a posição e o tamanho calculados à estrela usando CSS
-        star.style.left = `${x}%`; //Tem que usar o acento grave para usar o $ ``
+        star.style.left = `${x}%`;
         star.style.top = `${y}%`;
-        star.style.width = `${size}px`; //A largura
-        star.style.height = `${size}px`;//A altura
-        //O .style.setProperty deixa nos definir uma propriedade de estilo direto no codigo
-        //O --dur so pode porque usamos o setProperty
-        star.style.setProperty ('--dur', `${duration}s`); //Isso serve para ver o tempo 
-        star.style.setProperty (`--delay`, `${delay}s`);
-
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.setProperty('--dur', `${duration}s`);
+        star.style.setProperty('--delay', `${delay}s`);
 
         container.appendChild(star);
     }
 }
 
-async function doLogin() {
-    //Ele pega o que está digitado nos campos
+function doLogin() {
     const email = document.getElementById("loginEmail").value;
     const password = document.getElementById("loginPass").value;
 
-    //Verifica se todos os campos estão preenchidos
     if (!email || !password) {
-        //Mostra uma menssagem de aviso
         showToast("Preencha todos os campos!");
+        return;
+    }
+
+    abrirCaptchaModal();
+}
+
+async function enviarLogin() {
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPass").value;
+    const captchaAnswer = document.getElementById("captchaAnswer").value;
+
+    if (!captchaAnswer) {
+        showToast("Digite os números do captcha!");
         return;
     }
 
     const dados = {
         email: email.trim(),
         password: password,
+        captchaId: captchaIdAtual,
+        captchaAnswer: captchaAnswer,
     };
 
-    try{
+    try {
         const response = await fetch("http://localhost:8080/Login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
+            credentials: "include",
             body: JSON.stringify(dados)
         });
 
-        if (response.status == 200){
+        if (response.status == 200) {
             const resultado = await response.json();
-            //Salvamos o email do usuário logado para usar na página de configurações
             localStorage.setItem("steamUserEmail", resultado.email);
+            Auth.setAccessToken(resultado.accessToken);
 
-
-            //O backend agora retorna um token JWT junto com a resposta.
-            //Ele contém o email do usuário e expira em 1 horas
-            //Salvamos ele no localStorage
-            //IMPORTANTE: o token é salvo como string pura (texto), não como JSON
-            if (resultado.token) {
-                localStorage.setItem("steamWaveToken", resultado.token);
-            }
-
+            fecharCaptchaModal();
             showToast("Login realizado");
-            //Agora o Login leva para a homepage
-            setTimeout (() => {
-                window.location.href = "homepage.html"; 
+            setTimeout(() => {
+                window.location.href = "homepage.html";
             }, 1500);
 
         } else {
             const erro = await response.json();
             showToast(erro.message);
+            carregarCaptcha();
         }
     } catch (error) {
-        showToast("Erro com o servido");
+        showToast("Erro com o servidor");
         console.error("Erro", error);
     }
 }
 
-//Esse menssagem dentro é o paramentro
-//Ela serve para passarmos informaçoes para a func
 function showToast(messagem) {
     const toast = document.getElementById("toast");
-    //o innerText define o texto dele
     toast.innerText = messagem;
-    //Ele adiciona mais uma class do toast, não usamos o className aqui pq?
-    //O className substitui todas as classes do elemento, ele iria apagar todos
     toast.classList.add("show");
 
-
-    //Define um temporizador: após 3 segundos (3000ms), remove a classe 'show'
-    //Isso faz com que o toast desapareça
     setTimeout(() => {
         toast.classList.remove('show');
     }, 3000);
 }
 
-//Ela serve para colocar na tela as nossas estrelas da func createStar.
-//Ele so executa depois que tudo foi carregado
+function togglePassword(inputId, button) {
+    const input = document.getElementById(inputId);
+    if (input.type === "password") {
+        input.type = "text";
+        button.textContent = "👁‍🗨";
+    } else {
+        input.type = "password";
+        button.textContent = "👁️";
+    }
+}
+
 window.onload = createStar;

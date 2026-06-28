@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/tema.css">
+    <link rel="stylesheet" href="../css/fontes.css">
     <link rel="stylesheet" href="../css/styleLogin.css" />
     <title>SteamWave - login</title>
 </head>
@@ -28,7 +28,10 @@
             </div>
             <!--Para para o Login -->
             <input class="login-input" type="text" placeholder="Email" id="loginEmail" />
-            <input class="login-input" type="password" placeholder="Senha" id="loginPass" />
+            <div class="password-wrapper">
+                <input class="login-input password-input" type="password" placeholder="Senha" id="loginPass" />
+                <button type="button" class="password-toggle" onclick="togglePassword('loginPass', this)">👁</button>
+            </div>
             <button class="login-btn" onclick="doLogin()"> <span class="span-entrar">▶ ENTRAR</span></button>
             <p class="register-link">Não tem conta? <span onclick="goToRegister()"><a href="cadastro.html">Cadastrar</a></span></p>
         </div>
@@ -52,9 +55,23 @@
     </div>
     
 
-    <!-- Componente de Toast (Aviso) -->
+    <!--Captcha para login-->
+    <div class="captcha-modal" id="captchaModal">
+        <div class="captcha-modal-box">
+            <button class="captcha-modal-close" onclick="fecharCaptchaModal()">✕</button>
+            <h3 class="captcha-modal-title">VERIFICAÇÃO</h3>
+            <p class="captcha-modal-desc">Digite os números da imagem abaixo</p>
+            <img id="captchaImg" src="" alt="Captcha" class="captcha-img">
+            <button type="button" class="captcha-refresh" onclick="carregarCaptcha()">Novo captcha</button>
+            <input class="login-input captcha-modal-input" type="text" placeholder="Digite os números" id="captchaAnswer" />
+            <button class="login-btn captcha-modal-btn" onclick="enviarLogin()"><span class="span-entrar">CONFIRMAR</span></button>
+        </div>
+    </div>
+
+    <!--Componente de Toast (Aviso)-->
     <div class="toast" id="toast"></div>
 
+    <script src="../js/auth.js"></script>
     <script src="../js/scriptLogin.js"></script>
 </body>
 </html>

@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 	"time"
 
 	"strings"
@@ -15,34 +14,32 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// gerarTokenJWT cria um token JWT assinado para o usuário, eba para minha infelicidade
-func gerarTokenJWT(email string) (string, error) {
+func gerarAccessToken(email string) (string, error) {
 	claims := jwt.MapClaims{
+		"sub":   email,
 		"email": email,
-		"exp":   time.Now().Add(1 * time.Hour).Unix(),
+		"exp":   time.Now().Add(15 * time.Minute).Unix(),
 		"iat":   time.Now().Unix(),
+		"type":  "access",
 	}
-
-	//Aqui colocamos a nossa assinatura da JWT
-	secretKey := os.Getenv("JWT_SECRET")
-	if secretKey == "" {
-		return "", fmt.Errorf("JWT_SECRET não definido no .env")
-	}
-	//Criamos um nov token com as claims e o método de assinatura é HS256
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString(jwtSecret)
+}
 
-	//Assinamos o token com a chave secreta e retornamos a string final
-	tokenString, err := token.SignedString([]byte(secretKey))
-	if err != nil {
-		return "", err // Se houver erro ao assinar, retornamos o erro
+func gerarRefreshToken(email string) (string, error) {
+	claims := jwt.MapClaims{
+		"sub":   email,
+		"email": email,
+		"exp":   time.Now().Add(7 * 24 * time.Hour).Unix(),
+		"iat":   time.Now().Unix(),
+		"type":  "refresh",
 	}
-
-	//Se nada der errado vai retorna nosso Token pra o front
-	return tokenString, nil
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString(jwtSecret)
 }
 
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	setCORS(w, r)
 	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
@@ -73,6 +70,15 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	//Remove o espaço que o usuario pode colocar no cadastro e vir colocar no login
 	//Aprendi da pior forma
 	login.Email = strings.TrimSpace(login.Email)
+
+	if !validarCaptcha(login.CaptchaID, login.CaptchaAnswer) {
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(Error{
+			Message: "Captcha incorreto ou expirado",
+			Status:  400,
+		})
+		return
+	}
 
 	//Criamos a conecção com o MongoDB
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -106,10 +112,9 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("Login feito para: %s\n", login.Email)
 
-	//Após validar email e senha, geramos um token JWT para o usuário.
-	tokenString, err := gerarTokenJWT(user.Email)
+	accessToken, err := gerarAccessToken(user.Email)
 	if err != nil {
-		fmt.Printf("Login Erro ao gerar token JWT %s | %v\n", user.Email, err)
+		fmt.Printf("Login Erro ao gerar access token %s | %v\n", user.Email, err)
 		w.WriteHeader(500)
 		json.NewEncoder(w).Encode(Error{
 			Message: "Erro ao gerar token",
@@ -118,11 +123,28 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//Retornamos o token JWT junto com a mensagem de sucesso
-	//O frontend vai salvar esse token no localStorage para usar em requisições futuras
+	refreshToken, err := gerarRefreshToken(user.Email)
+	if err != nil {
+		fmt.Printf("Login Erro ao gerar refresh token %s | %v\n", user.Email, err)
+		w.WriteHeader(500)
+		json.NewEncoder(w).Encode(Error{
+			Message: "Erro ao gerar token",
+			Status:  500,
+		})
+		return
+	}
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     "refresh_token",
+		Value:    refreshToken,
+		HttpOnly: true,
+		SameSite: http.SameSiteLaxMode,
+		Path:     "/",
+		MaxAge:   7 * 24 * 60 * 60,
+	})
+
 	json.NewEncoder(w).Encode(map[string]string{
-		"message": "Login realizado com sucesso",
-		"token":   tokenString,
-		"email":   user.Email,
+		"accessToken": accessToken,
+		"email":       user.Email,
 	})
 }

@@ -1,19 +1,30 @@
 <!--
-  Dependências externas:
-    suporte.css  — todos os estilos desta página
-    suporte.js   — lógica de navegação, toast e FAQ
-    Google Fonts — Press Start 2P (importada via CSS)
+  STEAMWAVE — suporte.html  (v2)
   
-    1. <head>    — meta, título, fontes e link para o CSS
+  Estrutura:
     #page-suporte
-        .suporte-bg        - fundo azul escuro com grid sutil
-        .suporte-window    - janela Win95 central
-          .win-titlebar - barra de título com botões
-          .suporte-form - formulário de ticket
-          .suporte-faq  - perguntas frequentes (accordion)
-        barra de navegação inferior (home / loja / perfil)
-    3. #toast   — notificação flutuante global
-    -->
+      .suporte-bg          — fundo escuro com grid
+      .suporte-window      — janela Win95 central
+        .win-titlebar      — barra de título
+        .suporte-tabs      — abas: Abrir Ticket / Meus Tickets
+        #tab-form          — formulário + FAQ
+        #tab-tickets       — lista de tickets do usuário
+      #ticket-modal-overlay — modal de detalhe de ticket
+      .bottom-nav          — navegação inferior
+    #toast                 — notificação flutuante
+
+  Dependências externas:
+    ../css/fontes.css         — Google Fonts (Press Start 2P, VT323, Orbitron)
+    ../css/styleSuporte.css   — estilos desta página
+    ../js/auth.js             — autenticação / JWT
+    ../js/scriptSuporte.js    — lógica da página
+    ../js/gerenciadorJanelas.js
+
+  Integração:
+    API Go em CONFIG.BASE_URL (scriptSuporte.js)
+    Banco de dados: MongoDB (gerenciado pelo backend Go)
+    Token: Bearer JWT em sessionStorage/localStorage com chave "sw_token"
+-->
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -26,202 +37,319 @@
 
 <body>
 
-  <!--
-         PÁGINA DE SUPORTE
-         ID: page-suporte
-         a classe .page é a estrutura base das paginas do site, javascript controla a visibilidade alternando a classe .active, ela é oculta por padrão;
-         A classe .active (adicionada pelo JS via goTo());
-         a torna visível em display:flex.;
-         O style inline define justify-content: center
-         para centralizar horizontalmente o conteúdo. -->
+  <!-- ════════════════════════════════════════════════════════
+       #page-suporte
+       Exibida por padrão (classe .active inline).
+       O JS (goTo) alterna .active entre as páginas.
+  ════════════════════════════════════════════════════════════ -->
   <div id="page-suporte" class="page active" style="justify-content: center">
 
-    <!-- 
-           FUNDO DA PÁGINA
-           .suporte-bg: preenche toda a tela com a cor de azul
-           O div interno cria um grid sutil de linhas azuis
-           usando repeating-linear-gradient -->
+    <!-- Fundo azul escuro com grid sutil ──────────────────── -->
     <div class="suporte-bg">
-      <div style="
-            position: absolute;
-            inset: 0;
-            background-image:
-              repeating-linear-gradient(
-                0deg,
-                rgba(0, 100, 200, 0.05) 0px,  /* linhas horizontais azuis tênues */
-                transparent 1px,
-                transparent 40px
-              ),
-              repeating-linear-gradient(
-                90deg,
-                rgba(0, 100, 200, 0.05) 0px,  /* linhas verticais azuis tênues */
-                transparent 1px,
-                transparent 40px
-              );
-          "></div>
+      <div></div>
     </div>
 
-    <!--
-           A janela principal no estilo do windows95
-           .suporte-window + .win-window: combina os estilos de largura fixa (600px) com a aparência Win95.
-           z-index:10 garante que fique acima do fundo. -->
-    <div class="suporte-window win-window" style="z-index: 10">
+    <!-- Janela Win95 central ──────────────────────────────── -->
+    <div class="suporte-window win-window">
 
-      <!--
-             barra de título da janela
-             .win-titlebar: fundo azul com texto branco
-             Lado esquerdo: ícone e título da janela.
-             Lado direito: botões de controle da janela. -->
+      <!-- Barra de título ─────────────────────────────────── -->
       <div class="win-titlebar">
         <span>❓ SUPORTE STEAMWAVE</span>
-
-        <!-- Botões minimizar, maximizar e fechar -->
         <div class="win-controls">
-          <div class="win-btn">_</div> <!-- Minimizar ainda decorativo-->
-          <div class="win-btn">□</div> <!-- Maximizar mesma coisa -->
-
-          <div class="win-btn">✕</div>
+          <!-- decorativos: comportamento futuro pode ser implementado -->
+          <div class="win-btn" title="Minimizar">_</div>
+          <div class="win-btn" title="Maximizar">□</div>
+          <div class="win-btn" title="Fechar">✕</div>
         </div>
       </div>
 
-      <!-- forms
-             .suporte-form: área branca com campos para o usuário descrever seu problema -->
-      <div class="suporte-form">
-
-        <!-- label e input do campo assunto -->
-        <p class="suporte-label">Assunto</p>
-        <input class="suporte-input" type="text" placeholder="Descreva o problema em poucas palavras" />
-
-        <!-- label e textarea do campo mensagem -->
-        <p class="suporte-label">Mensagem</p>
-        <textarea class="suporte-input suporte-textarea" placeholder="Detalhe seu problema aqui..."></textarea>
-
-        <!-- botão de envio: chama showToast() com mensagem de confirmação,
-            nessa area seria bom fazer um else pra caso nao conseguir enviar ne -->
-        <button class="suporte-submit"
-          onclick="showToast('✅ Enviado com sucesso! Gostaria de Acompanhar sua solitação?')">
-          ENVIAR TICKET
-        </button>
+      <!-- Abas ─────────────────────────────────────────────── -->
+      <!--
+        .suporte-tab[data-tab] — o JS (switchTab) usa o data-tab para
+        controlar qual .tab-panel fica com .active.
+      -->
+      <div class="suporte-tabs" role="tablist">
+        <div class="suporte-tab active"
+             role="tab"
+             aria-selected="true"
+             aria-controls="tab-form"
+             tabindex="0"
+             data-tab="tab-form">
+          📝 ABRIR TICKET
+        </div>
+        <div class="suporte-tab"
+             role="tab"
+             aria-selected="false"
+             aria-controls="tab-tickets"
+             tabindex="0"
+             data-tab="tab-tickets">
+          📋 MEUS TICKETS
+        </div>
       </div>
 
-      <!-- faq
-             .suporte-faq 
-             cada .faq-item contém:
-               - .faq-q (pergunta clicável)
-               - .faq-a (resposta, oculta por padrão via css)
-             o js controla a abertura via toggleFaq(). -->
-      <div class="suporte-faq">
+      <!-- ── ABA 1: Formulário + FAQ ─────────────────────── -->
+      <div id="tab-form" class="tab-panel active" role="tabpanel">
 
-        <!-- título da seção faq classe inline  -->
-        <div class="txt-title" style="color: #000080; padding: 12px 0 8px;">
-          PERGUNTAS FREQUENTES
-        </div>
+        <!-- Formulário de abertura de ticket ─────────────── -->
+        <!--
+          O form é gerenciado por TicketForm (scriptSuporte.js).
+          O submit chama TicketAPI.createTicket() e envia para:
+            POST /api/v1/tickets
+          Payload JSON: { subject, message, category }
+        -->
+        <form class="suporte-form" id="ticket-form" novalidate>
 
-        <!-- faq recuperação de senha -->
-        <div class="faq-item">
-          <!-- .faq-q: clique chama toggleFaq(this) passando o próprio elemento -->
-          <div class="faq-q" onclick="toggleFaq(this)">
-            <span>Como recuperar minha senha?</span>
-            <span>▼</span> <!-- seta indicadora; trocada para ▲ quando aberto -->
-          </div>
-          <!-- .faq-a: visível apenas quando .open é adicionado pelo JS -->
-          <div class="faq-a">
-            Acesse a tela de login e clique em "Esqueci minha senha". Um
-            e-mail de recuperação será enviado.
-          </div>
-        </div>
+          <!-- Caixa de erro de validação (oculta por padrão) -->
+          <div class="form-error" id="form-error" role="alert" aria-live="assertive"></div>
 
-        <!-- faq modo offline -->
-        <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(this)">
-            <span>Posso jogar offline?</span>
-            <span>▼</span>
-          </div>
-          <div class="faq-a">
-            Sim! A maioria dos jogos suporta modo offline. Ative no menu de
-            configurações do jogo.
-          </div>
-        </div>
+          <!-- Campo: Assunto ────────────────────────────── -->
+          <label class="suporte-label" for="ticket-subject">Assunto</label>
+          <input
+            class="suporte-input"
+            id="ticket-subject"
+            name="subject"
+            type="text"
+            placeholder="Descreva o problema em poucas palavras"
+            maxlength="120"
+            required
+            autocomplete="off"
+          />
 
-        <!-- faq reembolso -->
-        <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(this)">
-            <span>Como solicitar reembolso?</span>
-            <span>▼</span>
-          </div>
-          <div class="faq-a">
-            Jogos com menos de 2h de jogo e comprados há menos de 14 dias são
-            elegíveis para reembolso automático.
-          </div>
-        </div>
+          <!-- Campo: Categoria ──────────────────────────── -->
+          <!--
+            Opções carregadas via TicketAPI.getCategories()
+            (GET /api/v1/tickets/categories).
+            Fallback local definido em scriptSuporte.js.
+          -->
+          <label class="suporte-label" for="ticket-category">Categoria</label>
+          <select class="suporte-select" id="ticket-category" name="category" required>
+            <option value="">Carregando categorias...</option>
+          </select>
 
-        <!-- faq segurança dos saves -->
-        <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(this)">
-            <span>Meus saves estão seguros?</span>
-            <span>▼</span>
+          <!-- Campo: Mensagem ───────────────────────────── -->
+          <label class="suporte-label" for="ticket-message">Mensagem</label>
+          <textarea
+            class="suporte-input suporte-textarea"
+            id="ticket-message"
+            name="message"
+            placeholder="Detalhe seu problema aqui..."
+            maxlength="1000"
+            required
+          ></textarea>
+
+          <!-- Contador de caracteres + botão de envio ───── -->
+          <div class="form-actions">
+            <span class="form-char-count" aria-live="polite">
+              <span id="char-count">0</span>/<span id="char-max">1000</span>
+            </span>
+            <button class="suporte-submit" id="ticket-submit" type="submit">
+              ENVIAR TICKET
+            </button>
           </div>
-          <div class="faq-a">
-            Sim! Todos os saves são sincronizados automaticamente na nuvem
-            SteamWave Cloud.
+
+        </form>
+        <!-- /form -->
+
+        <!-- FAQ ──────────────────────────────────────────── -->
+        <!--
+          Cada .faq-item: .faq-q (clicável) + .faq-a (oculto por CSS).
+          toggleFaq(el) gerencia open/close via JS.
+        -->
+        <div class="suporte-faq">
+          <div class="faq-section-title">PERGUNTAS FREQUENTES</div>
+
+          <!-- Recuperação de senha -->
+          <div class="faq-item">
+            <div class="faq-q"
+                 role="button"
+                 tabindex="0"
+                 aria-expanded="false"
+                 onclick="toggleFaq(this)"
+                 onkeydown="if(event.key==='Enter'||event.key===' ')toggleFaq(this)">
+              <span>Como recuperar minha senha?</span>
+              <span aria-hidden="true">▼</span>
+            </div>
+            <div class="faq-a" role="region">
+              Acesse a tela de login e clique em "Esqueci minha senha". Um
+              e-mail de recuperação será enviado em poucos minutos.
+            </div>
           </div>
+
+          <!-- Modo offline -->
+          <div class="faq-item">
+            <div class="faq-q"
+                 role="button" tabindex="0" aria-expanded="false"
+                 onclick="toggleFaq(this)"
+                 onkeydown="if(event.key==='Enter'||event.key===' ')toggleFaq(this)">
+              <span>Posso jogar offline?</span>
+              <span aria-hidden="true">▼</span>
+            </div>
+            <div class="faq-a" role="region">
+              Sim! A maioria dos jogos suporta modo offline. Ative no menu de
+              configurações do jogo antes de perder a conexão.
+            </div>
+          </div>
+
+          <!-- Reembolso -->
+          <div class="faq-item">
+            <div class="faq-q"
+                 role="button" tabindex="0" aria-expanded="false"
+                 onclick="toggleFaq(this)"
+                 onkeydown="if(event.key==='Enter'||event.key===' ')toggleFaq(this)">
+              <span>Como solicitar reembolso?</span>
+              <span aria-hidden="true">▼</span>
+            </div>
+            <div class="faq-a" role="region">
+              Jogos com menos de 2h de jogo e comprados há menos de 14 dias são
+              elegíveis para reembolso automático. Abra um ticket na categoria
+              "Reembolso" para prosseguir.
+            </div>
+          </div>
+
+          <!-- Segurança dos saves -->
+          <div class="faq-item">
+            <div class="faq-q"
+                 role="button" tabindex="0" aria-expanded="false"
+                 onclick="toggleFaq(this)"
+                 onkeydown="if(event.key==='Enter'||event.key===' ')toggleFaq(this)">
+              <span>Meus saves estão seguros?</span>
+              <span aria-hidden="true">▼</span>
+            </div>
+            <div class="faq-a" role="region">
+              Sim! Todos os saves são sincronizados automaticamente na nuvem
+              SteamWave Cloud a cada 5 minutos de jogo.
+            </div>
+          </div>
+
+          <!-- Acompanhar ticket -->
+          <div class="faq-item">
+            <div class="faq-q"
+                 role="button" tabindex="0" aria-expanded="false"
+                 onclick="toggleFaq(this)"
+                 onkeydown="if(event.key==='Enter'||event.key===' ')toggleFaq(this)">
+              <span>Como acompanhar meu ticket?</span>
+              <span aria-hidden="true">▼</span>
+            </div>
+            <div class="faq-a" role="region">
+              Clique na aba "MEUS TICKETS" acima para ver todos os seus chamados,
+              seus status e responder ao suporte diretamente.
+            </div>
+          </div>
+
         </div>
+        <!-- /suporte-faq -->
 
       </div>
-      <!-- acabou .suporte-faq -->
+      <!-- /tab-form -->
+
+      <!-- ── ABA 2: Meus Tickets ──────────────────────────── -->
+      <!--
+        Conteúdo gerenciado por TicketList (scriptSuporte.js).
+        Dados vêm de GET /api/v1/tickets (com filtros via query string).
+        Recarregamento automático a cada CONFIG.POLL_INTERVAL ms.
+      -->
+      <div id="tab-tickets" class="tab-panel" role="tabpanel">
+        <div class="tickets-panel">
+
+          <!-- Barra de ferramentas: busca + filtro de status -->
+          <div class="tickets-toolbar">
+            <input
+              class="tickets-search"
+              id="tickets-search"
+              type="search"
+              placeholder="Buscar por assunto..."
+              aria-label="Buscar tickets"
+              autocomplete="off"
+            />
+            <!--
+              O valor do select é enviado como ?status= para a API Go.
+              Valor vazio = todos os tickets.
+            -->
+            <select class="tickets-filter" id="tickets-filter" aria-label="Filtrar por status">
+              <option value="">Todos</option>
+              <option value="aberto">Aberto</option>
+              <option value="em-andamento">Em andamento</option>
+              <option value="resolvido">Resolvido</option>
+              <option value="fechado">Fechado</option>
+            </select>
+          </div>
+
+          <!-- Indicador de carregamento -->
+          <div class="tickets-loading" id="tickets-loading" style="display:none" aria-live="polite">
+            <div class="spinner"></div>
+            Carregando tickets...
+          </div>
+
+          <!-- Lista renderizada por TicketList._renderCard() -->
+          <div class="tickets-list" id="tickets-list" role="list"></div>
+
+          <!-- Estado vazio / erro -->
+          <div class="tickets-empty" id="tickets-empty" style="display:none" aria-live="polite">
+            Nenhum ticket encontrado.<br/>
+            <span style="font-family:var(--vt-font);font-size:16px;color:#aaa">
+              Abra um ticket na aba ao lado para começar.
+            </span>
+          </div>
+
+        </div>
+      </div>
+      <!-- /tab-tickets -->
 
     </div>
-    <!-- acabou .suporte-window -->
+    <!-- /.suporte-window -->
 
 
-    <!--
-           menu que ta la embaixo
-           Posicionada na parte inferior da página por meio do position:absolute e bottom:10px. -->
-    <div style="
-          position: absolute;
-          bottom: 10px;
-          left: 0;
-          right: 0;
-          display: flex;
-          justify-content: center;
-          gap: 16px;
-          z-index: 10;
-        ">
-      <!-- navega para a tela inicial -->
+    <!-- ══════════════════════════════════════════════════════
+         MODAL DE DETALHE DE TICKET
+         
+         Gerenciado por TicketModal (scriptSuporte.js).
+         Busca dados de GET /api/v1/tickets/:id.
+         Resposta via POST /api/v1/tickets/:id/messages.
+         
+         O conteúdo interno é injetado dinamicamente pelo JS.
+         ESC ou clique no overlay fecha o modal.
+    ══════════════════════════════════════════════════════════ -->
+    <div
+      id="ticket-modal-overlay"
+      class="ticket-modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Detalhe do ticket"
+    ></div>
+
+
+    <!-- Navegação inferior ────────────────────────────────── -->
+    <nav class="bottom-nav" aria-label="Navegação principal">
       <a href="carrossel.html">
-        <button class="gnav-btn" onclick="goTo('page-homenav')" style="color: rgba(150, 200, 255, 0.8)">
+        <button class="gnav-btn" onclick="goTo('page-homenav')"
+                style="color: rgba(150,200,255,0.8)">
           🏠 Home
         </button>
       </a>
-      <!-- navega para a Loja -->
       <a href="loja.html">
-        <button class="gnav-btn" onclick="goTo('page-loja')" style="color: rgba(150, 200, 255, 0.8)">
+        <button class="gnav-btn" onclick="goTo('page-loja')"
+                style="color: rgba(150,200,255,0.8)">
           🛒 Loja
         </button>
       </a>
-
-      <!-- navega para o Perfil -->
       <a href="perfil/perfil.html">
-        <button class="gnav-btn" onclick="goTo('page-perfil')" style="color: rgba(150, 200, 255, 0.8)">
+        <button class="gnav-btn" onclick="goTo('page-perfil')"
+                style="color: rgba(150,200,255,0.8)">
           👤 Perfil
         </button>
       </a>
-    </div>
+    </nav>
 
   </div>
-  <!-- acabou #page-suporte -->
+  <!-- /#page-suporte -->
 
 
-  <!-- 
-         TOAST
-         elemento oculto por padrão (fora da tela via CSS).
-         O js (showToast) injeta o texto e adiciona .show
-         para deslizá-lo para dentro da tela por 3 segundos. -->
-  <div class="toast" id="toast"></div>
+  <!-- Toast global ──────────────────────────────────────── -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Scripts ───────────────────────────────────────────── -->
   <script src="../js/auth.js"></script>
   <script src="../js/scriptSuporte.js"></script>
-  <script src="../js/gerenciadorJanelas.js"></script> <!-- mantendo esse aqui mesmo que nao tenha mais outra janela pq
-    pretendo adicionar o acompanhamento de ticket em breve-->
+  <script src="gerenciadorJanelas.js"></script>
 </body>
-
 </html>

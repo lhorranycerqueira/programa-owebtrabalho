@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soundtrack - SteamWave</title>
+    <link rel="stylesheet" href="../css/styleLoja.css" />
+    <link rel="stylesheet" href="../css/tema.css" />
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="loja-bg"></div>
+      <div class="loja-grid-overlay"></div>
+
+      <div class="loja-header">
+        <div class="loja-logo" onclick="window.location.href='loja.html'">
+          <div class="retro-sun small"></div>
+          <span class="loja-logo-text">SteamWave</span>
+        </div>
+        <button class="cat-btn" onclick="window.location.href='loja.html'">⬅ Voltar à Loja</button>
+      </div>
+
+      <div class="loja-body" style="justify-content: center;">
+        <div class="loja-main" style="max-width: 600px; margin: 0 auto;">
+          <div class="loja-window">
+            <div class="win-titlebar">
+              <span id="trackWindowTitle">🎵 Soundtrack</span>
+              <div class="win-controls">
+                <div class="win-btn">_</div>
+                <div class="win-btn">□</div>
+                <div class="win-btn" onclick="window.location.href='loja.html'">✕</div>
+              </div>
+            </div>
+            <!-- Preenchido pelo JS (scriptSoundtrack.js) -->
+            <div class="win-content" id="trackContent" style="padding: 20px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="global-nav">
+        <button class="gnav-btn" onclick="window.location.href='homepage.html'">🏠 Home</button>
+        <div class="gnav-separator"></div>
+        <button class="gnav-btn" onclick="window.location.href='loja.html'">🛒 Loja</button>
+        <div class="gnav-separator"></div>
+        <button class="gnav-btn" onclick="window.location.href='biblioteca.html'">📚 Biblioteca</button>
+        <div class="gnav-separator"></div>
+        <button class="gnav-btn" onclick="window.location.href='perfil.html'">👤 Perfil</button>
+        <div class="gnav-separator"></div>
+        <button class="gnav-btn" onclick="window.location.href='Configuração.html'">⚙️ Config</button>
+        <div class="gnav-separator"></div>
+        <button class="gnav-btn" onclick="window.location.href='suporte.html'">❓ Suporte</button>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/storeData.js"></script>
+    <script src="../js/scriptSoundtrack.js"></script>
+  </body>
+</html>

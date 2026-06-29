@@ -1,0 +1,784 @@
+/* =========================================================
+   STEAMWAVE — styleSuporte.css
+   Responsivo: mobile-first, breakpoints em 480px e 768px
+   ========================================================= */
+
+/* box-model universal */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0a0010;
+}
+
+/* ── variáveis globais ─────────────────────────────────── */
+:root {
+  --neon-pink:   #ff00ff;
+  --neon-purple: #9b30ff;
+  --neon-cyan:   #00eaff;
+  --neon-blue:   #7b7bff;
+  --dark-bg:     #08000f;
+  --mid-purple:  #1a0030;
+  --win-bg:      #c0c0c0;
+  --win-title:   #000080;
+
+  --pixel-font: "Press Start 2P", monospace;
+  --vt-font:    "VT323",          monospace;
+  --orb-font:   "Orbitron",       sans-serif;
+
+  /* espaçamento base responsivo */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+}
+
+/* ── páginas (base) ────────────────────────────────────── */
+.page {
+  position: fixed;
+  inset: 0;
+  display: none;
+  overflow: hidden;
+}
+.page.active {
+  display: flex;
+}
+
+/* ── keyframes ─────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes winSlide {
+  from { opacity: 0; transform: scale(0.92) translateY(24px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
+
+@keyframes neonBorder {
+  0%, 100% { box-shadow: 0 0 5px var(--neon-purple), 0 0 15px var(--neon-purple); }
+  50%       { box-shadow: 0 0 10px var(--neon-pink),  0 0 30px var(--neon-pink);  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ── scrollbar neon (chromium) ─────────────────────────── */
+::-webkit-scrollbar        { width: 6px; }
+::-webkit-scrollbar-track  { background: #1a0030; }
+::-webkit-scrollbar-thumb  { background: var(--neon-purple); border-radius: 4px; }
+
+/* ═══════════════════════════════════════════════════════════
+   JANELA WIN95 (base compartilhada)
+   ═══════════════════════════════════════════════════════════ */
+.win-window {
+  background: var(--win-bg);
+  border: 2px solid #fff;
+  border-right-color:  #444;
+  border-bottom-color: #444;
+  box-shadow: inset 1px 1px 0 #dfdfdf, 2px 2px 0 #000;
+  font-family: var(--pixel-font);
+}
+
+.win-titlebar {
+  background: var(--win-title);
+  color: white;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 9px;
+  letter-spacing: 1px;
+  user-select: none;
+  gap: 8px;
+}
+
+/* trunca o título em telas muito pequenas */
+.win-titlebar > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.win-controls { display: flex; gap: 3px; flex-shrink: 0; }
+
+.win-btn {
+  width: 18px;
+  height: 16px;
+  background: var(--win-bg);
+  border: 1px solid #fff;
+  border-right-color:  #444;
+  border-bottom-color: #444;
+  box-shadow: inset 1px 1px 0 #dfdfdf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  cursor: pointer;
+  color: #000;
+  font-family: var(--pixel-font);
+}
+.win-btn:hover { background: #e0e0ff; }
+
+/* ═══════════════════════════════════════════════════════════
+   #page-suporte — LAYOUT GERAL
+   ═══════════════════════════════════════════════════════════ */
+#page-suporte {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* mobile: começa do topo */
+  animation: fadeIn 0.4s ease;
+  overflow-y: auto;            /* rolagem interna da página */
+  padding-bottom: 70px;        /* espaço para a nav bar */
+}
+
+/* fundo */
+.suporte-bg {
+  position: fixed;             /* fixed para não rolar junto */
+  inset: 0;
+  background: #0d1a30;
+  z-index: 0;
+}
+
+.suporte-bg > div {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg,  rgba(0,100,200,.05) 0px, transparent 1px, transparent 40px),
+    repeating-linear-gradient(90deg, rgba(0,100,200,.05) 0px, transparent 1px, transparent 40px);
+}
+
+/* janela central */
+.suporte-window {
+  width: 100%;
+  max-width: 620px;
+  z-index: 10;
+  margin: var(--space-md) var(--space-md) 0;
+  animation: winSlide 0.4s ease;
+  position: relative;         /* garante z-index sobre .suporte-bg */
+}
+
+/* ── abas (Form / Meus Tickets) ──────────────────────── */
+.suporte-tabs {
+  display: flex;
+  background: #b0b0b0;
+  border-bottom: 2px solid #444;
+  gap: 2px;
+  padding: 4px 4px 0;
+}
+
+.suporte-tab {
+  flex: 1;
+  padding: 6px 4px;
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  cursor: pointer;
+  background: #a0a0a0;
+  border: 1px solid #fff;
+  border-bottom: none;
+  border-right-color: #444;
+  color: #333;
+  transition: background 0.15s;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.suporte-tab.active {
+  background: var(--win-bg);
+  color: #000;
+  position: relative;
+  top: 2px;
+  z-index: 1;
+  border-bottom: 2px solid var(--win-bg);
+}
+
+.suporte-tab:hover:not(.active) { background: #c8c8c8; }
+
+/* ── painel de conteúdo das abas ─────────────────────── */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ═══════════════════════════════════════════════════════════
+   FORMULÁRIO DE TICKET
+   ═══════════════════════════════════════════════════════════ */
+.suporte-form {
+  padding: var(--space-md);
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.suporte-label {
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  color: #333;
+  margin-bottom: -4px;
+}
+
+.suporte-input {
+  padding: 8px 10px;
+  border: 1px solid #999;
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  background: #f8f8f8;
+  width: 100%;
+}
+.suporte-input:focus {
+  outline: 2px solid #000080;
+}
+
+/* select de categoria */
+.suporte-select {
+  padding: 8px 10px;
+  border: 1px solid #999;
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  background: #f8f8f8;
+  width: 100%;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23555'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+.suporte-select:focus { outline: 2px solid #000080; }
+
+.suporte-textarea {
+  height: 90px;
+  resize: vertical;
+}
+
+/* linha de ações do form */
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.form-char-count {
+  font-family: var(--pixel-font);
+  font-size: 6px;
+  color: #888;
+  margin-right: auto;
+}
+.form-char-count.over { color: #cc0000; }
+
+.suporte-submit {
+  padding: 8px 16px;
+  background: #000080;
+  color: white;
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  border: 2px solid #fff;
+  border-right-color:  #444;
+  border-bottom-color: #444;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.suporte-submit:hover    { background: #0000cc; }
+.suporte-submit:disabled { background: #888; cursor: not-allowed; opacity: 0.7; }
+
+/* estado de loading no botão */
+.suporte-submit .btn-spinner {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border: 2px solid rgba(255,255,255,.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+/* mensagem de erro do form */
+.form-error {
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  color: #cc0000;
+  background: #ffe0e0;
+  border: 1px solid #cc0000;
+  padding: 6px 10px;
+  display: none;
+}
+.form-error.visible { display: block; }
+
+/* ═══════════════════════════════════════════════════════════
+   FAQ
+   ═══════════════════════════════════════════════════════════ */
+.suporte-faq {
+  padding: 0 var(--space-md) var(--space-md);
+  background: white;
+}
+
+.faq-section-title {
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  color: #000080;
+  padding: 12px 0 8px;
+}
+
+.faq-item { border-bottom: 1px solid #ddd; }
+
+.faq-q {
+  padding: 10px 0;
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  cursor: pointer;
+  color: #000080;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  transition: color 0.2s;
+  line-height: 1.6;
+}
+.faq-q:hover { color: #7b2fff; }
+
+.faq-q > span:first-child { flex: 1; }
+.faq-q > span:last-child  { flex-shrink: 0; margin-top: 2px; }
+
+.faq-a {
+  display: none;
+  padding: 0 0 10px;
+  font-family: var(--vt-font);
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
+}
+.faq-a.open { display: block; }
+
+/* ═══════════════════════════════════════════════════════════
+   PAINEL: MEUS TICKETS
+   ═══════════════════════════════════════════════════════════ */
+.tickets-panel {
+  background: white;
+  padding: var(--space-md);
+  min-height: 180px;
+}
+
+/* barra de busca / filtros */
+.tickets-toolbar {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.tickets-search {
+  flex: 1;
+  min-width: 120px;
+  padding: 6px 8px;
+  border: 1px solid #999;
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  background: #f8f8f8;
+}
+.tickets-search:focus { outline: 2px solid #000080; }
+
+.tickets-filter {
+  padding: 6px 8px;
+  border: 1px solid #999;
+  font-family: var(--pixel-font);
+  font-size: 6px;
+  background: #f8f8f8;
+  cursor: pointer;
+  appearance: none;
+}
+
+/* lista de tickets */
+.tickets-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.tickets-empty {
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  color: #888;
+  text-align: center;
+  padding: var(--space-lg) 0;
+}
+
+.tickets-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg) 0;
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  color: #555;
+}
+.tickets-loading .spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #ccc;
+  border-top-color: #000080;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* card individual de ticket */
+.ticket-card {
+  border: 1px solid #ddd;
+  border-left: 3px solid #000080;
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  transition: background 0.15s, border-left-color 0.15s;
+  background: #fafafa;
+}
+.ticket-card:hover { background: #f0f0ff; border-left-color: #7b2fff; }
+
+.ticket-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.ticket-id {
+  font-family: var(--pixel-font);
+  font-size: 6px;
+  color: #888;
+  white-space: nowrap;
+}
+
+.ticket-subject {
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  color: #000;
+  flex: 1;
+  line-height: 1.5;
+}
+
+.ticket-meta {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.ticket-category {
+  font-family: var(--vt-font);
+  font-size: 13px;
+  color: #555;
+}
+
+.ticket-date {
+  font-family: var(--pixel-font);
+  font-size: 6px;
+  color: #999;
+  margin-left: auto;
+}
+
+/* badge de status */
+.ticket-status {
+  font-family: var(--pixel-font);
+  font-size: 6px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+.status-aberto       { background: #e0e8ff; color: #000080; }
+.status-em-andamento { background: #fff3cd; color: #856400; }
+.status-resolvido    { background: #d4edda; color: #155724; }
+.status-fechado      { background: #e2e3e5; color: #383d41; }
+
+/* ── modal de detalhe de ticket ────────────────────────── */
+.ticket-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  animation: fadeIn 0.2s ease;
+}
+.ticket-modal-overlay.visible { display: flex; }
+
+.ticket-modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 201;
+  animation: winSlide 0.25s ease;
+}
+
+.ticket-modal-body {
+  background: white;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.ticket-detail-row {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+.ticket-detail-label {
+  font-family: var(--pixel-font);
+  font-size: 6px;
+  color: #888;
+  width: 70px;
+  flex-shrink: 0;
+}
+.ticket-detail-value {
+  font-family: var(--vt-font);
+  font-size: 16px;
+  color: #222;
+  flex: 1;
+  word-break: break-word;
+}
+
+/* histórico de mensagens dentro do modal */
+.ticket-messages {
+  border-top: 1px solid #ddd;
+  padding-top: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.ticket-msg {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 4px;
+  max-width: 90%;
+}
+.ticket-msg.user    { background: #e8eeff; align-self: flex-end; border-bottom-right-radius: 0; }
+.ticket-msg.support { background: #f0f0f0; align-self: flex-start; border-bottom-left-radius: 0; }
+
+.ticket-msg-author {
+  font-family: var(--pixel-font);
+  font-size: 6px;
+  color: #888;
+  margin-bottom: 4px;
+}
+.ticket-msg-text {
+  font-family: var(--vt-font);
+  font-size: 15px;
+  color: #222;
+  line-height: 1.4;
+}
+.ticket-msg-time {
+  font-family: var(--pixel-font);
+  font-size: 5px;
+  color: #aaa;
+  margin-top: 4px;
+  text-align: right;
+}
+
+/* resposta rápida no modal */
+.ticket-reply-box {
+  border-top: 1px solid #ddd;
+  padding-top: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.ticket-reply-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #999;
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  resize: vertical;
+  height: 60px;
+  background: #f8f8f8;
+}
+.ticket-reply-input:focus { outline: 2px solid #000080; }
+
+.ticket-reply-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+}
+
+.btn-secondary {
+  padding: 6px 14px;
+  background: var(--win-bg);
+  color: #000;
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  cursor: pointer;
+  border: 2px solid #fff;
+  border-right-color:  #444;
+  border-bottom-color: #444;
+  transition: background 0.15s;
+}
+.btn-secondary:hover { background: #d0d0d0; }
+
+.btn-primary {
+  padding: 6px 14px;
+  background: #000080;
+  color: white;
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  cursor: pointer;
+  border: 2px solid #fff;
+  border-right-color:  #444;
+  border-bottom-color: #444;
+  transition: background 0.15s;
+}
+.btn-primary:hover    { background: #0000cc; }
+.btn-primary:disabled { background: #888; cursor: not-allowed; }
+
+/* ═══════════════════════════════════════════════════════════
+   NAV BAR INFERIOR
+   ═══════════════════════════════════════════════════════════ */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: 8px var(--space-md);
+  z-index: 50;
+  /* leve fundo para legibilidade sobre o conteúdo */
+  background: linear-gradient(to top, rgba(13,26,48,0.95), transparent);
+}
+
+.gnav-btn {
+  padding: 6px 14px;
+  color: rgba(255,255,255,0.6);
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+  background: none;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+.gnav-btn:hover {
+  color: white;
+  background: rgba(155,48,255,0.3);
+}
+.gnav-btn.active {
+  color: var(--neon-cyan);
+  background: rgba(0,234,255,0.1);
+  border-bottom: 2px solid var(--neon-cyan);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TOAST
+   ═══════════════════════════════════════════════════════════ */
+.toast {
+  position: fixed;
+  bottom: 70px;
+  right: var(--space-md);
+  z-index: 999;
+  background: rgba(30,0,60,0.95);
+  border: 1px solid var(--neon-purple);
+  color: white;
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  letter-spacing: 1px;
+  padding: 12px var(--space-md);
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(155,48,255,0.5);
+  transform: translateX(120%);
+  transition: transform 0.4s ease;
+  max-width: 280px;
+  line-height: 1.8;
+}
+.toast.show { transform: translateX(0); }
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVIDADE — tablets (≥ 480px)
+   ═══════════════════════════════════════════════════════════ */
+@media (min-width: 480px) {
+  .suporte-window {
+    margin: var(--space-lg) var(--space-lg) 0;
+  }
+  .win-titlebar { font-size: 10px; }
+  .suporte-tab  { font-size: 8px; }
+}
+
+/* ── desktop (≥ 768px): comportamento original centrado ── */
+@media (min-width: 768px) {
+  #page-suporte {
+    justify-content: center;
+    overflow-y: hidden;
+    padding-bottom: 0;
+  }
+
+  /* a janela volta a ter scroll interno, não a página */
+  .suporte-window {
+    margin: 0;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+
+  .bottom-nav {
+    background: none;
+    padding: 0 0 10px;
+    position: absolute;
+    bottom: 10px;
+  }
+
+  .toast { bottom: 60px; }
+}
+
+/* ── telas muito pequenas (< 360px) ─────────────────────── */
+@media (max-width: 360px) {
+  .suporte-window { margin: var(--space-sm) var(--space-sm) 0; }
+  .gnav-btn { font-size: 6px; padding: 6px 10px; }
+  .suporte-tab { font-size: 6px; padding: 5px 2px; }
+}
+
+/* ── acessibilidade: reduced motion ──────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ── foco visível para teclado ───────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 2px;
+}

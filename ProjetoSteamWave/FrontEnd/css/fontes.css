@@ -36,10 +36,7 @@
 }
 
 /* barra de titulo, o cursor move vai avisar visualmente que aquela area é arrastavel, o user select none evita que se arrastar rapido o texto do titulo seja selecionado  */
-.win-titlebar {
-  cursor: move;
-  user-select: none;
-}
+
 
 /* dock sao as barras de janelas minimizadas, barra de tarefas mais ou menos, elas nao se movem e ficam visiveis sempre e por isso sao fixed */
 .win-dock {

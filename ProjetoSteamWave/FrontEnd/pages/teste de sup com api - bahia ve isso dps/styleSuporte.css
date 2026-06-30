@@ -107,7 +107,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: 9px;
   letter-spacing: 1px;
   user-select: none;
   gap: 8px;
@@ -134,7 +134,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 8px;
   cursor: pointer;
   color: #000;
   font-family: var(--pixel-font);
@@ -192,7 +192,7 @@ html, body {
   flex: 1;
   padding: 6px 4px;
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   letter-spacing: 0.5px;
   text-align: center;
   cursor: pointer;
@@ -236,7 +236,7 @@ html, body {
 
 .suporte-label {
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   color: #333;
   margin-bottom: -4px;
 }
@@ -245,7 +245,7 @@ html, body {
   padding: 8px 10px;
   border: 1px solid #999;
   font-family: var(--pixel-font);
-  font-size: 10px;
+  font-size: 8px;
   background: #f8f8f8;
   width: 100%;
 }
@@ -258,7 +258,7 @@ html, body {
   padding: 8px 10px;
   border: 1px solid #999;
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   background: #f8f8f8;
   width: 100%;
   cursor: pointer;
@@ -286,7 +286,7 @@ html, body {
 
 .form-char-count {
   font-family: var(--pixel-font);
-  font-size: 8px;
+  font-size: 6px;
   color: #888;
   margin-right: auto;
 }
@@ -297,7 +297,7 @@ html, body {
   background: #000080;
   color: white;
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   letter-spacing: 0.5px;
   cursor: pointer;
   border: 2px solid #fff;
@@ -325,7 +325,7 @@ html, body {
 /* mensagem de erro do form */
 .form-error {
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   color: #cc0000;
   background: #ffe0e0;
   border: 1px solid #cc0000;
@@ -344,7 +344,7 @@ html, body {
 
 .faq-section-title {
   font-family: var(--pixel-font);
-  font-size: 10px;
+  font-size: 8px;
   color: #000080;
   padding: 12px 0 8px;
 }
@@ -354,7 +354,7 @@ html, body {
 .faq-q {
   padding: 10px 0;
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   cursor: pointer;
   color: #000080;
   display: flex;
@@ -373,7 +373,7 @@ html, body {
   display: none;
   padding: 0 0 10px;
   font-family: var(--vt-font);
-  font-size: 18px;
+  font-size: 16px;
   color: #333;
   line-height: 1.5;
 }
@@ -402,7 +402,7 @@ html, body {
   padding: 6px 8px;
   border: 1px solid #999;
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   background: #f8f8f8;
 }
 .tickets-search:focus { outline: 2px solid #000080; }
@@ -411,7 +411,7 @@ html, body {
   padding: 6px 8px;
   border: 1px solid #999;
   font-family: var(--pixel-font);
-  font-size: 8px;
+  font-size: 6px;
   background: #f8f8f8;
   cursor: pointer;
   appearance: none;
@@ -426,7 +426,7 @@ html, body {
 
 .tickets-empty {
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   color: #888;
   text-align: center;
   padding: var(--space-lg) 0;
@@ -439,7 +439,7 @@ html, body {
   gap: var(--space-sm);
   padding: var(--space-lg) 0;
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   color: #555;
 }
 .tickets-loading .spinner {
@@ -473,14 +473,14 @@ html, body {
 
 .ticket-id {
   font-family: var(--pixel-font);
-  font-size: 8px;
+  font-size: 6px;
   color: #888;
   white-space: nowrap;
 }
 
 .ticket-subject {
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   color: #000;
   flex: 1;
   line-height: 1.5;
@@ -496,13 +496,13 @@ html, body {
 
 .ticket-category {
   font-family: var(--vt-font);
-  font-size: 15px;
+  font-size: 13px;
   color: #555;
 }
 
 .ticket-date {
   font-family: var(--pixel-font);
-  font-size: 8px;
+  font-size: 6px;
   color: #999;
   margin-left: auto;
 }
@@ -510,7 +510,7 @@ html, body {
 /* badge de status */
 .ticket-status {
   font-family: var(--pixel-font);
-  font-size: 8px;
+  font-size: 6px;
   padding: 2px 6px;
   border-radius: 2px;
   white-space: nowrap;
@@ -560,14 +560,14 @@ html, body {
 }
 .ticket-detail-label {
   font-family: var(--pixel-font);
-  font-size: 8px;
+  font-size: 6px;
   color: #888;
   width: 70px;
   flex-shrink: 0;
 }
 .ticket-detail-value {
   font-family: var(--vt-font);
-  font-size: 18px;
+  font-size: 16px;
   color: #222;
   flex: 1;
   word-break: break-word;
@@ -592,7 +592,7 @@ html, body {
 
 .ticket-msg-author {
   font-family: var(--pixel-font);
-  font-size: 8px;
+  font-size: 6px;
   color: #888;
   margin-bottom: 4px;
 }
@@ -604,7 +604,7 @@ html, body {
 }
 .ticket-msg-time {
   font-family: var(--pixel-font);
-  font-size: 8px;
+  font-size: 5px;
   color: #aaa;
   margin-top: 4px;
   text-align: right;
@@ -623,7 +623,7 @@ html, body {
   padding: 8px;
   border: 1px solid #999;
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   resize: vertical;
   height: 60px;
   background: #f8f8f8;
@@ -641,7 +641,7 @@ html, body {
   background: var(--win-bg);
   color: #000;
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   cursor: pointer;
   border: 2px solid #fff;
   border-right-color:  #444;
@@ -655,7 +655,7 @@ html, body {
   background: #000080;
   color: white;
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   cursor: pointer;
   border: 2px solid #fff;
   border-right-color:  #444;
@@ -686,7 +686,7 @@ html, body {
   padding: 6px 14px;
   color: rgba(255,255,255,0.6);
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   letter-spacing: 1px;
   cursor: pointer;
   border-radius: 4px;
@@ -717,7 +717,7 @@ html, body {
   border: 1px solid var(--neon-purple);
   color: white;
   font-family: var(--pixel-font);
-  font-size: 9px;
+  font-size: 7px;
   letter-spacing: 1px;
   padding: 12px var(--space-md);
   border-radius: 8px;
@@ -736,8 +736,8 @@ html, body {
   .suporte-window {
     margin: var(--space-lg) var(--space-lg) 0;
   }
-  .win-titlebar { font-size: 12px; }
-  .suporte-tab  { font-size: 10px; }
+  .win-titlebar { font-size: 10px; }
+  .suporte-tab  { font-size: 8px; }
 }
 
 /* ── desktop (≥ 768px): comportamento original centrado ── */
@@ -768,8 +768,8 @@ html, body {
 /* ── telas muito pequenas (< 360px) ─────────────────────── */
 @media (max-width: 360px) {
   .suporte-window { margin: var(--space-sm) var(--space-sm) 0; }
-  .gnav-btn { font-size: 8px; padding: 6px 10px; }
-  .suporte-tab { font-size: 8px; padding: 5px 2px; }
+  .gnav-btn { font-size: 6px; padding: 6px 10px; }
+  .suporte-tab { font-size: 6px; padding: 5px 2px; }
 }
 
 /* ── acessibilidade: reduced motion ──────────────────────── */

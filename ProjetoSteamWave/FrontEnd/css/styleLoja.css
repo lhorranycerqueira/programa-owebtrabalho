@@ -213,35 +213,97 @@
         gap: 16px;
       }
       .loja-sidebar {
-        width: 200px;
+        width: 220px;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 6px;
+        overflow-y: auto;
+        flex-shrink: 0;
       }
-      .sidebar-nav-btn {
-        padding: 12px;
+
+      /* Título de cada bloco da sidebar (CATEGORIAS / DLCS / SOUNDTRACKS) */
+      .sidebar-block-title {
+        color: rgba(255, 255, 255, 0.6);
+        font-family: var(--pixel-font);
+        font-size: 7px;
+        padding: 10px 4px 6px;
+        letter-spacing: 1px;
+      }
+
+      /* Botão de categoria (filtro clicável) */
+      .cat-btn {
+        padding: 10px;
         background: rgba(0, 0, 0, 0.4);
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 8px;
         color: white;
         font-family: var(--pixel-font);
-        font-size: 8px;
+        font-size: 7px;
         cursor: pointer;
-        text-align: center;
+        text-align: left;
         transition: all 0.3s;
         letter-spacing: 1px;
+        width: 100%;
       }
-      .sidebar-nav-btn:hover {
+      .cat-btn:hover {
         background: rgba(155, 48, 255, 0.5);
         border-color: var(--neon-purple);
         box-shadow: 0 0 10px var(--neon-purple);
       }
-      .sidebar-categories {
+      /* Categoria selecionada no momento (o filtro ativo) */
+      .cat-btn.active {
+        background: rgba(0, 234, 255, 0.2);
+        border-color: var(--neon-cyan);
+        box-shadow: 0 0 10px var(--neon-cyan);
+        color: var(--neon-cyan);
+      }
+
+      /* Item de lista genérico usado em DLCs e Soundtracks */
+      .side-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .side-item:hover { background: rgba(255, 255, 255, 0.08); }
+      .side-emoji { font-size: 18px; flex-shrink: 0; }
+      .side-info { min-width: 0; }
+      .side-name {
+        font-family: var(--vt-font);
+        font-size: 13px;
+        color: white;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .side-sub {
+        font-family: var(--vt-font);
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      /* Cabeçalho da lista principal de jogos (título + contador) */
+      .game-list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .game-list-count {
+        font-family: var(--vt-font);
+        font-size: 12px;
         color: rgba(255, 255, 255, 0.6);
-        font-family: var(--pixel-font);
-        font-size: 7px;
-        padding: 10px 0 5px;
-        letter-spacing: 1px;
+      }
+
+      /* Mensagem quando o filtro não encontra nenhum jogo */
+      .empty-state {
+        padding: 30px;
+        text-align: center;
+        font-family: var(--vt-font);
+        font-size: 16px;
+        color: #666;
       }
       .loja-main {
         flex: 1;
@@ -394,4 +456,189 @@
       color: white;
       font-size: 14px;
       cursor: pointer;
+      }
+
+      /* ============================================================================
+         RESPONSIVIDADE MOBILE
+         Abaixo de 768px: cabeçalho quebra em duas linhas, e a sidebar
+         (categorias + DLCs + soundtracks) deixa de ser uma coluna lateral
+         fixa e passa a virar uma faixa horizontal rolável no topo,
+         acima da lista de jogos — assim nada fica espremido.
+         ============================================================================ */
+      @media (max-width: 768px) {
+        .loja-header {
+          flex-wrap: wrap;
+          gap: 10px;
+          justify-content: center;
+          padding: 10px;
+        }
+        .loja-logo-text { font-size: 10px; }
+        .loja-now-playing { font-size: 8px; padding: 6px 10px; }
+
+        .loja-body {
+          flex-direction: column;
+          padding: 8px 10px 60px;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+
+        .loja-sidebar {
+          width: 100%;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          overflow-y: visible;
+          gap: 8px;
+          padding-bottom: 6px;
+        }
+        /* Dentro da faixa horizontal, cada bloco (categorias/dlc/soundtrack)
+           vira uma "coluna" que não encolhe, pra não esmagar o conteúdo */
+        .loja-sidebar > div {
+          flex-shrink: 0;
+          min-width: 160px;
+        }
+        .cat-btn { font-size: 6px; }
+
+        .loja-main { overflow-y: visible; }
+
+        /* Cards de jogo: empilha a imagem em cima do texto no mobile */
+        .game-card {
+          flex-direction: column;
+        }
+        .game-thumb {
+          width: 100%;
+          height: 90px;
+        }
+
+        .gnav-btn { padding: 6px 8px; font-size: 6px; }
+      }
+
+      /* ============================================================================
+         PÁGINAS DE COMPRA (DLC e SOUNDTRACK)
+         Layout compartilhado por dlc.html e soundtrack.html: uma "capa"
+         grande de um lado, informações + botão de compra do outro.
+         ============================================================================ */
+      .product-page {
+        display: flex;
+        gap: 24px;
+        align-items: flex-start;
+      }
+      .product-cover {
+        width: 140px;
+        height: 140px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 60px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border: 1px solid #999;
+      }
+      .product-info { flex: 1; min-width: 0; }
+      .product-game {
+        font-family: var(--vt-font);
+        font-size: 13px;
+        color: #555;
+        margin-bottom: 4px;
+      }
+      .product-title {
+        font-family: var(--pixel-font);
+        font-size: 14px;
+        color: #000080;
+        margin-bottom: 10px;
+      }
+      .product-desc {
+        font-family: var(--vt-font);
+        font-size: 15px;
+        color: #333;
+        margin: 12px 0 16px;
+        line-height: 1.4;
+      }
+
+      /* Tag de preço: verde quando é grátis, ciano/roxo quando é pago */
+      .price-tag {
+        display: inline-block;
+        font-family: var(--pixel-font);
+        font-size: 9px;
+        padding: 5px 10px;
+        border-radius: 4px;
+      }
+      .price-tag.free {
+        background: #ccffcc;
+        color: #006600;
+      }
+      .price-tag.paid {
+        background: rgba(155, 48, 255, 0.15);
+        color: #5a1d99;
+        border: 1px solid rgba(155, 48, 255, 0.4);
+      }
+
+      /* Botão de compra/adicionar — roxo pra pago, verde pra grátis */
+      .buy-btn {
+        display: block;
+        width: 100%;
+        margin-top: 6px;
+        padding: 12px;
+        font-family: var(--pixel-font);
+        font-size: 9px;
+        letter-spacing: 1px;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: linear-gradient(135deg, #7b2fff, #c2469b);
+        transition: 0.25s;
+      }
+      .buy-btn:hover { filter: brightness(1.15); }
+      .buy-btn.buy-btn-free {
+        background: linear-gradient(135deg, #1ec98a, #00c46a);
+      }
+
+      /* Player fake da página de soundtrack */
+      .track-player {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #f0f0ff;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px 14px;
+        margin-bottom: 16px;
+      }
+      .play-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--neon-purple);
+        color: white;
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .track-bar {
+        height: 6px;
+        border-radius: 3px;
+        background: #ddd;
+        overflow: hidden;
+      }
+      .track-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
+      }
+      .track-duration {
+        font-family: var(--vt-font);
+        font-size: 12px;
+        color: #777;
+        margin-top: 4px;
+      }
+
+      @media (max-width: 480px) {
+        .product-page { flex-direction: column; align-items: center; text-align: center; }
+      }
+
+      @media (max-width: 480px) {
+        .loja-logo-text { display: none; } /* economiza espaço em telas bem pequenas */
+        .search-bar input { width: 110px; }
       }

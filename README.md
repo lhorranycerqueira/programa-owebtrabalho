@@ -136,3 +136,10 @@ para utilizar a padronização do arquivo, so colocar txt-title dentro da classe
 # Atualizações Rickelmy 25/06
 - Coloquei um Captcha usando a bibliotecas `dchest/captcha` para as pessoas não encherem nosso site
 com informações inúeis.
+
+## Atualizações Carou 28~29/06
+
+- estou colocando detalhes do que fiz em duas semanas pros temas claro e fotossensível só agora
+- criei o theme.css: css que carrega as cores de temas distintos (claro e fotossensível) em váriaveis diversas.
+esclarecimento: o root.css é o css que carrega apenas as cores das variáveis no tema padrão; isso é, do tema dark synthwave, o escuro padrão. ele pode coexistir com o theme.css e theme.js (já que não existe root.js)
+- implementei nos HTMLs o <script src="../js/theme.js"></script> e o <link rel="stylesheet" href="../css/theme.css" /> para o theme rodar.

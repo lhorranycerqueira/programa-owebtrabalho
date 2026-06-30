@@ -6,6 +6,7 @@
     <title>Loja - SteamWave</title>
         <!-- Importação do CSS separado -->
     <link rel="stylesheet" href="../css/styleLoja.css">
+    <link rel="stylesheet" href="../css/tema.css" />
     <link rel="stylesheet" href="../css/fontes.css" />
   </head>
   <body>
@@ -25,8 +26,9 @@
             id="searchToggle"
             onclick="toggleSearch()"
             title="Pesquisar"
-          >🔍</span>
-          <div class="search-bar txt-title" id="searchBar">
+            >🔍</span
+          >
+          <div class="search-bar" id="searchBar">
             <input type="text" placeholder="Buscar jogos..." />
           </div>
         </div>
@@ -42,125 +44,63 @@
       <!-- CORPO DA LOJA (Sidebar + Main) -->
       <div class="loja-body">
         
-        <!-- SIDEBAR -->
+        <!-- SIDEBAR: agora é só sobre o que tem na loja, não navegação entre páginas
+             (navegação entre páginas já existe no menu fixo debaixo) -->
         <div class="loja-sidebar">
-          <button class="sidebar-nav-btn" onclick="window.location.href='perfil.html'">
-            👤 Perfil
-          </button>
-          <button class="sidebar-nav-btn" onclick="window.location.href='biblioteca.html'">
-            📚 Biblioteca
-          </button>
-          <button class="sidebar-nav-btn" onclick="window.location.href='homepage.html'">
-            🏠 Home
-          </button>
-          <button class="sidebar-nav-btn" onclick="window.location.href='Configuração.html'">
-            ⚙️ Configs
-          </button>
-          <div class="sidebar-categories">CATEGORIAS</div>
-          <button class="sidebar-nav-btn" style="font-size: 7px">🎮 Ação</button>
-          <button class="sidebar-nav-btn" style="font-size: 7px">🧩 Puzzle</button>
-          <button class="sidebar-nav-btn" style="font-size: 7px">⚔️ RPG</button>
-          <button class="sidebar-nav-btn" style="font-size: 7px">🚀 Sci-Fi</button>
-          <button class="sidebar-nav-btn" style="font-size: 7px">👾 Retro</button>
+
+          <!-- CATEGORIAS (filtro funcional) -->
+          <div>
+            <div class="sidebar-block-title">CATEGORIAS</div>
+            <!-- "Todos" é o filtro inicial: loja abre sem nenhum filtro aplicado -->
+            <button class="cat-btn active" onclick="filterCategory('todos', this)">🌐 Todos</button>
+            <button class="cat-btn" onclick="filterCategory('acao', this)">🎮 Ação</button>
+            <button class="cat-btn" onclick="filterCategory('puzzle', this)">🧩 Puzzle</button>
+            <button class="cat-btn" onclick="filterCategory('rpg', this)">⚔️ RPG</button>
+            <button class="cat-btn" onclick="filterCategory('scifi', this)">🚀 Sci-Fi</button>
+            <button class="cat-btn" onclick="filterCategory('retro', this)">👾 Retro</button>
+          </div>
+
+          <!-- DLCs para jogos que o usuário JÁ TEM -->
+          <div>
+            <div class="sidebar-block-title">DLCs DA SUA BIBLIOTECA</div>
+            <!-- Preenchido via JS (renderDlcs) a partir de STORE_DLCS -->
+            <div id="dlcList"></div>
+          </div>
+
+          <!-- Soundtracks (foco do projeto: música > consumismo) -->
+          <div>
+            <div class="sidebar-block-title">SOUNDTRACKS</div>
+            <!-- Preenchido via JS (renderSoundtracks) a partir de STORE_SOUNDTRACKS -->
+            <div id="soundtrackList"></div>
+          </div>
+
         </div>
 
         <!-- MAIN CONTENT (Jogos) -->
         <div class="loja-main">
-          
-          <!-- Destaques -->
-          <div class="loja-window">
-            <div class="win-titlebar">
-              <span>🌟 DESTAQUES DA SEMANA</span>
-              <div class="win-controls">
-                <div class="win-btn">_</div>
-                <div class="win-btn">□</div>
-                <div
-                  class="win-btn" 
-                  >✕</div> <!-- tirei o onclick com js para nao fechar mais as janelas -->
-              </div>
-            </div>
-            <div class="win-content" style="padding: 0">
-              <div class="game-card" onclick="goTo('steamwave.html')">
-                <div class="game-thumb">🐱</div>
-                <div class="game-info">
-                  <div class="game-title">NeonCat Chronicles</div>
-                  <div class="game-desc">Aventura cyberpunk com gatos no espaço profundo</div>
-                  <span class="game-price">R$ 29,99</span>
-                  <div class="game-tags">
-                    <span class="game-tag">Ação</span>
-                    <span class="game-tag">Retro</span>
-                    <span class="game-tag">Gatos</span>
-                  </div>
-                </div>
-              </div>
-              <div class="game-card" onclick="goTo('steamwave.html')">
-                <div class="game-thumb" style="background: linear-gradient(135deg, #ff6b6b, #feca57)">🌌</div>
-                <div class="game-info">
-                  <div class="game-title">Vaporworld Online</div>
-                  <div class="game-desc">MMO no mundo vaporwave — explore dimensões de synth</div>
-                  <span class="game-price">R$ 49,99</span>
-                  <div class="game-tags">
-                    <span class="game-tag">MMO</span>
-                    <span class="game-tag">Synthwave</span>
-                  </div>
-                </div>
-              </div>
-              <div class="game-card" onclick="goTo('steamwave.html')">
-                <div class="game-thumb" style="background: linear-gradient(135deg, #48dbfb, #ff9ff3)">🤖</div>
-                <div class="game-info">
-                  <div class="game-title">RetroBot Uprising</div>
-                  <div class="game-desc">Plataforma pixel art com robôs dos anos 80</div>
-                  <span class="game-price">R$ 19,90</span>
-                  <div class="game-tags">
-                    <span class="game-tag">Plataforma</span>
-                    <span class="game-tag">Pixel</span>
-                    <span class="game-tag">Robôs</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Mais vendidos -->
+          <!-- Lista única e dinâmica de jogos.
+               O título, contador e os cards são gerados pelo JS
+               (renderGames), de acordo com a categoria/busca atuais. -->
           <div class="loja-window">
             <div class="win-titlebar">
-              <span>🔥 MAIS VENDIDOS</span>
+              <span id="gameListTitle">🌐 Todos os Jogos</span>
               <div class="win-controls">
                 <div class="win-btn">_</div>
                 <div class="win-btn">□</div>
                 <div
                   class="win-btn"
+                  onclick="this.closest('.loja-window').style.display = 'none'"
                 >✕</div>
               </div>
             </div>
-            <div class="win-content" style="padding: 0">
-              <div class="game-card" onclick="goTo('steamwave.html')">
-                <div class="game-thumb" style="background: linear-gradient(135deg, #2d3561, #c05c7e)">🎸</div>
-                <div class="game-info">
-                  <div class="game-title">SynthRacer 84</div>
-                  <div class="game-desc">Corridas neon em pistas holográficas</div>
-                  <span class="game-price">R$ 39,99</span>
-                  <div class="game-tags">
-                    <span class="game-tag">Corrida</span>
-                    <span class="game-tag">Neon</span>
-                  </div>
-                </div>
-              </div>
-              <div class="game-card" onclick="goTo('steamwave.html')">
-                <div class="game-thumb" style="background: linear-gradient(135deg, #0f3460, #e94560)">🗡️</div>
-                <div class="game-info">
-                  <div class="game-title">Pixel Dungeon X</div>
-                  <div class="game-desc">Roguelike com estética de Windows 95</div>
-                  <span class="game-price">R$ 14,99</span>
-                  <div class="game-tags">
-                    <span class="game-tag">RPG</span>
-                    <span class="game-tag">Roguelike</span>
-                  </div>
-                </div>
-              </div>
+            <div class="win-content" style="padding: 6px 8px 0">
+              <span id="gameListCount" class="game-list-count"></span>
             </div>
+            <!-- Os cards de jogo (.game-card) são inseridos aqui pelo JS -->
+            <div class="win-content" id="gameList" style="padding: 0"></div>
           </div>
-          
+
         </div>
       </div>
       
@@ -183,8 +123,7 @@
     <!-- CAIXA DE MENSAGENS (Toast) -->
     <div class="toast" id="toast"></div>
 
-    <script src="../js/auth.js"></script>
+    <script src="../js/storeData.js"></script>
     <script src="../js/scriptLoja.js"></script>
-    <script src="../js/gerenciadorJanelas.js"></script>
   </body>
 </html>

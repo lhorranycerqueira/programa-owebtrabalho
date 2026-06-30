@@ -55,5 +55,13 @@ func main() {
 	http.Handle("/Captcha/", captcha.Server(captcha.StdWidth, captcha.StdHeight)) //Servidor de imagens da biblioteca do Captcha
 	http.HandleFunc("/Refresh", HandleRefresh)
 	http.HandleFunc("/Logout", HandleLogout)
-	http.ListenAndServe(":8080", nil)
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	log.Println("Servidor iniciado na porta", port)
+
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

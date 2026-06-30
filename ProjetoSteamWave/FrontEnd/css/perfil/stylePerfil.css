@@ -251,6 +251,13 @@ pointer-events: none;
 z-index: 10;
 }
 
+.editable-container:hover .char-counter,
+.editable-container:focus-within .char-counter{
+
+    opacity:1;
+
+}
+
 .editable-container [contenteditable="true"]:focus {
   outline: none;
   background-color: transparent;
@@ -460,15 +467,14 @@ z-index: 1;
 
 /* FOTO DE PERFIL E BORDAS CUSTOMIZÁVEIS */
 .avatar-holder {
-position: absolute;
-top: 102px;
-left: 16px;
+position: relative;
 width: 92px;
 height: 92px;
+min-width: 92px;
 border-radius: 50%;
 background: #13101c;
 padding: 6px;
-box-sizing: content-box;
+box-sizing: border-box;
 z-index: 6; /* Acima do overlay de efeitos */
 transition: all 0.25s ease;
 }
@@ -507,6 +513,30 @@ animation: glitch-border 0.8s steps(2) infinite;
 100% { border-color: #ffff10; box-shadow: -2px 2px #ff00ff; }
 }
 
+/*==========================================
+    AVATAR + ATIVIDADE
+==========================================*/
+
+.avatar-section{
+
+    position:absolute;
+
+    top:102px;
+
+    left:16px;
+
+    right:16px;
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:18px;
+
+    z-index:8;
+
+}
+
 /* TEXTOS INTERNOS DO PERFIL */
 .profile-body {
 padding: 16px;
@@ -517,7 +547,7 @@ background: #13101c;
 display: flex;
 flex-direction: column;
 gap: 12px;
-margin-top: 56px;
+margin-top: 36px;
 }
 
 .user-info-text h1 {
@@ -525,6 +555,8 @@ font-size: 18px;
 color: #f2f3f5;
 margin: 0;
 font-weight: bold;
+word-break: break-word;
+overflow-wrap: break-word;
 transition: font-family 0.2s ease;
 }
 
@@ -627,6 +659,9 @@ background-color: #13101c;
 border: 1px solid rgba(255, 255, 255, 0.05);
 border-radius: 0 16px 16px 16px;
 width: 450px;
+max-height: 80vh;
+display: flex;
+flex-direction: column;
 box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
 font-family: Arial, sans-serif;
 color: #b9bbbe;
@@ -635,7 +670,23 @@ position: relative;
 }
 
 .edit-profile-body {
-padding: 24px 20px 30px 20px;
+padding: 24px 20px 20px 20px;
+overflow-y: auto;
+flex: 1;
+min-height: 0;
+scrollbar-width: thin;
+scrollbar-color: var(--retro-accent) #1e182e;
+}
+
+.edit-profile-body::-webkit-scrollbar {
+width: 5px;
+}
+.edit-profile-body::-webkit-scrollbar-track {
+background: #1e182e;
+}
+.edit-profile-body::-webkit-scrollbar-thumb {
+background: var(--retro-accent);
+border-radius: 4px;
 }
 
 .edit-profile-container .profile-top-bar {
@@ -649,6 +700,7 @@ transition: background 0.2s ease;
 
 .window-controls {
 display: flex;
+align-items: center;
 gap: 8px;
 }
 
@@ -659,12 +711,10 @@ cursor: pointer;
 }
 
 .edit-profile-container .profile-bottom-bar {
-height: 20px; 
+height: 14px;
 background-color: var(--config-bars);
 width: 100%;
-position: absolute;
-bottom: 0;
-left: 0;
+flex-shrink: 0;
 transition: background 0.2s ease;
 }
 
@@ -703,6 +753,7 @@ margin: 20px 0;
 display: flex;
 flex-direction: column;
 flex: 1;
+box-sizing: border-box;
 }
 
 .select-wrapper label, .color-inputs-group label {
@@ -720,6 +771,8 @@ border-radius: 4px;
 outline: none;
 cursor: pointer;
 font-size: 13px;
+width: 100%;
+box-sizing: border-box;
 transition: border-color 0.2s;
 }
 
@@ -971,4 +1024,589 @@ background: rgba(155, 48, 255, 0.3);
 
     cursor: grabbing;
 
+}
+
+/* ===========================
+   STATUS DO PERFIL
+=========================== */
+
+.profile-status{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-top:-4px;
+
+    margin-bottom:10px;
+
+    font-size:13px;
+
+    color:#d7d7d7;
+
+}
+
+.status-dot{
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+    display:inline-block;
+
+    box-shadow:0 0 8px currentColor;
+
+}
+
+.status-dot.online{
+
+    background:#3ba55d;
+    color:#3ba55d;
+
+}
+
+.status-dot.away{
+
+    background:#f1c232;
+    color:#f1c232;
+
+}
+
+.status-dot.busy{
+
+    background:#e74c3c;
+    color:#e74c3c;
+
+}
+
+.status-dot.offline{
+
+    background:#666;
+    color:#666;
+
+}
+
+.status-dot.gaming{
+
+    background:#00d084;
+    color:#00d084;
+
+}
+
+.status-dot.music{
+
+    background:#9b59b6;
+    color:#9b59b6;
+
+}
+
+.status-dot.coding{
+
+    background:#3498db;
+    color:#3498db;
+
+}
+
+.status-dot.sleep{
+
+    background:#5dade2;
+    color:#5dade2;
+
+}
+
+/*==========================================
+    STATUS ONLINE
+==========================================*/
+
+.status-dot{
+
+    position:absolute;
+
+    bottom:4px;
+
+    right:4px;
+
+    width:18px;
+
+    height:18px;
+
+    border-radius:50%;
+
+    border:4px solid #13101c;
+
+    background:#3ba55d;
+
+}
+
+.status-dot.online{
+
+    background:#3ba55d;
+
+}
+
+.status-dot.away{
+
+    background:#f1c232;
+
+}
+
+.status-dot.busy{
+
+    background:#e74c3c;
+
+}
+
+.status-dot.offline{
+
+    background:#747f8d;
+
+}
+
+/*==========================================
+    ATIVIDADE
+==========================================*/
+
+.profile-activity{
+
+    margin-top:18px;
+
+    background:#262833;
+
+    border-radius:18px;
+
+    padding:10px 16px;
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:8px;
+
+    color:white;
+
+    font-size:13px;
+
+    flex:1;
+
+    min-width:0;
+
+    overflow:hidden;
+
+    box-shadow:
+
+        0 2px 8px rgba(0,0,0,.35);
+
+}
+
+#activity-icon{
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    outline:none;
+
+    display:inline-block;
+
+    min-width:18px;
+
+    flex-shrink:0;
+
+    transition:transform 0.15s ease;
+
+}
+
+#activity-icon:hover{
+
+    transform:scale(1.2);
+
+}
+
+#activity-icon:focus{
+
+    transform:scale(1.2);
+
+}
+
+#activity-text{
+
+    display:block;
+
+    overflow:hidden;
+
+    white-space:normal;
+
+    overflow-wrap:break-word;
+
+    line-height:1.3;
+
+    flex:1;
+
+    min-width:0;
+
+}
+
+/* =============================================
+   PLAYER DE MÚSICA (MINI PLAYER RETRÔ)
+============================================= */
+
+.profile-music-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #0e0b18;
+  border-top: 1px solid rgba(255, 110, 199, 0.2);
+  padding: 8px 14px 10px 14px;
+  position: relative;
+  z-index: 4;
+}
+
+.music-play-btn {
+  background: var(--retro-accent);
+  border: none;
+  color: #0a0612;
+  font-size: 12px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.1s ease, filter 0.1s ease;
+  font-family: monospace;
+}
+
+.music-play-btn:hover {
+  filter: brightness(1.2);
+  transform: scale(1.1);
+}
+
+.music-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.music-title {
+  font-size: 11px;
+  color: #e8d5f5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 0.3px;
+}
+
+.music-progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.music-progress-fill {
+  height: 100%;
+  background: var(--retro-accent);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.5s linear;
+  box-shadow: 0 0 6px var(--retro-accent);
+}
+
+.music-note-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.music-volume-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.music-volume-icon {
+  font-size: 12px;
+  opacity: 0.7;
+  width: 14px;
+  text-align: center;
+}
+
+.music-volume-wrapper input[type="range"] {
+  width: 50px;
+  height: 3px;
+  accent-color: var(--retro-accent);
+  cursor: pointer;
+}
+
+/* Estado sem música carregada */
+.profile-music-player.no-track .music-play-btn {
+  opacity: 0.4;
+  cursor: default;
+}
+.profile-music-player.no-track .music-title {
+  opacity: 0.35;
+}
+
+/* =============================================
+   NOVAS BORDAS DO AVATAR
+============================================= */
+
+/* Arco-íris animado */
+.avatar-holder.rainbow-animated {
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  animation: rainbowBorder 3s linear infinite;
+}
+
+@keyframes rainbowBorder {
+  0%   { box-shadow: 0 0 0 3px #ff6ec7; }
+  16%  { box-shadow: 0 0 0 3px #ff9f43; }
+  33%  { box-shadow: 0 0 0 3px #ffff10; }
+  50%  { box-shadow: 0 0 0 3px #00f5d4; }
+  66%  { box-shadow: 0 0 0 3px #4dc9ff; }
+  83%  { box-shadow: 0 0 0 3px #b87fff; }
+  100% { box-shadow: 0 0 0 3px #ff6ec7; }
+}
+
+/* Dourado vintage */
+.avatar-holder.golden-vintage {
+  border: 3px solid #c9a84c;
+  box-shadow:
+    0 0 8px rgba(201, 168, 76, 0.6),
+    inset 0 0 6px rgba(201, 168, 76, 0.2);
+}
+
+/* Holo shimmer */
+.avatar-holder.holo-shimmer {
+  border: 3px solid transparent;
+  animation: holoShimmer 2s ease infinite;
+}
+
+@keyframes holoShimmer {
+  0%   { box-shadow: 0 0 10px #ff6ec7, 0 0 20px #4dc9ff; }
+  50%  { box-shadow: 0 0 10px #4dc9ff, 0 0 20px #b87fff; }
+  100% { box-shadow: 0 0 10px #ff6ec7, 0 0 20px #4dc9ff; }
+}
+
+/* =============================================
+   NOVOS EFEITOS DE OVERLAY
+============================================= */
+
+/* Estrelas cadentes */
+.profile-effect-overlay.estrelas-cadentes {
+  background-image:
+    radial-gradient(1px 1px at 20% 15%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 40%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 25%, rgba(200,150,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 70%, rgba(255,110,199,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 60%, rgba(77,201,255,0.7) 0%, transparent 100%);
+  animation: starsFloat 6s ease-in-out infinite alternate;
+}
+
+@keyframes starsFloat {
+  0%   { transform: translateY(0) scale(1); opacity: 0.4; }
+  100% { transform: translateY(-12px) scale(1.05); opacity: 0.7; }
+}
+
+/* Névoa Cyberpunk */
+.profile-effect-overlay.nevoa-cyberpunk {
+  background:
+    radial-gradient(ellipse at 10% 90%, rgba(184, 127, 255, 0.25) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 80%, rgba(77, 201, 255, 0.2) 0%, transparent 50%);
+  animation: fogPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes fogPulse {
+  0%   { opacity: 0.5; transform: scale(1); }
+  100% { opacity: 1;   transform: scale(1.04); }
+}
+
+/* =============================================
+   FUNDO CUSTOMIZÁVEL DO BODY
+============================================= */
+
+/* Quando o usuário escolhe uma imagem/GIF de fundo */
+body.custom-bg {
+  background-color: #0a0612;
+  background-image: var(--custom-bg-url),
+    linear-gradient(rgba(255, 110, 199, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 110, 199, 0.03) 1px, transparent 1px);
+  background-size: cover, 40px 40px, 40px 40px;
+  background-position: center, center, center;
+  background-attachment: fixed, fixed, fixed;
+}
+
+/* Dim overlay para não ofuscar o conteúdo */
+body.custom-bg::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 6, 18, var(--custom-bg-dim, 0.45));
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Slider de dim */
+.dim-slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.dim-slider-wrapper label {
+  font-size: 11px;
+  color: #b9bbbe;
+  white-space: nowrap;
+}
+
+.dim-slider-wrapper input[type="range"] {
+  flex: 1;
+  accent-color: var(--retro-accent);
+  cursor: pointer;
+  height: 4px;
+}
+
+/* Botão de remover fundo */
+.btn-remove-bg {
+  background: transparent;
+  border: 1px solid rgba(255, 110, 199, 0.4);
+  color: #ff6ec7;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 8px;
+  width: 100%;
+  transition: background 0.2s;
+}
+
+.btn-remove-bg:hover {
+  background: rgba(255, 110, 199, 0.1);
+}
+/* =============================================
+   CAMADA DE EFEITOS DE WALLPAPER (ESTILO GUNS.LOL)
+============================================= */
+
+.page-bg-effect-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* ---------- EFEITO 1: NEVE CAINDO (OTIMIZADO PARA GPU) ---------- */
+.page-bg-effect-layer.bg-snow::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  left: 0;
+  width: 100%;
+  height: calc(100% + 240px);
+  background-image:
+    radial-gradient(2px 2px at 10% 5%, rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(2px 2px at 30% 15%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 55% 8%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(2px 2px at 75% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 92% 10%, rgba(255,255,255,0.85) 0%, transparent 100%);
+  background-repeat: repeat;
+  background-size: 100% 120px;
+  opacity: 0.65;
+  will-change: transform;
+  animation: snowFallGPU 10s linear infinite;
+  backface-visibility: hidden;
+}
+
+@keyframes snowFallGPU {
+  from { transform: translateY(0); }
+  to   { transform: translateY(120px); }
+}
+
+/* ---------- EFEITO 2: PARTÍCULAS FLUTUANTES (VAPORWAVE) ---------- */
+.page-bg-effect-layer.bg-particulas::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(2px 2px at 15% 20%, rgba(255,110,199,0.8) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 35% 65%, rgba(77,201,255,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 55% 30%, rgba(184,127,255,0.8) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 75% 75%, rgba(0,245,212,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 90% 15%, rgba(255,110,199,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 25% 85%, rgba(77,201,255,0.6) 0%, transparent 100%),
+    radial-gradient(2px 2px at 65% 50%, rgba(184,127,255,0.7) 0%, transparent 100%);
+  background-repeat: repeat;
+  background-size: 100% 100%;
+  animation: particulasFloat 12s ease-in-out infinite alternate;
+}
+
+@keyframes particulasFloat {
+  0%   { transform: translateY(0) translateX(0); opacity: 0.5; }
+  50%  { transform: translateY(-20px) translateX(10px); opacity: 0.9; }
+  100% { transform: translateY(0) translateX(-10px); opacity: 0.5; }
+}
+
+/* ---------- EFEITO 3: SCANLINES RETRÔ ---------- */
+.page-bg-effect-layer.bg-scanlines::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  left: 0;
+  width: 100%;
+  height: calc(100% + 80px);
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 110, 199, 0.06) 0px,
+    rgba(255, 110, 199, 0.06) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  will-change: transform;
+  animation: scanlineDriftGPU 6s linear infinite;
+}
+
+@keyframes scanlineDriftGPU {
+  from { transform: translateY(0); }
+  to   { transform: translateY(40px); }
+}
+
+/* ---------- EFEITO 4: AURORA VAPORWAVE ---------- */
+.page-bg-effect-layer.bg-aurora::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(255, 110, 199, 0.18) 0%, transparent 45%),
+    radial-gradient(ellipse at 80% 30%, rgba(77, 201, 255, 0.15) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 80%, rgba(184, 127, 255, 0.18) 0%, transparent 50%);
+  filter: blur(20px);
+  animation: auroraDrift 10s ease-in-out infinite alternate;
+}
+
+@keyframes auroraDrift {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(3%, -3%) scale(1.08); }
 }

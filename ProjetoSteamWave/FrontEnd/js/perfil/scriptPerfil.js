@@ -57,7 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const fields = [
     { id: 'profile-tab-title', max: 15, storage: 'custom-tab', counterId: null, isTab: true },
     { id: 'user-display-name', max: 30, storage: 'custom-nick', counterId: 'nick-counter', isTab: false },
-    { id: 'user-bio', max: 220, storage: 'custom-bio', counterId: 'bio-counter', isTab: false }
+    { id: 'user-bio', max: 220, storage: 'custom-bio', counterId: 'bio-counter', isTab: false },
+    { id: 'activity-text', max: 40, storage: 'custom-activity', counterId: 'activity-counter', isTab: false, isActivity: true }
   ];
 
   fields.forEach(field => {
@@ -108,7 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (field.isTab) {
           textValue = "PERFIL.EXE";
         } else if (field.id === 'user-display-name') {
-          textValue = "! Megane ツ";
+          textValue = "User";
+        } else if (field.isActivity) {
+          textValue = "Sem atividade";
         } else {
           textValue = "Biografia vazia...";
         }
@@ -383,6 +386,304 @@ function mostrarDadosMock() {
   
   const bioEl = document.getElementById("user-bio");
   if (!localStorage.getItem('custom-bio')) {
-    bioEl.textContent = "-- https://guns.lol/megane -- \n🎵 Falso anjo - Oshaman";
+    bioEl.innerHTML = "-- https://guns.lol/megane --<br>♢ 01/02<br>🎵 Falso anjo - Oshaman 🥀<br>🎵 Bubble pop eletric - Gwen Stefani ✨";
+  }
+
+  // Status de atividade padrão (mock)
+  const activityEl = document.getElementById("activity-text");
+  if (activityEl && !localStorage.getItem('custom-activity')) {
+    activityEl.textContent = "Jogando VALORANT";
   }
 }
+// =========================================
+// 6. STATUS DOT — CONECTAR SELECT AO PONTO
+// =========================================
+document.addEventListener('DOMContentLoaded', () => {
+  const statusSelect = document.getElementById('profile-status-select');
+  const statusDot = document.getElementById('status-dot');
+  if (!statusSelect || !statusDot) return;
+
+  const statusToClass = {
+    online:  'online',
+    offline: 'offline'
+  };
+
+  // Carrega status salvo
+  const savedStatus = localStorage.getItem('custom-status') || 'online';
+  statusSelect.value = savedStatus;
+  statusDot.className = 'status-dot ' + (statusToClass[savedStatus] || 'online');
+
+  statusSelect.addEventListener('change', (e) => {
+    const chosen = e.target.value;
+    statusDot.className = 'status-dot ' + (statusToClass[chosen] || 'online');
+    localStorage.setItem('custom-status', chosen);
+  });
+});
+
+// =========================================
+// 7. PLAYER DE MÚSICA
+// =========================================
+document.addEventListener('DOMContentLoaded', () => {
+  const musicInput   = document.getElementById('edit-music-input');
+  const playBtn      = document.getElementById('music-play-btn');
+  const titleDisplay = document.getElementById('music-title-display');
+  const progressFill = document.getElementById('music-progress-fill');
+  const progressBar  = document.getElementById('music-progress-bar');
+  const playerEl     = document.getElementById('music-player');
+  const removeBtn    = document.getElementById('remove-music-btn');
+  const volumeSlider = document.getElementById('music-volume-slider');
+  const volumeIcon   = document.getElementById('music-volume-icon');
+
+  let audio = null;
+  let isPlaying = false;
+  let currentVolume = parseFloat(localStorage.getItem('music-volume') ?? '1');
+  if (volumeSlider) volumeSlider.value = currentVolume;
+  if (volumeIcon) volumeIcon.textContent = currentVolume === 0 ? '🔇' : (currentVolume < 0.5 ? '🔉' : '🔊');
+
+  function setTrack(dataUrl, name) {
+    if (audio) {
+      audio.pause();
+      audio = null;
+    }
+    isPlaying = false;
+    playBtn.textContent = '▶';
+
+    if (!dataUrl) {
+      titleDisplay.textContent = 'Nenhuma música...';
+      progressFill.style.width = '0%';
+      playerEl.classList.add('no-track');
+      return;
+    }
+
+    audio = new Audio(dataUrl);
+    audio.volume = currentVolume;
+    titleDisplay.textContent = name || 'Música';
+    playerEl.classList.remove('no-track');
+
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        const pct = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = pct + '%';
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      isPlaying = false;
+      playBtn.textContent = '▶';
+      progressFill.style.width = '0%';
+      audio.currentTime = 0;
+    });
+  }
+
+  // Clique play/pause
+  playBtn.addEventListener('click', () => {
+    if (!audio) return;
+    if (isPlaying) {
+      audio.pause();
+      isPlaying = false;
+      playBtn.textContent = '▶';
+    } else {
+      audio.play();
+      isPlaying = true;
+      playBtn.textContent = '⏸';
+    }
+  });
+
+  // Clique na barra de progresso para navegar
+  if (progressBar) {
+    progressBar.addEventListener('click', (e) => {
+      if (!audio || !audio.duration) return;
+      const rect = progressBar.getBoundingClientRect();
+      const pct = (e.clientX - rect.left) / rect.width;
+      audio.currentTime = pct * audio.duration;
+    });
+  }
+
+  // Upload de arquivo de áudio
+  if (musicInput) {
+    musicInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      // Salva nome no localStorage (o arquivo em si não persiste via base64 aqui por tamanho)
+      localStorage.setItem('music-track-name', file.name);
+
+      const url = URL.createObjectURL(file);
+      setTrack(url, file.name.replace(/\.[^/.]+$/, ''));
+    });
+  }
+
+  // Remover música
+  if (removeBtn) {
+    removeBtn.addEventListener('click', () => {
+      localStorage.removeItem('music-track-name');
+      setTrack(null, null);
+    });
+  }
+
+  // Controle de volume
+  if (volumeSlider) {
+    volumeSlider.addEventListener('input', (e) => {
+      currentVolume = parseFloat(e.target.value);
+      if (audio) audio.volume = currentVolume;
+      localStorage.setItem('music-volume', currentVolume);
+      if (volumeIcon) {
+        volumeIcon.textContent = currentVolume === 0 ? '🔇' : (currentVolume < 0.5 ? '🔉' : '🔊');
+      }
+    });
+  }
+
+  // Restaura nome salvo (sem o arquivo — apenas mostra o nome para referência visual)
+  const savedName = localStorage.getItem('music-track-name');
+  if (savedName) {
+    titleDisplay.textContent = savedName.replace(/\.[^/.]+$/, '');
+    playerEl.classList.remove('no-track');
+    // playBtn fica desabilitado pois não tem o arquivo em memória ainda
+    playBtn.style.opacity = '0.4';
+    playBtn.title = 'Faça o upload novamente para ouvir';
+  }
+});
+
+// =========================================
+// 8. FUNDO CUSTOMIZÁVEL DO BODY
+// =========================================
+document.addEventListener('DOMContentLoaded', () => {
+  const bgInput    = document.getElementById('edit-bg-input');
+  const removeBgBtn = document.getElementById('remove-bg-btn');
+  const dimSlider  = document.getElementById('bg-dim-slider');
+
+  function applyBg(dataUrl) {
+    if (dataUrl) {
+      document.documentElement.style.setProperty('--custom-bg-url', `url('${dataUrl}')`);
+      document.body.classList.add('custom-bg');
+    } else {
+      document.documentElement.style.removeProperty('--custom-bg-url');
+      document.body.classList.remove('custom-bg');
+    }
+  }
+
+  function applyDim(value) {
+    document.documentElement.style.setProperty('--custom-bg-dim', value);
+  }
+
+  // Carrega background salvo
+  const savedBg  = localStorage.getItem('page-bg-custom');
+  const savedDim = localStorage.getItem('page-bg-dim') || '0.45';
+
+  if (savedBg) applyBg(savedBg);
+  applyDim(savedDim);
+  if (dimSlider) dimSlider.value = savedDim;
+
+  // Upload de imagem/GIF
+  if (bgInput) {
+    bgInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const dataUrl = ev.target.result;
+        // Aplica imediatamente na tela, independente do tamanho
+        applyBg(dataUrl);
+
+        try {
+          localStorage.setItem('page-bg-custom', dataUrl);
+        } catch (err) {
+          // Arquivo grande demais para o localStorage (comum em GIFs).
+          // O fundo continua aplicado nesta sessão, mas avisamos que não vai persistir no F5.
+          console.warn('Não foi possível salvar o background: arquivo muito grande para o localStorage.', err);
+          alert('Esse arquivo é grande demais para ser salvo permanentemente (limite do navegador). O fundo vai aparecer agora, mas será perdido se a página for recarregada. Tente um GIF/imagem menor para salvar de forma definitiva.');
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Remover fundo
+  if (removeBgBtn) {
+    removeBgBtn.addEventListener('click', () => {
+      applyBg(null);
+      localStorage.removeItem('page-bg-custom');
+      if (bgInput) bgInput.value = '';
+    });
+  }
+
+  // Slider de escurecimento
+  if (dimSlider) {
+    dimSlider.addEventListener('input', (e) => {
+      applyDim(e.target.value);
+      localStorage.setItem('page-bg-dim', e.target.value);
+    });
+  }
+
+  // Efeito de wallpaper (estilo guns.lol)
+  const bgEffectSelect = document.getElementById('edit-bg-effect-select');
+  const bgEffectLayer  = document.getElementById('page-bg-effect');
+
+  if (bgEffectSelect && bgEffectLayer) {
+    const savedBgEffect = localStorage.getItem('page-bg-effect');
+    if (savedBgEffect) {
+      bgEffectSelect.value = savedBgEffect;
+      bgEffectLayer.className = 'page-bg-effect-layer ' + (savedBgEffect !== 'none' ? savedBgEffect : '');
+    }
+
+    bgEffectSelect.addEventListener('change', (e) => {
+      const chosen = e.target.value;
+      bgEffectLayer.className = 'page-bg-effect-layer ' + (chosen !== 'none' ? chosen : '');
+      localStorage.setItem('page-bg-effect', chosen);
+    });
+  }
+});
+
+// =========================================
+// 9. EMOJI EDITÁVEL DO ÍCONE DE ATIVIDADE
+// =========================================
+document.addEventListener('DOMContentLoaded', () => {
+  const iconEl = document.getElementById('activity-icon');
+  if (!iconEl) return;
+
+  // Carrega emoji salvo
+  const savedIcon = localStorage.getItem('custom-activity-icon');
+  if (savedIcon) {
+    iconEl.textContent = savedIcon;
+  }
+
+  iconEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      iconEl.blur();
+    }
+  });
+
+  // Limita a exatamente 1 caractere visual (emoji, caractere especial ou letra)
+  function contarGrafemas(texto) {
+    if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+      const segmenter = new Intl.Segmenter('pt-BR', { granularity: 'grapheme' });
+      return Array.from(segmenter.segment(texto), s => s.segment);
+    }
+    // Fallback para navegadores sem Intl.Segmenter
+    return Array.from(texto);
+  }
+
+  iconEl.addEventListener('input', () => {
+    const texto = iconEl.textContent.trim();
+    const grafemas = contarGrafemas(texto);
+    if (grafemas.length > 1) {
+      iconEl.textContent = grafemas[grafemas.length - 1];
+      const range = document.createRange();
+      const sel = window.getSelection();
+      range.selectNodeContents(iconEl);
+      range.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  });
+
+  iconEl.addEventListener('blur', () => {
+    let val = iconEl.textContent.trim();
+    if (val === "") {
+      val = "🎮";
+    }
+    iconEl.textContent = val;
+    localStorage.setItem('custom-activity-icon', val);
+  });
+});

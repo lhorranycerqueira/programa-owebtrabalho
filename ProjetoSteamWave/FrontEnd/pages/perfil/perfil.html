@@ -19,6 +19,9 @@
 </head>
 <body>
 
+  <!-- CAMADA DE EFEITOS DO WALLPAPER (ESTILO GUNS.LOL) -->
+  <div id="page-bg-effect" class="page-bg-effect-layer"></div>
+
   <!-- BOTÃO HAMBÚRGUER PARA ABRIR/FECHAR A SIDEBAR -->
   <button class="hamburger-menu" onclick="toggleSidebar()">☰</button>
 
@@ -101,10 +104,47 @@
         
 
         <!-- FOTO DE PERFIL COM SLOT DE BORDA DINÂMICA -->
-        <div class="avatar-holder" id="user-avatar-holder">
-          <img src="../../assent/avatarGenerico.png" id="user-avatar" alt="Avatar do Usuário">
-          <!-- NOVO: Camada escura que cobre o avatar -->
-          <div class="avatar-edit-overlay" title="Mudar Avatar">✎</div>
+        <div class="avatar-section">
+
+          <div class="avatar-holder" id="user-avatar-holder">
+
+            <img src="../../assent/avatarGenerico.png"
+            id="user-avatar"
+            alt="Avatar do Usuário">
+
+            <div class="avatar-edit-overlay"
+             title="Mudar Avatar">✎</div>
+
+            <!-- Bolinha de status -->
+            <span id="status-dot"
+            class="status-dot online"></span>
+
+          </div>
+
+          <!-- Atividade -->
+          <div class="profile-activity editable-container">
+
+            <span id="activity-icon" contenteditable="true" spellcheck="false" title="Clique para trocar o emoji">🎮</span>
+
+            <span
+              id="activity-text"
+              contenteditable="true"
+              spellcheck="false">
+
+              Jogando SteamWave
+
+            </span>
+
+            <div
+              class="char-counter"
+              id="activity-counter">
+
+              0/40
+
+            </div>
+
+          </div>
+
         </div>
 
         <!-- CORPO INTERNO (TEXTOS EDITÁVEIS) -->
@@ -130,6 +170,22 @@
           </div>
         </div>
 
+        <!-- MINI PLAYER DE MÚSICA -->
+        <div class="profile-music-player no-track" id="music-player">
+          <span class="music-note-icon">🎵</span>
+          <div class="music-info">
+            <span class="music-title" id="music-title-display">Nenhuma música...</span>
+            <div class="music-progress-bar" id="music-progress-bar">
+              <div class="music-progress-fill" id="music-progress-fill"></div>
+            </div>
+          </div>
+          <div class="music-volume-wrapper" title="Volume">
+            <span class="music-volume-icon" id="music-volume-icon">🔊</span>
+            <input type="range" id="music-volume-slider" min="0" max="1" step="0.05" value="1">
+          </div>
+          <button class="music-play-btn" id="music-play-btn" title="Play/Pause">▶</button>
+        </div>
+
         <!-- BASE INFERIOR SÓLIDA -->
         <div class="profile-base"></div>
 
@@ -151,14 +207,13 @@
       <div class="edit-profile-container">
         <!-- BARRA SUPERIOR ESCURA -->
         <div class="profile-top-bar">
-            
-          <!-- NOVO SELETOR DE COR DA CONFIGURAÇÃO -->
-          <label class="color-picker-wrapper" title="Mudar Cor da Configuração" style="margin-right: auto;">
-            <input type="color" id="config-color-picker" value="#ff6ec7">
-            <span class="paint-bucket-icon">🪣</span>
-          </label>
-
           <div class="window-controls">
+            <!-- NOVO SELETOR DE COR DA CONFIGURAÇÃO -->
+            <label class="color-picker-wrapper" title="Mudar Cor da Configuração">
+              <input type="color" id="config-color-picker" value="#ff6ec7">
+              <span class="paint-bucket-icon">🪣</span>
+            </label>
+
             <span class="control-btn minimize">─</span>
             <span class="control-btn maximize">❑</span>
           </div>
@@ -186,6 +241,9 @@
                   <option value="neon-cyber">Cyber Neon</option>
                   <option value="pixel-retro">Pixel Retro</option>
                   <option value="glitch">Glitch Effect</option>
+                  <option value="rainbow-animated">Arco-Íris Animado</option>
+                  <option value="golden-vintage">Dourado Vintage</option>
+                  <option value="holo-shimmer">Holo Shimmer</option>
                 </select>
               </div>
             </div>
@@ -246,8 +304,72 @@
               <select id="edit-effect-select">
                 <option value="none">Nenhum Efeito</option>
                 <option value="chuva-matrix">Chuva Digital (Matrix)</option>
-                <option value="folhas-sakura">Pétalas de Sakura (GIF)</option>
-                <option value="fogo-neon">Fumaça & Fogo Cyber (GIF)</option>
+                <option value="folhas-sakura">Pétalas de Sakura</option>
+                <option value="fogo-neon">Fumaça & Fogo Cyber</option>
+                <option value="estrelas-cadentes">Estrelas Cadentes</option>
+                <option value="nevoa-cyberpunk">Névoa Cyberpunk</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- STATUS DO PERFIL / PRESENÇA -->
+          <hr class="edit-divider">
+
+          <div class="edit-section">
+
+            <h3>PRESENÇA</h3>
+
+            <div class="select-wrapper full-width">
+
+              <select id="profile-status-select">
+
+                <option value="online">🟢 Online</option>
+
+                <option value="offline">⚫ Offline</option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+                    <!-- SEÇÃO: MÚSICA -->
+          <hr class="edit-divider">
+          <div class="edit-section">
+            <h3>TRILHA SONORA</h3>
+            <div class="edit-flex-row">
+              <label class="custom-file-upload">
+                <input type="file" id="edit-music-input" accept="audio/*">
+                Upload de Música
+              </label>
+              <button class="btn-remove-bg" id="remove-music-btn" style="margin-top:0; width:auto; padding: 10px 16px;">Remover ✕</button>
+            </div>
+          </div>
+
+          <!-- SEÇÃO: FUNDO DA PÁGINA -->
+          <hr class="edit-divider">
+          <div class="edit-section">
+            <h3>FUNDO DA PÁGINA</h3>
+            <div class="edit-flex-row">
+              <label class="custom-file-upload">
+                <input type="file" id="edit-bg-input" accept="image/*">
+                Imagem / GIF
+              </label>
+              <button class="btn-remove-bg" id="remove-bg-btn" style="margin-top:0; width:auto; padding: 10px 16px;">Remover ✕</button>
+            </div>
+            <div class="dim-slider-wrapper">
+              <label>Escurecimento</label>
+              <input type="range" id="bg-dim-slider" min="0" max="0.85" step="0.05" value="0.45">
+            </div>
+
+            <div class="select-wrapper full-width" style="margin-top:16px;">
+              <label for="edit-bg-effect-select">Efeito do Wallpaper</label>
+              <select id="edit-bg-effect-select">
+                <option value="none">Nenhum Efeito</option>
+                <option value="bg-snow">Neve Caindo</option>
+                <option value="bg-particulas">Partículas Flutuantes</option>
+                <option value="bg-scanlines">Scanlines Retrô</option>
+                <option value="bg-aurora">Aurora Vaporwave</option>
               </select>
             </div>
           </div>

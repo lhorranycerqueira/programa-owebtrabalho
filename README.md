@@ -131,3 +131,7 @@ com informações inúeis.
 - criei o theme.css: css que carrega as cores de temas distintos (claro e fotossensível) em váriaveis diversas.
 esclarecimento: o root.css é o css que carrega apenas as cores das variáveis no tema padrão; isso é, do tema dark synthwave, o escuro padrão. ele pode coexistir com o theme.css e theme.js (já que não existe root.js)
 - implementei nos HTMLs o <script src="../js/theme.js"></script> e o <link rel="stylesheet" href="../css/theme.css" /> para o theme rodar.
+
+## Atualizações Carol 11/07
+- Reativadas as variáveis --bg-main, --bg-secondary, --card-bg, --text, --text-primary, --text-secondary, --border-color e --shadow-color, que estavam comentadas e por isso não tinham valor padrão no tema escuro: causa raiz do theme.css não funcionar corretamente
+- Adicionadas as fontes --vt-font (VT323) e --orb-font (Orbitron), usadas em outras páginas do site mas ausentes do root.css

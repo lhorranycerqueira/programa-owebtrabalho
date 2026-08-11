@@ -4,25 +4,8 @@
   padding: 0;
 }
 
-:root {
-  --neon-pink: #ff00ff;
-  --neon-purple: #9b30ff;
-  --neon-cyan: #00eaff;
-  --neon-blue: #7b7bff;
-  --neon-rose: #ff6ec7;
-  --dark-bg: #080010;
-  --panel-bg: #1a0030;
-  --panel-bg-light: #2a0050;
-  --text-color: #ffffff;
-  --text-dim: #b8a0d8;
-  --pixel-font: "Press Start 2P", monospace;
-  --orb-font: "Orbitron", sans-serif;
-  --vt-font: "VT323", monospace;
-  --transition-fast: 0.2s ease;
-  --transition-med: 0.35s ease;
-  --glow-cyan: 0 0 8px rgba(0, 234, 255, 0.5), 0 0 20px rgba(0, 234, 255, 0.15);
-  --glow-pink: 0 0 8px rgba(255, 0, 255, 0.5), 0 0 20px rgba(255, 0, 255, 0.15);
-}
+/* Todas as variáveis (--neon-*, --panel-bg, --text-color, --glow-*, etc.) agora vêm do root.css.
+   Corrigi também o --dark-bg, que aqui estava #080010 (levemente diferente do resto: #08000f). */
 
 html, body {
   height: 100%;

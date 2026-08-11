@@ -5,19 +5,9 @@
   padding: 0;
 }
 
-/*Isso é literalmente eu declarar uma variavel em css, em todos vão ter isso*/
-/*Deixa o codigo mais limpo*/
-:root {
-  --neon-pink: #ff00ff;
-  --neon-purple: #9b30ff;
-  --neon-cyan: #00eaff;
-  --dark-bg: #08000f;
-  --win-bg: #c0c0c0;
-  --pixel-font: "Press Start 2P", monospace;
-  /*Essa fonte veio la do link do GoogleFont*/
-  --vt-font: "VT323", monospace;
-  --orb-font: "Orbitron", sans-serif;
-}
+/*As variáveis (--neon-pink, --dark-bg, etc.) agora moram só no root.css.
+  Isso evita ter o mesmo nome de variável com valores diferentes em arquivos diferentes.
+  Aqui a gente só USA essas variáveis com var(), não declara elas de novo.*/
 
 body {
   width: 100%;

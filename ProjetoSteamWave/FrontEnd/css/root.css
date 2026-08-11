@@ -1,418 +1,457 @@
 /* ===== RESET & BASE ===== */
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      html, body {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background: #0a0010;
-      }
-      
-      /*Aqui seria como eu definir uma variavel, só que na merda do CSS*/
-      /*Isso deixa o código mais limpo(Por mais que não pareça, mas deixa pessoal))*/
-      :root {
-        --neon-pink: #ff00ff;
-        --neon-purple: #9b30ff;
-        --neon-cyan: #00eaff;
-        --neon-blue: #7b7bff;
-        --dark-bg: #08000f;
-        --mid-purple: #1a0030;
-        --win-bg: #c0c0c0;
-        --win-title: #000080;
-        --pixel-font: "Press Start 2P", monospace;
-      }
-
-      /* ===== PAGES ===== */
-      .page {
-        position: fixed;
-        inset: 0;
-        overflow: hidden;
-      }
-
-      /* ===== ANIMATIONS ===== */
-      /*O keyframe faz aparecer suavemente na tela o que nos queremos, literalmente uma animação*/
-      @keyframes fadeIn {
-        /*from diz para começar no 0(0% de aparecer), o to é como vai ficar(100% visivel)*/
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-      @keyframes slideUp {
-        from {
-          opacity: 0;
-          transform: translateY(40px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      @keyframes glowPulse {
-        0%,
-        100% {
-          text-shadow:
-            0 0 10px var(--neon-pink),
-            0 0 30px var(--neon-purple);
-        }
-        50% {
-          text-shadow:
-            0 0 20px var(--neon-pink),
-            0 0 60px var(--neon-purple),
-            0 0 80px var(--neon-cyan);
-        }
-      }
-      @keyframes scanLine {
-        0% {
-          transform: translateY(-100%);
-        }
-        100% {
-          transform: translateY(100vh);
-        }
-      }
-      @keyframes starTwinkle {
-        0%,
-        100% {
-          opacity: 0.3;
-        }
-        50% {
-          opacity: 1;
-        }
-      }
-      @keyframes gridFlow {
-        0% {
-          transform: perspective(400px) rotateX(45deg) translateY(0);
-        }
-        100% {
-          transform: perspective(400px) rotateX(45deg) translateY(80px);
-        }
-      }
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-      @keyframes winSlide {
-        from {
-          opacity: 0;
-          transform: scale(0.8) translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1) translateY(0);
-        }
-      }
-      @keyframes neonBorder {
-        0%,
-        100% {
-          box-shadow:
-            0 0 5px var(--neon-purple),
-            0 0 15px var(--neon-purple);
-        }
-        50% {
-          box-shadow:
-            0 0 10px var(--neon-pink),
-            0 0 30px var(--neon-pink);
-        }
-      }
-      @keyframes spin {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
-      @keyframes blink {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0;
-        }
-      }
-
-      /* ===== SYNTHWAVE BACKGROUND ===== */
-      .synth-bg {
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(
-          ellipse at 50% 30%,
-          #1a0040 0%,
-          #08000f 60%
-        );
-        overflow: hidden;
-        z-index: 1;
-      }
-      .synth-bg .stars {
-        position: absolute;
-        inset: 0;
-      }
-      .star {
-        position: absolute;
-        background: white;
-        border-radius: 50%;
-        animation: starTwinkle var(--dur, 3s) var(--delay, 0s) infinite;
-      }
-      .synth-bg .horizon {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 55%;
-        overflow: hidden;
-      }
-      .grid-floor {
-        position: absolute;
-        bottom: 0;
-        left: -50%;
-        width: 200%;
-        height: 100%;
-        background-image:
-          linear-gradient(
-            to bottom,
-            transparent 0%,
-            rgba(180, 0, 255, 0.15) 100%
-          ),
-          repeating-linear-gradient(
-            90deg,
-            rgba(200, 0, 255, 0.4) 0px,
-            transparent 1px,
-            transparent 80px,
-            rgba(200, 0, 255, 0.4) 81px
-          ),
-          repeating-linear-gradient(
-            0deg,
-            rgba(200, 0, 255, 0.4) 0px,
-            transparent 1px,
-            transparent 80px,
-            rgba(200, 0, 255, 0.4) 81px
-          );
-        transform: perspective(400px) rotateX(50deg);
-        transform-origin: top center;
-        animation: gridFlow 4s linear infinite;
-      }
-      .neon-line {
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          var(--neon-pink),
-          var(--neon-purple),
-          var(--neon-pink),
-          transparent
-        );
-        box-shadow:
-          0 0 10px var(--neon-pink),
-          0 0 20px var(--neon-purple);
-      }
-
-      /* ===== WIN95 WINDOW ===== */
-      .win-window {
-        background: var(--win-bg);
-        border: 2px solid #fff;
-        border-right-color: #444;
-        border-bottom-color: #444;
-        box-shadow:
-          inset 1px 1px 0 #dfdfdf,
-          2px 2px 0 #000;
-        font-family: var(--pixel-font);
-      }
-      .win-titlebar {
-        background: var(--win-title);
-        color: white;
-        padding: 4px 6px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 10px;
-        letter-spacing: 1px;
-        user-select: none;
-      }
-      .win-controls {
-        display: flex;
-        gap: 3px;
-      }
-      .win-btn {
-        width: 18px;
-        height: 16px;
-        background: var(--win-bg);
-        border: 1px solid #fff;
-        border-right-color: #444;
-        border-bottom-color: #444;
-        box-shadow: inset 1px 1px 0 #dfdfdf;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 8px;
-        cursor: pointer;
-        color: #000;
-        font-family: var(--pixel-font);
-      }
-      .win-btn:hover {
-        background: #e0e0ff;
-      }
-      .win-content {
-        padding: 8px;
-        background: white;
-      }
-      .win-btn:active {
-        border: 1px solid #555;
-        border-right-color: #fff;
-        border-bottom-color: #fff;
-        padding-top: 1px;
-        padding-left: 1px;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-      /* ===== RETRO SUN LOGO ===== */
-      .retro-sun {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        position: relative;
-        overflow: hidden;
-        background: linear-gradient(
-          to bottom,
-          #00e5ff 0%,
-          #7b2fff 50%,
-          #ff00aa 100%
-        );
-        animation: float 3s ease-in-out infinite;
-        cursor: pointer;
-        flex-shrink: 0;
-      }
-      .retro-sun::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 50%;
-        background: repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 4px,
-          rgba(0, 0, 0, 0.6) 4px,
-          rgba(0, 0, 0, 0.6) 6px
-        );
-      }
-      .retro-sun.small {
-        width: 50px;
-        height: 50px;
-      }
-      .retro-sun.small::after {
-        display: none;
-      }
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0a0010;
+}
 
-            /* ===== USER ICON ===== */
-      .user-icon-btn {
-        position: absolute;
-        top: 16px;
-        left: 16px;
-        z-index: 100;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        border: 2px solid rgba(155, 48, 255, 0.7);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        background: rgba(0, 0, 0, 0.3);
-        transition: all 0.3s;
-      }
-      .user-icon-btn:hover {
-        border-color: var(--neon-pink);
-        box-shadow: 0 0 15px var(--neon-purple);
-      }
-      .user-icon-btn svg {
-        width: 26px;
-        height: 26px;
-      }
+/*Aqui seria como eu definir uma variavel, só que na merda do CSS*/
+/*Isso deixa o código mais limpo(Por mais que não pareça, mas deixa pessoal))*/
+:root {
+  /* ---- paleta principal (já existia) ---- */
+  --neon-pink: #ff00ff;
+  --neon-purple: #9b30ff;
+  --neon-cyan: #00eaff;
+  --neon-blue: #7b7bff;
+  --dark-bg: #08000f;
+  --mid-purple: #1a0030;
+  --win-bg: #c0c0c0;
+  --win-title: #000080;
+  --pixel-font: "Press Start 2P", monospace;
 
-            /* ========================
-   GLOBAL NAV BAR
+  /* ---- cores extras que existiam duplicadas em páginas específicas ---- */
+  --neon-green: #00ff9f;
+  --neon-rose: #ff6ec7;
+
+  /* ---- fontes que faltavam (usadas em quase toda página) ---- */
+  --vt-font: "VT323", monospace;
+  --orb-font: "Orbitron", sans-serif;
+
+  /* ---- variáveis da página de Biblioteca ---- */
+  --card-bg: rgba(20, 0, 35, 0.55);
+  --card-border: rgba(155, 48, 255, 0.45);
+  --grid-line-color: rgba(155, 48, 255, 0.25);
+  --nav-height: 68px;
+
+  /* ---- variável da página de Cadastro (nome diferente pra não colidir com --card-bg da Biblioteca) ---- */
+  --card-bg-cadastro: rgba(0, 20, 35, 0.85);
+
+  /* ---- variáveis da página de Configuração ---- */
+  --panel-bg: #1a0030;
+  --panel-bg-light: #2a0050;
+  --text-color: #ffffff;
+  --text-dim: #b8a0d8;
+  --transition-fast: 0.2s ease;
+  --transition-med: 0.35s ease;
+  --glow-cyan: 0 0 8px rgba(0, 234, 255, 0.5), 0 0 20px rgba(0, 234, 255, 0.15);
+  --glow-pink: 0 0 8px rgba(255, 0, 255, 0.5), 0 0 20px rgba(255, 0, 255, 0.15);
+
+  /* ---- espaçamentos da página de Suporte ---- */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+
+  /* ---- tamanhos de fonte (vindos do fontes.css) ---- */
+  --size-title: 16px;
+  --size-text: 12px;
+}
+
+/* ===== PAGES ===== */
+.page {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* ===== ANIMATIONS ===== */
+/*O keyframe faz aparecer suavemente na tela o que nos queremos, literalmente uma animação*/
+@keyframes fadeIn {
+  /*from diz para começar no 0(0% de aparecer), o to é como vai ficar(100% visivel)*/
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes glowPulse {
+  0%,
+  100% {
+    text-shadow:
+      0 0 10px var(--neon-pink),
+      0 0 30px var(--neon-purple);
+  }
+  50% {
+    text-shadow:
+      0 0 20px var(--neon-pink),
+      0 0 60px var(--neon-purple),
+      0 0 80px var(--neon-cyan);
+  }
+}
+@keyframes scanLine {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+@keyframes starTwinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes gridFlow {
+  0% {
+    transform: perspective(400px) rotateX(45deg) translateY(0);
+  }
+  100% {
+    transform: perspective(400px) rotateX(45deg) translateY(80px);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes winSlide {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+@keyframes neonBorder {
+  0%,
+  100% {
+    box-shadow:
+      0 0 5px var(--neon-purple),
+      0 0 15px var(--neon-purple);
+  }
+  50% {
+    box-shadow:
+      0 0 10px var(--neon-pink),
+      0 0 30px var(--neon-pink);
+  }
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ===== SYNTHWAVE BACKGROUND ===== */
+.synth-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    #1a0040 0%,
+    #08000f 60%
+  );
+  overflow: hidden;
+  z-index: 1;
+}
+.synth-bg .stars {
+  position: absolute;
+  inset: 0;
+}
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: starTwinkle var(--dur, 3s) var(--delay, 0s) infinite;
+}
+.synth-bg .horizon {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  overflow: hidden;
+}
+.grid-floor {
+  position: absolute;
+  bottom: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background-image:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(180, 0, 255, 0.15) 100%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(200, 0, 255, 0.4) 0px,
+      transparent 1px,
+      transparent 80px,
+      rgba(200, 0, 255, 0.4) 81px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(200, 0, 255, 0.4) 0px,
+      transparent 1px,
+      transparent 80px,
+      rgba(200, 0, 255, 0.4) 81px
+    );
+  transform: perspective(400px) rotateX(50deg);
+  transform-origin: top center;
+  animation: gridFlow 4s linear infinite;
+}
+.neon-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--neon-pink),
+    var(--neon-purple),
+    var(--neon-pink),
+    transparent
+  );
+  box-shadow:
+    0 0 10px var(--neon-pink),
+    0 0 20px var(--neon-purple);
+}
+
+/* ===== WIN95 WINDOW ===== */
+.win-window {
+  background: var(--win-bg);
+  border: 2px solid #fff;
+  border-right-color: #444;
+  border-bottom-color: #444;
+  box-shadow:
+    inset 1px 1px 0 #dfdfdf,
+    2px 2px 0 #000;
+  font-family: var(--pixel-font);
+}
+.win-titlebar {
+  background: var(--win-title);
+  color: white;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  letter-spacing: 1px;
+  user-select: none;
+}
+.win-controls {
+  display: flex;
+  gap: 3px;
+}
+.win-btn {
+  width: 18px;
+  height: 16px;
+  background: var(--win-bg);
+  border: 1px solid #fff;
+  border-right-color: #444;
+  border-bottom-color: #444;
+  box-shadow: inset 1px 1px 0 #dfdfdf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  cursor: pointer;
+  color: #000;
+  font-family: var(--pixel-font);
+}
+.win-btn:hover {
+  background: #e0e0ff;
+}
+.win-content {
+  padding: 8px;
+  background: white;
+}
+.win-btn:active {
+  border: 1px solid #555;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+  padding-top: 1px;
+  padding-left: 1px;
+}
+
+/* ===== RETRO SUN LOGO ===== */
+.retro-sun {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    to bottom,
+    #00e5ff 0%,
+    #7b2fff 50%,
+    #ff00aa 100%
+  );
+  animation: float 3s ease-in-out infinite;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.retro-sun::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 4px,
+    rgba(0, 0, 0, 0.6) 4px,
+    rgba(0, 0, 0, 0.6) 6px
+  );
+}
+.retro-sun.small {
+  width: 50px;
+  height: 50px;
+}
+.retro-sun.small::after {
+  display: none;
+}
+
+      /* ===== USER ICON ===== */
+.user-icon-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid rgba(155, 48, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.3);
+  transition: all 0.3s;
+}
+.user-icon-btn:hover {
+  border-color: var(--neon-pink);
+  box-shadow: 0 0 15px var(--neon-purple);
+}
+.user-icon-btn svg {
+  width: 26px;
+  height: 26px;
+}
+
+      /* ========================
+GLOBAL NAV BAR
 ======================== */
-      .global-nav {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 200;
-        background: rgba(10, 0, 20, 0.8);
-        backdrop-filter: blur(10px);
-        border-top: 1px solid rgba(155, 48, 255, 0.4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        padding: 6px 0;
-        height: 44px;
-      }
-      .gnav-btn {
-        padding: 6px 16px;
-        color: rgba(255, 255, 255, 0.6);
-        font-family: var(--pixel-font);
-        font-size: 7px;
-        letter-spacing: 1px;
-        cursor: pointer;
-        border-radius: 4px;
-        border: none;
-        background: none;
-        transition: all 0.3s;
-        text-transform: uppercase;
-      }
-      .gnav-btn:hover {
-        color: white;
-        background: rgba(155, 48, 255, 0.3);
-      }
-      .gnav-btn.active {
-        color: var(--neon-cyan);
-        background: rgba(0, 234, 255, 0.1);
-        border-bottom: 2px solid var(--neon-cyan);
-      }
-      .gnav-separator {
-        width: 1px;
-        height: 20px;
-        background: rgba(155, 48, 255, 0.3);
-      }
+.global-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: rgba(10, 0, 20, 0.8);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(155, 48, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 0;
+  height: 44px;
+}
+.gnav-btn {
+  padding: 6px 16px;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+  background: none;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+.gnav-btn:hover {
+  color: white;
+  background: rgba(155, 48, 255, 0.3);
+}
+.gnav-btn.active {
+  color: var(--neon-cyan);
+  background: rgba(0, 234, 255, 0.1);
+  border-bottom: 2px solid var(--neon-cyan);
+}
+.gnav-separator {
+  width: 1px;
+  height: 20px;
+  background: rgba(155, 48, 255, 0.3);
+}
 
-      /* toast notification */
-      .toast {
-        position: fixed;
-        bottom: 60px;
-        right: 20px;
-        z-index: 999;
-        background: rgba(30, 0, 60, 0.95);
-        border: 1px solid var(--neon-purple);
-        color: white;
-        font-family: var(--pixel-font);
-        font-size: 8px;
-        letter-spacing: 1px;
-        padding: 12px 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 20px rgba(155, 48, 255, 0.5);
-        transform: translateX(120%);
-        transition: transform 0.4s ease;
-        max-width: 280px;
-        line-height: 1.6;
-      }
-      .toast.show {
-        transform: translateX(0);
-      }
+/* toast notification */
+.toast {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  z-index: 999;
+  background: rgba(30, 0, 60, 0.95);
+  border: 1px solid var(--neon-purple);
+  color: white;
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  letter-spacing: 1px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(155, 48, 255, 0.5);
+  transform: translateX(120%);
+  transition: transform 0.4s ease;
+  max-width: 280px;
+  line-height: 1.6;
+}
+.toast.show {
+  transform: translateX(0);
+}

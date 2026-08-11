@@ -1,644 +1,633 @@
-      /* ===== RESET & BASE (Extraído do principal) ===== */
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+/* ===== RESET & BASE (Extraído do principal) ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-      html, body {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background: #0a0010;
-      }
-      
-      :root {
-        --neon-pink: #ff00ff;
-        --neon-purple: #9b30ff;
-        --neon-cyan: #00eaff;
-        --neon-blue: #7b7bff;
-        --dark-bg: #08000f;
-        --mid-purple: #1a0030;
-        --win-bg: #c0c0c0;
-        --win-title: #000080;
-        --pixel-font: "Press Start 2P", monospace;
-        --vt-font: "VT323", monospace;
-        --orb-font: "Orbitron", sans-serif;
-      }
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0a0010;
+}
 
-      /* ===== ANIMATIONS NECESSÁRIAS ===== */
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-      @keyframes winSlide {
-        from {
-          opacity: 0;
-          transform: scale(0.8) translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1) translateY(0);
-        }
-      }
-      @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-      }
+/* As variáveis (--neon-pink, --dark-bg, --win-bg, etc.) agora vêm só do root.css.
+   Aqui usamos elas com var(), sem redeclarar. */
 
-      /* ===== RETRO SUN LOGO ===== */
-      .retro-sun {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        position: relative;
-        overflow: hidden;
-        background: linear-gradient(to bottom, #00e5ff 0%, #7b2fff 50%, #ff00aa 100%);
-        animation: float 3s ease-in-out infinite;
-        cursor: pointer;
-        flex-shrink: 0;
-      }
-      .retro-sun.small {
-        width: 50px;
-        height: 50px;
-      }
-      .retro-sun.small::after {
-        display: none;
-      }
+/* ===== ANIMATIONS NECESSÁRIAS ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes winSlide {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
 
-      /* ===== WIN95 WINDOW ===== */
-      .win-window {
-        background: var(--win-bg);
-        border: 2px solid #fff;
-        border-right-color: #444;
-        border-bottom-color: #444;
-        box-shadow: inset 1px 1px 0 #dfdfdf, 2px 2px 0 #000;
-        font-family: var(--pixel-font);
-      }
-      .win-titlebar {
-        background: var(--win-title);
-        color: white;
-        padding: 4px 6px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 10px;
-        letter-spacing: 1px;
-        user-select: none;
-      }
-      .win-controls {
-        display: flex;
-        gap: 3px;
-      }
-      .win-btn {
-        width: 18px;
-        height: 16px;
-        background: var(--win-bg);
-        border: 1px solid #fff;
-        border-right-color: #444;
-        border-bottom-color: #444;
-        box-shadow: inset 1px 1px 0 #dfdfdf;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 8px;
-        cursor: pointer;
-        color: #000;
-        font-family: var(--pixel-font);
-      }
-      .win-btn:hover { background: #e0e0ff; }
-      .win-content { padding: 8px; background: white; }
+/* ===== RETRO SUN LOGO ===== */
+.retro-sun {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #00e5ff 0%, #7b2fff 50%, #ff00aa 100%);
+  animation: float 3s ease-in-out infinite;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.retro-sun.small {
+  width: 50px;
+  height: 50px;
+}
+.retro-sun.small::after {
+  display: none;
+}
 
-      /* ===== SCROLLBAR ===== */
-      ::-webkit-scrollbar { width: 8px; }
-      ::-webkit-scrollbar-track { background: #1a0030; }
-      ::-webkit-scrollbar-thumb { background: var(--neon-purple); border-radius: 4px; }
+/* ===== WIN95 WINDOW ===== */
+.win-window {
+  background: var(--win-bg);
+  border: 2px solid #fff;
+  border-right-color: #444;
+  border-bottom-color: #444;
+  box-shadow: inset 1px 1px 0 #dfdfdf, 2px 2px 0 #000;
+  font-family: var(--pixel-font);
+}
+.win-titlebar {
+  background: var(--win-title);
+  color: white;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  letter-spacing: 1px;
+  user-select: none;
+}
+.win-controls {
+  display: flex;
+  gap: 3px;
+}
+.win-btn {
+  width: 18px;
+  height: 16px;
+  background: var(--win-bg);
+  border: 1px solid #fff;
+  border-right-color: #444;
+  border-bottom-color: #444;
+  box-shadow: inset 1px 1px 0 #dfdfdf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  cursor: pointer;
+  color: #000;
+  font-family: var(--pixel-font);
+}
+.win-btn:hover { background: #e0e0ff; }
+.win-content { padding: 8px; background: white; }
 
-      /* ========================
-         LOJA ESPECÍFICO
-      ======================== */
-      .page-container {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        animation: fadeIn 0.4s ease;
-      }
-      .loja-bg {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, #2a4070 0%, #6040a0 50%, #c060c0 100%);
-      }
-      .loja-grid-overlay {
-        position: absolute;
-        inset: 0;
-        background-image:
-          linear-gradient(rgba(200, 100, 255, 0.15) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(200, 100, 255, 0.15) 1px, transparent 1px);
-        background-size: 50px 50px;
-      }
-      .loja-grid-overlay::after {
-        content: "";
-        position: absolute;
-        left: 22%;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: linear-gradient(to bottom, transparent, rgba(255, 100, 200, 0.8), transparent);
-      }
-      .loja-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 20px;
-        z-index: 10;
-      }
-      .loja-logo {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-      }
-      .loja-logo-text {
-        font-family: var(--pixel-font);
-        font-size: 12px;
-        color: white;
-      }
-      .search-bar {
-        display: none;
-        align-items: center;
-        gap: 6px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        padding: 4px 12px;
-        border: 1px solid rgba(255, 255, 255, 0.4);
-      }
-      .search-bar.open { display: flex; }
-      .search-bar input {
-        background: none;
-        border: none;
-        outline: none;
-        color: white;
-        font-family: var(--pixel-font);
-        font-size: 9px;
-        width: 150px;
-      }
-      .search-bar input::placeholder { color: rgba(255, 255, 255, 0.5); }
-      .loja-now-playing {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background: rgba(200, 200, 200, 0.9);
-        border-radius: 25px;
-        padding: 8px 16px;
-        cursor: pointer;
-        font-family: var(--pixel-font);
-        font-size: 9px;
-        color: #333;
-        transition: all 0.3s;
-      }
-      .loja-now-playing:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-      }
-      .headphone-icon { font-size: 20px; }
-      .loja-body {
-        display: flex;
-        flex: 1;
-        z-index: 10;
-        padding: 10px 20px 60px; /* added 60px bottom padding for global nav */
-        overflow: hidden;
-        gap: 16px;
-      }
-      .loja-sidebar {
-        width: 220px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        overflow-y: auto;
-        flex-shrink: 0;
-      }
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #1a0030; }
+::-webkit-scrollbar-thumb { background: var(--neon-purple); border-radius: 4px; }
 
-      /* Título de cada bloco da sidebar (CATEGORIAS / DLCS / SOUNDTRACKS) */
-      .sidebar-block-title {
-        color: rgba(255, 255, 255, 0.6);
-        font-family: var(--pixel-font);
-        font-size: 7px;
-        padding: 10px 4px 6px;
-        letter-spacing: 1px;
-      }
+/* ========================
+   LOJA ESPECÍFICO
+======================== */
+.page-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.4s ease;
+}
+.loja-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #2a4070 0%, #6040a0 50%, #c060c0 100%);
+}
+.loja-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(200, 100, 255, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 100, 255, 0.15) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+.loja-grid-overlay::after {
+  content: "";
+  position: absolute;
+  left: 22%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 100, 200, 0.8), transparent);
+}
+.loja-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  z-index: 10;
+}
+.loja-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.loja-logo-text {
+  font-family: var(--pixel-font);
+  font-size: 12px;
+  color: white;
+}
+.search-bar {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 4px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+.search-bar.open { display: flex; }
+.search-bar input {
+  background: none;
+  border: none;
+  outline: none;
+  color: white;
+  font-family: var(--pixel-font);
+  font-size: 9px;
+  width: 150px;
+}
+.search-bar input::placeholder { color: rgba(255, 255, 255, 0.5); }
+.loja-now-playing {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(200, 200, 200, 0.9);
+  border-radius: 25px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-family: var(--pixel-font);
+  font-size: 9px;
+  color: #333;
+  transition: all 0.3s;
+}
+.loja-now-playing:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+.headphone-icon { font-size: 20px; }
+.loja-body {
+  display: flex;
+  flex: 1;
+  z-index: 10;
+  padding: 10px 20px 60px; /* added 60px bottom padding for global nav */
+  overflow: hidden;
+  gap: 16px;
+}
+.loja-sidebar {
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
 
-      /* Botão de categoria (filtro clicável) */
-      .cat-btn {
-        padding: 10px;
-        background: rgba(0, 0, 0, 0.4);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 8px;
-        color: white;
-        font-family: var(--pixel-font);
-        font-size: 7px;
-        cursor: pointer;
-        text-align: left;
-        transition: all 0.3s;
-        letter-spacing: 1px;
-        width: 100%;
-      }
-      .cat-btn:hover {
-        background: rgba(155, 48, 255, 0.5);
-        border-color: var(--neon-purple);
-        box-shadow: 0 0 10px var(--neon-purple);
-      }
-      /* Categoria selecionada no momento (o filtro ativo) */
-      .cat-btn.active {
-        background: rgba(0, 234, 255, 0.2);
-        border-color: var(--neon-cyan);
-        box-shadow: 0 0 10px var(--neon-cyan);
-        color: var(--neon-cyan);
-      }
+/* Título de cada bloco da sidebar (CATEGORIAS / DLCS / SOUNDTRACKS) */
+.sidebar-block-title {
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  padding: 10px 4px 6px;
+  letter-spacing: 1px;
+}
 
-      /* Item de lista genérico usado em DLCs e Soundtracks */
-      .side-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background 0.2s;
-      }
-      .side-item:hover { background: rgba(255, 255, 255, 0.08); }
-      .side-emoji { font-size: 18px; flex-shrink: 0; }
-      .side-info { min-width: 0; }
-      .side-name {
-        font-family: var(--vt-font);
-        font-size: 13px;
-        color: white;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .side-sub {
-        font-family: var(--vt-font);
-        font-size: 11px;
-        color: rgba(255, 255, 255, 0.5);
-      }
+/* Botão de categoria (filtro clicável) */
+.cat-btn {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.3s;
+  letter-spacing: 1px;
+  width: 100%;
+}
+.cat-btn:hover {
+  background: rgba(155, 48, 255, 0.5);
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 10px var(--neon-purple);
+}
+/* Categoria selecionada no momento (o filtro ativo) */
+.cat-btn.active {
+  background: rgba(0, 234, 255, 0.2);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 10px var(--neon-cyan);
+  color: var(--neon-cyan);
+}
 
-      /* Cabeçalho da lista principal de jogos (título + contador) */
-      .game-list-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .game-list-count {
-        font-family: var(--vt-font);
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.6);
-      }
+/* Item de lista genérico usado em DLCs e Soundtracks */
+.side-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.side-item:hover { background: rgba(255, 255, 255, 0.08); }
+.side-emoji { font-size: 18px; flex-shrink: 0; }
+.side-info { min-width: 0; }
+.side-name {
+  font-family: var(--vt-font);
+  font-size: 13px;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.side-sub {
+  font-family: var(--vt-font);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
 
-      /* Mensagem quando o filtro não encontra nenhum jogo */
-      .empty-state {
-        padding: 30px;
-        text-align: center;
-        font-family: var(--vt-font);
-        font-size: 16px;
-        color: #666;
-      }
-      .loja-main {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        overflow-y: auto;
-      }
-      .loja-window {
-        background: var(--win-bg);
-        border: 2px solid #fff;
-        border-right-color: #444;
-        border-bottom-color: #444;
-        box-shadow: inset 1px 1px 0 #dfdfdf, 3px 3px 0 #000;
-        animation: winSlide 0.4s ease;
-      }
-      .game-card {
-        display: flex;
-        gap: 12px;
-        padding: 10px;
-        background: white;
-        border-bottom: 1px solid #ddd;
-        cursor: pointer;
-        transition: background 0.2s;
-      }
-      .game-card:hover { background: #f0f0ff; }
-      .game-thumb {
-        width: 120px;
-        height: 70px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 30px;
-        border: 1px solid #999;
-      }
-      .game-info { flex: 1; }
-      .game-title {
-        font-family: var(--pixel-font);
-        font-size: 9px;
-        color: #000080;
-        margin-bottom: 6px;
-      }
-      .game-desc {
-        font-family: var(--vt-font);
-        font-size: 14px;
-        color: #333;
-        margin-bottom: 8px;
-      }
-      .game-price {
-        font-family: var(--pixel-font);
-        font-size: 8px;
-        color: #006600;
-        background: #ccffcc;
-        padding: 3px 8px;
-        border-radius: 3px;
-        display: inline-block;
-      }
-      .game-tags {
-        display: flex;
-        gap: 4px;
-        margin-top: 6px;
-        flex-wrap: wrap;
-      }
-      .game-tag {
-        font-family: var(--vt-font);
-        font-size: 12px;
-        padding: 2px 6px;
-        background: rgba(100, 0, 200, 0.1);
-        border: 1px solid rgba(100, 0, 200, 0.3);
-        border-radius: 3px;
-        color: #500080;
-      }
+/* Cabeçalho da lista principal de jogos (título + contador) */
+.game-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.game-list-count {
+  font-family: var(--vt-font);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
 
-      /* ========================
-         GLOBAL NAV BAR
-      ======================== */
-      .global-nav {
-        position: fixed; /* Alterado para fixed para ficar independente */
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 200;
-        background: rgba(10, 0, 20, 0.8);
-        backdrop-filter: blur(10px);
-        border-top: 1px solid rgba(155, 48, 255, 0.4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        padding: 6px 0;
-        height: 44px;
-      }
-      .gnav-btn {
-        padding: 6px 16px;
-        color: rgba(255, 255, 255, 0.6);
-        font-family: var(--pixel-font);
-        font-size: 7px;
-        letter-spacing: 1px;
-        cursor: pointer;
-        border-radius: 4px;
-        border: none;
-        background: none;
-        transition: all 0.3s;
-        text-transform: uppercase;
-      }
-      .gnav-btn:hover {
-        color: white;
-        background: rgba(155, 48, 255, 0.3);
-      }
-      .gnav-btn.active {
-        color: var(--neon-cyan);
-        background: rgba(0, 234, 255, 0.1);
-        border-bottom: 2px solid var(--neon-cyan);
-      }
-      .gnav-separator {
-        width: 1px;
-        height: 20px;
-        background: rgba(155, 48, 255, 0.3);
-      }
+/* Mensagem quando o filtro não encontra nenhum jogo */
+.empty-state {
+  padding: 30px;
+  text-align: center;
+  font-family: var(--vt-font);
+  font-size: 16px;
+  color: #666;
+}
+.loja-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+.loja-window {
+  background: var(--win-bg);
+  border: 2px solid #fff;
+  border-right-color: #444;
+  border-bottom-color: #444;
+  box-shadow: inset 1px 1px 0 #dfdfdf, 3px 3px 0 #000;
+  animation: winSlide 0.4s ease;
+}
+.game-card {
+  display: flex;
+  gap: 12px;
+  padding: 10px;
+  background: white;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.game-card:hover { background: #f0f0ff; }
+.game-thumb {
+  width: 120px;
+  height: 70px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  border: 1px solid #999;
+}
+.game-info { flex: 1; }
+.game-title {
+  font-family: var(--pixel-font);
+  font-size: 9px;
+  color: #000080;
+  margin-bottom: 6px;
+}
+.game-desc {
+  font-family: var(--vt-font);
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 8px;
+}
+.game-price {
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  color: #006600;
+  background: #ccffcc;
+  padding: 3px 8px;
+  border-radius: 3px;
+  display: inline-block;
+}
+.game-tags {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+.game-tag {
+  font-family: var(--vt-font);
+  font-size: 12px;
+  padding: 2px 6px;
+  background: rgba(100, 0, 200, 0.1);
+  border: 1px solid rgba(100, 0, 200, 0.3);
+  border-radius: 3px;
+  color: #500080;
+}
 
-      /* ========================
-         TOAST NOTIFICATION
-      ======================== */
-      .toast {
-        position: fixed;
-        bottom: 60px;
-        right: 20px;
-        z-index: 999;
-        background: rgba(30, 0, 60, 0.95);
-        border: 1px solid var(--neon-purple);
-        color: white;
-        font-family: var(--pixel-font);
-        font-size: 8px;
-        letter-spacing: 1px;
-        padding: 12px 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 20px rgba(155, 48, 255, 0.5);
-        transform: translateX(120%);
-        transition: transform 0.4s ease;
-        max-width: 280px;
-        line-height: 1.6;
-      }
-      .toast.show {
-        transform: translateX(0);
-      }
+/* ========================
+   GLOBAL NAV BAR
+======================== */
+.global-nav {
+  position: fixed; /* Alterado para fixed para ficar independente */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: rgba(10, 0, 20, 0.8);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(155, 48, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 0;
+  height: 44px;
+}
+.gnav-btn {
+  padding: 6px 16px;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--pixel-font);
+  font-size: 7px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+  background: none;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+.gnav-btn:hover {
+  color: white;
+  background: rgba(155, 48, 255, 0.3);
+}
+.gnav-btn.active {
+  color: var(--neon-cyan);
+  background: rgba(0, 234, 255, 0.1);
+  border-bottom: 2px solid var(--neon-cyan);
+}
+.gnav-separator {
+  width: 1px;
+  height: 20px;
+  background: rgba(155, 48, 255, 0.3);
+}
 
-      .search-icon {
-      color: white;
-      font-size: 14px;
-      cursor: pointer;
-      }
+/* ========================
+   TOAST NOTIFICATION
+======================== */
+.toast {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  z-index: 999;
+  background: rgba(30, 0, 60, 0.95);
+  border: 1px solid var(--neon-purple);
+  color: white;
+  font-family: var(--pixel-font);
+  font-size: 8px;
+  letter-spacing: 1px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(155, 48, 255, 0.5);
+  transform: translateX(120%);
+  transition: transform 0.4s ease;
+  max-width: 280px;
+  line-height: 1.6;
+}
+.toast.show {
+  transform: translateX(0);
+}
 
-      /* ============================================================================
-         RESPONSIVIDADE MOBILE
-         Abaixo de 768px: cabeçalho quebra em duas linhas, e a sidebar
-         (categorias + DLCs + soundtracks) deixa de ser uma coluna lateral
-         fixa e passa a virar uma faixa horizontal rolável no topo,
-         acima da lista de jogos — assim nada fica espremido.
-         ============================================================================ */
-      @media (max-width: 768px) {
-        .loja-header {
-          flex-wrap: wrap;
-          gap: 10px;
-          justify-content: center;
-          padding: 10px;
-        }
-        .loja-logo-text { font-size: 10px; }
-        .loja-now-playing { font-size: 8px; padding: 6px 10px; }
+.search-icon {
+color: white;
+font-size: 14px;
+cursor: pointer;
+}
 
-        .loja-body {
-          flex-direction: column;
-          padding: 8px 10px 60px;
-          overflow-y: auto;
-          overflow-x: hidden;
-        }
+/* ============================================================================
+   RESPONSIVIDADE MOBILE
+   Abaixo de 768px: cabeçalho quebra em duas linhas, e a sidebar
+   (categorias + DLCs + soundtracks) deixa de ser uma coluna lateral
+   fixa e passa a virar uma faixa horizontal rolável no topo,
+   acima da lista de jogos — assim nada fica espremido.
+   ============================================================================ */
+@media (max-width: 768px) {
+  .loja-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px;
+  }
+  .loja-logo-text { font-size: 10px; }
+  .loja-now-playing { font-size: 8px; padding: 6px 10px; }
 
-        .loja-sidebar {
-          width: 100%;
-          flex-direction: row;
-          flex-wrap: nowrap;
-          overflow-x: auto;
-          overflow-y: visible;
-          gap: 8px;
-          padding-bottom: 6px;
-        }
-        /* Dentro da faixa horizontal, cada bloco (categorias/dlc/soundtrack)
-           vira uma "coluna" que não encolhe, pra não esmagar o conteúdo */
-        .loja-sidebar > div {
-          flex-shrink: 0;
-          min-width: 160px;
-        }
-        .cat-btn { font-size: 6px; }
+  .loja-body {
+    flex-direction: column;
+    padding: 8px 10px 60px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 
-        .loja-main { overflow-y: visible; }
+  .loja-sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: visible;
+    gap: 8px;
+    padding-bottom: 6px;
+  }
+  /* Dentro da faixa horizontal, cada bloco (categorias/dlc/soundtrack)
+     vira uma "coluna" que não encolhe, pra não esmagar o conteúdo */
+  .loja-sidebar > div {
+    flex-shrink: 0;
+    min-width: 160px;
+  }
+  .cat-btn { font-size: 6px; }
 
-        /* Cards de jogo: empilha a imagem em cima do texto no mobile */
-        .game-card {
-          flex-direction: column;
-        }
-        .game-thumb {
-          width: 100%;
-          height: 90px;
-        }
+  .loja-main { overflow-y: visible; }
 
-        .gnav-btn { padding: 6px 8px; font-size: 6px; }
-      }
+  /* Cards de jogo: empilha a imagem em cima do texto no mobile */
+  .game-card {
+    flex-direction: column;
+  }
+  .game-thumb {
+    width: 100%;
+    height: 90px;
+  }
 
-      /* ============================================================================
-         PÁGINAS DE COMPRA (DLC e SOUNDTRACK)
-         Layout compartilhado por dlc.html e soundtrack.html: uma "capa"
-         grande de um lado, informações + botão de compra do outro.
-         ============================================================================ */
-      .product-page {
-        display: flex;
-        gap: 24px;
-        align-items: flex-start;
-      }
-      .product-cover {
-        width: 140px;
-        height: 140px;
-        flex-shrink: 0;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 60px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        border: 1px solid #999;
-      }
-      .product-info { flex: 1; min-width: 0; }
-      .product-game {
-        font-family: var(--vt-font);
-        font-size: 13px;
-        color: #555;
-        margin-bottom: 4px;
-      }
-      .product-title {
-        font-family: var(--pixel-font);
-        font-size: 14px;
-        color: #000080;
-        margin-bottom: 10px;
-      }
-      .product-desc {
-        font-family: var(--vt-font);
-        font-size: 15px;
-        color: #333;
-        margin: 12px 0 16px;
-        line-height: 1.4;
-      }
+  .gnav-btn { padding: 6px 8px; font-size: 6px; }
+}
 
-      /* Tag de preço: verde quando é grátis, ciano/roxo quando é pago */
-      .price-tag {
-        display: inline-block;
-        font-family: var(--pixel-font);
-        font-size: 9px;
-        padding: 5px 10px;
-        border-radius: 4px;
-      }
-      .price-tag.free {
-        background: #ccffcc;
-        color: #006600;
-      }
-      .price-tag.paid {
-        background: rgba(155, 48, 255, 0.15);
-        color: #5a1d99;
-        border: 1px solid rgba(155, 48, 255, 0.4);
-      }
+/* ============================================================================
+   PÁGINAS DE COMPRA (DLC e SOUNDTRACK)
+   Layout compartilhado por dlc.html e soundtrack.html: uma "capa"
+   grande de um lado, informações + botão de compra do outro.
+   ============================================================================ */
+.product-page {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+.product-cover {
+  width: 140px;
+  height: 140px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: 1px solid #999;
+}
+.product-info { flex: 1; min-width: 0; }
+.product-game {
+  font-family: var(--vt-font);
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 4px;
+}
+.product-title {
+  font-family: var(--pixel-font);
+  font-size: 14px;
+  color: #000080;
+  margin-bottom: 10px;
+}
+.product-desc {
+  font-family: var(--vt-font);
+  font-size: 15px;
+  color: #333;
+  margin: 12px 0 16px;
+  line-height: 1.4;
+}
 
-      /* Botão de compra/adicionar — roxo pra pago, verde pra grátis */
-      .buy-btn {
-        display: block;
-        width: 100%;
-        margin-top: 6px;
-        padding: 12px;
-        font-family: var(--pixel-font);
-        font-size: 9px;
-        letter-spacing: 1px;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        background: linear-gradient(135deg, #7b2fff, #c2469b);
-        transition: 0.25s;
-      }
-      .buy-btn:hover { filter: brightness(1.15); }
-      .buy-btn.buy-btn-free {
-        background: linear-gradient(135deg, #1ec98a, #00c46a);
-      }
+/* Tag de preço: verde quando é grátis, ciano/roxo quando é pago */
+.price-tag {
+  display: inline-block;
+  font-family: var(--pixel-font);
+  font-size: 9px;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+.price-tag.free {
+  background: #ccffcc;
+  color: #006600;
+}
+.price-tag.paid {
+  background: rgba(155, 48, 255, 0.15);
+  color: #5a1d99;
+  border: 1px solid rgba(155, 48, 255, 0.4);
+}
 
-      /* Player fake da página de soundtrack */
-      .track-player {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        background: #f0f0ff;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        padding: 10px 14px;
-        margin-bottom: 16px;
-      }
-      .play-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: var(--neon-purple);
-        color: white;
-        border: none;
-        font-size: 14px;
-        cursor: pointer;
-        flex-shrink: 0;
-      }
-      .track-bar {
-        height: 6px;
-        border-radius: 3px;
-        background: #ddd;
-        overflow: hidden;
-      }
-      .track-bar-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
-      }
-      .track-duration {
-        font-family: var(--vt-font);
-        font-size: 12px;
-        color: #777;
-        margin-top: 4px;
-      }
+/* Botão de compra/adicionar — roxo pra pago, verde pra grátis */
+.buy-btn {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px;
+  font-family: var(--pixel-font);
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #7b2fff, #c2469b);
+  transition: 0.25s;
+}
+.buy-btn:hover { filter: brightness(1.15); }
+.buy-btn.buy-btn-free {
+  background: linear-gradient(135deg, #1ec98a, #00c46a);
+}
 
-      @media (max-width: 480px) {
-        .product-page { flex-direction: column; align-items: center; text-align: center; }
-      }
+/* Player fake da página de soundtrack */
+.track-player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f0f0ff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+.play-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--neon-purple);
+  color: white;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.track-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: #ddd;
+  overflow: hidden;
+}
+.track-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
+}
+.track-duration {
+  font-family: var(--vt-font);
+  font-size: 12px;
+  color: #777;
+  margin-top: 4px;
+}
 
-      @media (max-width: 480px) {
-        .loja-logo-text { display: none; } /* economiza espaço em telas bem pequenas */
-        .search-bar input { width: 110px; }
-      }
+@media (max-width: 480px) {
+  .product-page { flex-direction: column; align-items: center; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .loja-logo-text { display: none; } /* economiza espaço em telas bem pequenas */
+  .search-bar input { width: 110px; }
+}

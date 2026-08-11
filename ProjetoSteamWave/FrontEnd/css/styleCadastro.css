@@ -2,11 +2,16 @@
 
 
 
-/* Todas as variáveis agora vêm do root.css.
-   Obs: essa página usava --card-bg com um valor próprio (diferente do --card-bg da Biblioteca),
-   então renomeei essa variável específica pra --card-bg-cadastro lá no root.css
-   pra não ter duas coisas diferentes disputando o mesmo nome.
-   Também corrigi o --dark-bg, que aqui estava #00080f (levemente diferente do resto: #08000f). */
+/* Nome das cores e suas respectivas cores */
+:root {
+  --neon-cyan:   #00eaff;
+  --neon-green:  #00ff9f;
+  --dark-bg:     #00080f;
+  --card-bg:     rgba(0, 20, 35, 0.85);
+  --pixel-font:  "Press Start 2P", monospace;
+  --vt-font:     "VT323", monospace;
+  --orb-font:    "Orbitron", sans-serif;
+}
 
 /* ===== RESET ===== */
 *, *::before, *::after {
@@ -155,7 +160,7 @@ body.main-container::after {
   z-index: 10;
   width: 100%;
   max-width: 460px;
-  background: var(--card-bg-cadastro);
+  background: var(--card-bg);
   border: 1px solid rgba(0, 234, 255, 0.3);
   border-radius: 4px;
   padding: 48px 44px 44px;

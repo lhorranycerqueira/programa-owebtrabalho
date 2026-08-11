@@ -19,7 +19,28 @@ html, body {
   background: #0a0010;
 }
 
-/* As variáveis globais (--neon-pink, --dark-bg, --space-*, etc.) agora vêm só do root.css. */
+/* ── variáveis globais ─────────────────────────────────── */
+:root {
+  --neon-pink:   #ff00ff;
+  --neon-purple: #9b30ff;
+  --neon-cyan:   #00eaff;
+  --neon-blue:   #7b7bff;
+  --dark-bg:     #08000f;
+  --mid-purple:  #1a0030;
+  --win-bg:      #c0c0c0;
+  --win-title:   #000080;
+
+  --pixel-font: "Press Start 2P", monospace;
+  --vt-font:    "VT323",          monospace;
+  --orb-font:   "Orbitron",       sans-serif;
+
+  /* espaçamento base responsivo */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+}
 
 /* ── páginas (base) ────────────────────────────────────── */
 .page {

@@ -1,10 +1,16 @@
-/* esse css declarava --pixel-font e --vt-font de novo (2x). */
-
 /* o import */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 
-/* --pixel-font, --vt-font, --size-title e --size-text agora moram no root.css.
-   Esse arquivo só importa a fonte do Google e define as classes utilitárias abaixo. */
+/* as variaveis padrao ne*/
+:root {
+  /* padronizacao das duas fontes ja aqui */
+  --pixel-font: "Press Start 2P", monospace;  /* fonte de titulos, botoes, ui de destaque */
+  --vt-font: "VT323", monospace;              /* textos e descricoes */
+
+  /* 2 tamanhos */
+  --size-title: 16px;
+  --size-text: 12px;
+}
 
 /* classes utilitarias pra adicionar */
 .txt-title {
